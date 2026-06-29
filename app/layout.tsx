@@ -13,7 +13,7 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
-  title: "Omegle talk to strangers",
+  title: "Omegle Test - talk to strangers",
   description: "Connect with strangers worldwide in real-time video chat with omegletest.online",
 };
 
