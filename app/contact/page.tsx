@@ -1,10 +1,16 @@
 import Navbar from '@/components/Navbar';
 import Footer from '@/components/Footer';
 import Link from 'next/link';
+import Head from 'next/head';
 
 export default function ContactPage() {
   return (
     <main className="min-h-screen bg-gray-50 flex flex-col justify-between">
+      {/* Tarayıcı sekmesindeki başlığı garanti eden standart etiket */}
+      <Head>
+        <title>Omegle talk to strangers</title>
+      </Head>
+
       <Navbar />
 
       <div className="w-full max-w-6xl mx-auto px-4 py-16 flex-grow">
