@@ -1,87 +1,56 @@
-'use client'; 
+import { connectMongoDB } from "@/lib/mongodb";
+import Faq from "@/models/Faq";
 
-import { useState } from 'react';
-
-const faqData = [
-  {
-    question: "What is Omegletest.online?",
-    answer: "Omegletest.online is a free online chat website that allows you to talk to strangers around the world without registration. It's a modern alternative to classic chat platforms."
-  },
-  {
-    question: "Is Omegletest.online completely free?",
-    answer: "Yes! You can use both text and video chat features without paying any fees or subscriptions."
-  },
-  {
-    question: "Do I need to create an account?",
-    answer: "No. We believe in anonymity. You can start chatting instantly without sharing your email or phone number."
-  },
-  {
-    question: "Is it safe to use?",
-    answer: "While we use AI moderation to keep the community clean, we always recommend users to stay anonymous and never share personal information with strangers."
+async function getFaqs() {
+  try {
+    await connectMongoDB();
+    // Sadece aktif olanları sıralamaya göre getiriyoruz
+    const faqs = await Faq.find({ isActive: true }).sort({ order: 1, createdAt: -1 });
+    return faqs;
+  } catch (error) {
+    console.error("FAQ çekme hatası:", error);
+    return [];
   }
-];
+}
 
-export default function FAQ() {
-  // ARTIK TEK BİR SAYI DEĞİL, AÇIK OLANLARIN İNDEKSLERİNİ TUTAN BİR LİSTE/DİZİ KULLANIYORUZ
-  const [openIndexes, setOpenIndexes] = useState<number[]>([]);
+export default async function FAQ() {
+  const faqs = await getFaqs();
 
-  const toggleFAQ = (index: number) => {
-    setOpenIndexes((prev) => {
-      // Eğer tıklanan indeks zaten listedeyse, onu listeden çıkar (Kapat)
-      if (prev.includes(index)) {
-        return prev.filter((i) => i !== index);
-      }
-      // Eğer listede yoksa, onu listeye ekle (Aç)
-      return [...prev, index];
-    });
-  };
+  // Eğer veritabanında henüz hiç SSS yoksa bölümü gizle
+  if (faqs.length === 0) return null;
 
   return (
-    <div className="w-full max-w-3xl mx-auto mt-16 px-4 pb-20">
-      
-      {/* Bölüm Başlığı */}
-      <h2 className="text-3xl font-bold text-gray-800 mb-8 text-center">
-        Frequently Asked Questions
-      </h2>
-
-      {/* SSS Listesi */}
-      <div className="space-y-4">
-        {faqData.map((faq, index) => {
-          // Bu sorunun indeksi açıklar listesinde var mı diye kontrol ediyoruz
-          const isOpen = openIndexes.includes(index);
-
-          return (
-            <div 
-              key={index} 
-              className="border border-gray-200 rounded-xl overflow-hidden bg-white shadow-sm transition-all"
-            >
-              {/* Soru Kısmı (Tıklanabilir Alan) */}
-              <button 
-                onClick={() => toggleFAQ(index)}
-                className="w-full flex items-center justify-between p-5 text-left font-semibold text-gray-700 hover:bg-gray-50 transition-colors"
-              >
-                <span>{faq.question}</span>
-                {/* Açık/Kapalı oku */}
-                <span className={`text-xl transition-transform duration-300 ${isOpen ? 'rotate-180' : ''}`}>
-                  &darr;
-                </span>
-              </button>
-
-              {/* Cevap Kısmı (Sadece isOpen true ise görünür) */}
-              <div 
-                className={`overflow-hidden transition-all duration-300 ease-in-out ${
-                  isOpen ? 'max-h-40 opacity-100' : 'max-h-0 opacity-0'
-                }`}
-              >
-                <div className="p-5 pt-0 text-gray-500 text-sm sm:text-base border-t border-gray-50">
-                  {faq.answer}
-                </div>
-              </div>
-            </div>
-          );
-        })}
+    <div className="w-full max-w-4xl mx-auto px-4 py-16">
+      <div className="text-center mb-12">
+        <h2 className="text-3xl md:text-4xl font-extrabold text-gray-900 mb-4">
+          Frequently Asked Questions
+        </h2>
+        <p className="text-lg text-gray-500 max-w-2xl mx-auto">
+          Everything you need to know about our service.
+        </p>
       </div>
 
+      <div className="space-y-4">
+        {faqs.map((faq) => (
+          <details 
+            key={faq._id.toString()} 
+            className="group border border-gray-200 rounded-xl bg-white shadow-sm [&_summary::-webkit-details-marker]:hidden"
+          >
+            <summary className="flex cursor-pointer items-center justify-between p-6 font-bold text-gray-900 focus:outline-none">
+              <span className="pr-4 text-lg">{faq.question}</span>
+              <span className="transition duration-300 group-open:-rotate-180 shrink-0 text-blue-600">
+                <svg fill="none" height="24" stroke="currentColor" strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" viewBox="0 0 24 24" width="24">
+                  <path d="M6 9l6 6 6-6"></path>
+                </svg>
+              </span>
+            </summary>
+            
+            <div className="px-6 pb-6 text-gray-600 leading-relaxed border-t border-gray-100 pt-4 mt-2">
+              {faq.answer}
+            </div>
+          </details>
+        ))}
+      </div>
     </div>
   );
 }

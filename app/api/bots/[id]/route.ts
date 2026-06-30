@@ -1,0 +1,43 @@
+import { NextResponse } from "next/server";
+import { connectMongoDB } from "@/lib/mongodb";
+import Bot from "@/models/Bot";
+
+export const dynamic = 'force-dynamic';
+
+// GET: Sadece tek bir botun bilgilerini getir (Düzenleme formu için)
+export async function GET(request: Request, context: any) {
+  try {
+    const { id } = await context.params;
+    await connectMongoDB();
+    const bot = await Bot.findById(id);
+    if (!bot) return NextResponse.json({ message: "Bot bulunamadı" }, { status: 404 });
+    return NextResponse.json({ bot }, { status: 200 });
+  } catch (error) {
+    return NextResponse.json({ message: "Sunucu hatası" }, { status: 500 });
+  }
+}
+
+// PUT: Mevcut botu güncelle
+export async function PUT(request: Request, context: any) {
+  try {
+    const { id } = await context.params;
+    const body = await request.json();
+    await connectMongoDB();
+    await Bot.findByIdAndUpdate(id, body);
+    return NextResponse.json({ message: "Bot başarıyla güncellendi!" }, { status: 200 });
+  } catch (error) {
+    return NextResponse.json({ message: "Güncelleme hatası" }, { status: 500 });
+  }
+}
+
+// DELETE: Botu veritabanından sil
+export async function DELETE(request: Request, context: any) {
+  try {
+    const { id } = await context.params;
+    await connectMongoDB();
+    await Bot.findByIdAndDelete(id);
+    return NextResponse.json({ message: "Bot başarıyla silindi!" }, { status: 200 });
+  } catch (error) {
+    return NextResponse.json({ message: "Silme hatası" }, { status: 500 });
+  }
+}

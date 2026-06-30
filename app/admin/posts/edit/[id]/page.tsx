@@ -1,37 +1,71 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import Link from "next/link";
-import Editor from "@/components/Editor";
+import { useRouter, useParams } from "next/navigation";
+import Editor from "@/components/Editor"; 
 
-export default function CreateNewPost() {
+export default function EditPost() {
+  const router = useRouter();
+  const params = useParams(); 
+  const postId = params?.id;
+
   const [formData, setFormData] = useState({
-    title: "",
-    slug: "",
-    description: "",
-    coverImage: "",
-    content: "",
-    rating: 5,
-    pros: "", 
-    cons: "",
-    faqs: [] as { question: string, answer: string }[] // YENİ: SSS için boş dizi
+    title: "", slug: "", description: "", coverImage: "", content: "", rating: 5, pros: "", cons: "",
+    faqs: [] as { question: string, answer: string }[] // YENİ: SSS Alanı eklendi
   });
 
   const [isLoading, setIsLoading] = useState(false);
+  const [isFetching, setIsFetching] = useState(true);
   const [message, setMessage] = useState("");
 
-  // YENİ: Dinamik SSS Ekleme Fonksiyonu
+  useEffect(() => {
+    if (!postId) return;
+
+    const fetchPost = async () => {
+      try {
+        const response = await fetch(`/api/posts/${postId}`, { cache: "no-store" });
+        const data = await response.json();
+
+        if (response.ok && data.post) {
+          const post = data.post;
+          setFormData({
+            title: post.title || "",
+            slug: post.slug || "",
+            description: post.description || "",
+            coverImage: post.coverImage || "",
+            content: post.content || "",
+            rating: post.rating || 5,
+            pros: post.pros ? post.pros.join(", ") : "",
+            cons: post.cons ? post.cons.join(", ") : "",
+            faqs: post.faqs || [] // YENİ: Veritabanındaki eski SSS'leri çekiyoruz
+          });
+        } else {
+          setMessage(`❌ Veri yüklenemedi: ${data.message || 'Bilinmeyen hata'}`);
+        }
+      } catch (error) {
+        console.error("Veri çekme hatası:", error);
+        setMessage("❌ Veritabanına ulaşılamadı. Lütfen internet bağlantınızı kontrol edin.");
+      } finally {
+        setIsFetching(false);
+      }
+    };
+    
+    fetchPost();
+  }, [postId]);
+
+  // Dinamik SSS Ekleme Fonksiyonu
   const handleAddFaq = () => {
     setFormData({ ...formData, faqs: [...formData.faqs, { question: "", answer: "" }] });
   };
 
-  // YENİ: SSS Silme Fonksiyonu
+  // SSS Silme Fonksiyonu
   const handleRemoveFaq = (index: number) => {
     const newFaqs = formData.faqs.filter((_, i) => i !== index);
     setFormData({ ...formData, faqs: newFaqs });
   };
 
-  // YENİ: SSS İçeriğini Güncelleme Fonksiyonu
+  // SSS İçeriğini Güncelleme Fonksiyonu
   const handleFaqChange = (index: number, field: "question" | "answer", value: string) => {
     const newFaqs = [...formData.faqs];
     newFaqs[index][field] = value;
@@ -43,36 +77,45 @@ export default function CreateNewPost() {
     setIsLoading(true);
     setMessage("");
 
-    // Boş bırakılmış soruları veritabanına göndermemek için temizliyoruz
+    // Boş bırakılmış soruları göndermemek için temizliyoruz
     const validFaqs = formData.faqs.filter(faq => faq.question.trim() !== "" && faq.answer.trim() !== "");
 
     try {
-      const response = await fetch("/api/posts", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
+      const response = await fetch(`/api/posts/${postId}`, {
+        method: "PUT",
+        headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
           ...formData,
           pros: formData.pros.split(",").map(item => item.trim()).filter(Boolean),
           cons: formData.cons.split(",").map(item => item.trim()).filter(Boolean),
-          faqs: validFaqs
+          faqs: validFaqs // YENİ: SSS'leri veritabanına yolluyoruz
         }),
       });
 
       if (response.ok) {
-        setMessage("✅ Post başarıyla veritabanına kaydedildi!");
-        setFormData({ title: "", slug: "", description: "", coverImage: "", content: "", rating: 5, pros: "", cons: "", faqs: [] });
+        setMessage("✅ Post başarıyla güncellendi! Yönlendiriliyorsunuz...");
+        setTimeout(() => router.push("/admin/posts"), 2000);
       } else {
-        setMessage("❌ Kayıt sırasında bir hata oluştu.");
+        setMessage("❌ Güncelleme sırasında bir hata oluştu.");
       }
     } catch (error) {
-      console.error("Hata:", error);
       setMessage("❌ Sunucuya bağlanılamadı.");
     } finally {
       setIsLoading(false);
     }
   };
+
+  if (isFetching) {
+    return (
+      <div className="min-h-screen flex items-center justify-center bg-gray-50 text-blue-600 font-medium">
+        <svg className="animate-spin -ml-1 mr-3 h-5 w-5 text-blue-600" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+          <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"></circle>
+          <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+        </svg>
+        Eski bilgiler veritabanından getiriliyor, lütfen bekleyin...
+      </div>
+    );
+  }
 
   return (
     <div className="min-h-screen bg-gray-50 font-sans pb-12">
@@ -93,9 +136,9 @@ export default function CreateNewPost() {
         <div className="mb-8 flex justify-between items-end">
           <div>
             <div className="text-sm text-gray-500 mb-1">
-              <Link href="/admin/dashboard" className="hover:underline">Admin</Link> / <Link href="/admin/posts" className="hover:underline">Posts</Link> / New
+              <Link href="/admin/dashboard" className="hover:underline">Admin</Link> / <Link href="/admin/posts" className="hover:underline">Posts</Link> / Edit
             </div>
-            <h1 className="text-3xl font-bold text-gray-900">Create New Post</h1>
+            <h1 className="text-3xl font-bold text-gray-900">Edit Post</h1>
           </div>
         </div>
 
@@ -106,8 +149,6 @@ export default function CreateNewPost() {
         )}
 
         <form onSubmit={handleSubmit} className="space-y-6">
-          
-          {/* TEMEL BİLGİLER */}
           <div className="bg-white p-8 rounded-xl shadow-sm border border-gray-100 flex flex-col md:flex-row gap-8">
             <div className="md:w-1/3">
               <h2 className="text-lg font-bold text-gray-900">Basic Information</h2>
@@ -120,7 +161,17 @@ export default function CreateNewPost() {
               </div>
               <div>
                 <label className="block text-sm font-medium text-gray-700 mb-1">URL Slug *</label>
-                <input required type="text" value={formData.slug} onChange={(e) => { const formattedSlug = e.target.value.toLowerCase().replace(/\s+/g, '-'); setFormData({...formData, slug: formattedSlug}); }} className="w-full px-4 py-2 border border-gray-300 rounded-md outline-none focus:border-blue-500" placeholder="e.g. omegle-alternatives" />
+                <input 
+                  required 
+                  type="text" 
+                  value={formData.slug} 
+                  onChange={(e) => {
+                    const formattedSlug = e.target.value.toLowerCase().replace(/\s+/g, '-');
+                    setFormData({...formData, slug: formattedSlug});
+                  }} 
+                  className="w-full px-4 py-2 border border-gray-300 rounded-md outline-none focus:border-blue-500" 
+                  placeholder="e.g. omegle-alternatives" 
+                />
               </div>
               <div>
                 <label className="block text-sm font-medium text-gray-700 mb-1">Short Description</label>
@@ -133,7 +184,6 @@ export default function CreateNewPost() {
             </div>
           </div>
 
-          {/* İÇERİK (EDİTÖR) */}
           <div className="bg-white p-8 rounded-xl shadow-sm border border-gray-100">
             <h2 className="text-lg font-bold text-gray-900 mb-4">Content</h2>
             <div className="h-[400px] mb-12">
@@ -141,7 +191,6 @@ export default function CreateNewPost() {
             </div>
           </div>
 
-          {/* İNCELEME DETAYLARI (PROS & CONS) */}
           <div className="bg-white p-8 rounded-xl shadow-sm border border-gray-100 flex flex-col md:flex-row gap-8">
             <div className="md:w-1/3">
               <h2 className="text-lg font-bold text-gray-900">Review Details</h2>
@@ -163,7 +212,7 @@ export default function CreateNewPost() {
             </div>
           </div>
 
-          {/* YENİ: SSS (FAQS) BÖLÜMÜ */}
+          {/* YENİ EKLENEN SSS (FAQS) BÖLÜMÜ */}
           <div className="bg-white p-8 rounded-xl shadow-sm border border-gray-100">
             <div className="flex justify-between items-center mb-6">
               <div>
@@ -203,8 +252,8 @@ export default function CreateNewPost() {
           </div>
 
           <div className="flex justify-end pt-4">
-            <button type="submit" disabled={isLoading} className={`px-8 py-3 rounded-lg font-bold text-white transition shadow-sm ${isLoading ? "bg-blue-400 cursor-not-allowed" : "bg-blue-600 hover:bg-blue-700"}`}>
-              {isLoading ? "Saving..." : "Save Post"}
+            <button type="submit" disabled={isLoading} className={`px-8 py-3 rounded-lg font-bold text-white transition shadow-sm ${isLoading ? "bg-amber-400 cursor-not-allowed" : "bg-amber-500 hover:bg-amber-600"}`}>
+              {isLoading ? "Updating..." : "Update Post"}
             </button>
           </div>
 
