@@ -2,17 +2,18 @@
 
 import { useState, useRef, useEffect } from 'react';
 import Link from 'next/link';
-import { notFound } from 'next/navigation';
 
 export default function VideoChatPage() {
-  const [messages, setMessages] = useState<{ sender: 'You' | 'Stranger' | 'System', text: string }[]>([
-    { sender: 'System', text: 'Looking for someone you can chat with...' },
-    { sender: 'System', text: "You're now chatting with a random stranger. Say hi!" }
-  ]);
+  const [messages, setMessages] = useState<{ sender: 'You' | 'Stranger' | 'System', text: string, senderName?: string }[]>([]);
   const [inputValue, setInputValue] = useState('');
+  const [isSearching, setIsSearching] = useState(true);
+  const [currentBot, setCurrentBot] = useState<any>(null);
+  const [isDisconnected, setIsDisconnected] = useState(false);
   
   const messagesEndRef = useRef<HTMLDivElement>(null);
   const localVideoRef = useRef<HTMLVideoElement>(null);
+  const timeoutRef = useRef<NodeJS.Timeout | null>(null);
+  const chatSessionIdRef = useRef(0);
   const [cameraError, setCameraError] = useState<string | null>(null);
 
   const scrollToBottom = () => {
@@ -23,12 +24,63 @@ export default function VideoChatPage() {
     scrollToBottom();
   }, [messages]);
 
+  const findStranger = async () => {
+    const currentSessionId = ++chatSessionIdRef.current;
+    setIsSearching(true);
+    setIsDisconnected(false);
+    setCurrentBot(null);
+    setMessages([
+      { sender: 'System', text: 'Connecting to server...' },
+      { sender: 'System', text: 'Looking for someone you can chat with...' }
+    ]);
+    
+    if (timeoutRef.current) clearTimeout(timeoutRef.current);
+
+    try {
+      const res = await fetch('/api/bots/random');
+      if (currentSessionId !== chatSessionIdRef.current) return;
+
+      if (res.ok) {
+        const bot = await res.json();
+        setCurrentBot(bot);
+        setIsSearching(false);
+        
+        setMessages(prev => [
+          ...prev, 
+          { sender: 'System', text: `You're now chatting with a random stranger. Say hi!` }
+        ]);
+
+        timeoutRef.current = setTimeout(() => {
+          if (currentSessionId === chatSessionIdRef.current) {
+            setMessages(prev => [
+              ...prev, 
+              { sender: 'Stranger', text: bot.autoMessage, senderName: bot.name }
+            ]);
+          }
+        }, bot.timing || 2000);
+
+      } else {
+        setIsSearching(false);
+        setMessages(prev => [...prev, { sender: 'System', text: 'No active strangers found right now.' }]);
+      }
+    } catch (error) {
+      if (currentSessionId !== chatSessionIdRef.current) return;
+      setIsSearching(false);
+      setMessages(prev => [...prev, { sender: 'System', text: 'Connection failed.' }]);
+    }
+  };
+
+  useEffect(() => {
+    findStranger();
+    return () => {
+      if (timeoutRef.current) clearTimeout(timeoutRef.current);
+    };
+  }, []);
+
   useEffect(() => {
     async function startCamera() {
       try {
-        // Tarayıcıdan video ve ses izni iste (Mikrofon iznini test için 'false' yapabilirsin)
         const stream = await navigator.mediaDevices.getUserMedia({ video: true, audio: false });
-        
         if (localVideoRef.current) {
           localVideoRef.current.srcObject = stream;
         }
@@ -51,14 +103,18 @@ export default function VideoChatPage() {
 
   const handleSendMessage = (e: React.FormEvent) => {
     e.preventDefault();
-    if (!inputValue.trim()) return;
+    if (!inputValue.trim() || isDisconnected || isSearching) return;
 
     setMessages((prev) => [...prev, { sender: 'You', text: inputValue }]);
     setInputValue('');
+  };
 
-    setTimeout(() => {
-      setMessages((prev) => [...prev, { sender: 'Stranger', text: 'Hey, nice to meet you!' }]);
-    }, 2000);
+  const handleStop = () => {
+    if (isDisconnected) return;
+    setIsDisconnected(true);
+    chatSessionIdRef.current++; // Invalidate current session
+    setMessages(prev => [...prev, { sender: 'System', text: 'You have disconnected.' }]);
+    if (timeoutRef.current) clearTimeout(timeoutRef.current);
   };
 
   return (
@@ -81,12 +137,20 @@ export default function VideoChatPage() {
         </div>
 
         <div className="flex items-center gap-2">
-          <button className="bg-red-500 hover:bg-red-600 text-white px-5 py-2 rounded-lg font-bold text-sm transition-colors shadow-sm">
-            Stop
-          </button>
-          <button className="bg-blue-500 hover:bg-blue-600 text-white px-5 py-2 rounded-lg font-bold text-sm transition-colors shadow-sm">
-            Next
-          </button>
+          {isDisconnected || isSearching ? (
+             <button onClick={findStranger} className="bg-blue-500 hover:bg-blue-600 text-white px-5 py-2 rounded-lg font-bold text-sm transition-colors shadow-sm">
+                Next
+             </button>
+          ) : (
+            <>
+              <button onClick={handleStop} className="bg-red-500 hover:bg-red-600 text-white px-5 py-2 rounded-lg font-bold text-sm transition-colors shadow-sm">
+                Stop
+              </button>
+              <button onClick={findStranger} className="bg-blue-500 hover:bg-blue-600 text-white px-5 py-2 rounded-lg font-bold text-sm transition-colors shadow-sm">
+                Next
+              </button>
+            </>
+          )}
         </div>
       </header>
 
@@ -96,16 +160,18 @@ export default function VideoChatPage() {
         {/* SOL TARAF: Video Kameraları */}
         <div className="flex-1 flex flex-col gap-3 p-3 bg-black border-r border-gray-800 overflow-y-auto">
           
-          {/* Stranger Kamerası (Sahte - YAKALANDI: Artık daha geniş) */}
+          {/* Stranger Kamerası */}
           <div className="flex-1 bg-gray-800 rounded-xl relative overflow-hidden flex items-center justify-center border border-gray-700 group min-h-[30vh]">
-            <span className="text-gray-500 font-medium text-sm">Stranger's Camera Loading...</span>
+            <span className="text-gray-500 font-medium text-sm">
+              {isSearching ? "Searching for stranger..." : isDisconnected ? "Disconnected." : "Stranger's Camera Loading..."}
+            </span>
             <div className="absolute top-4 left-4 bg-black/60 px-3 py-1.5 rounded-lg text-xs font-bold text-white backdrop-blur-sm z-10">
-              Stranger
+              {currentBot ? currentBot.name : 'Stranger'}
             </div>
             <div className="absolute inset-0 bg-gradient-to-t from-black/20 to-transparent group-hover:from-black/40 transition-all"></div>
           </div>
 
-          {/* Senin Kameran (GERÇEK KAMERA BAĞLANTISI - GÜNCELLENDİ: Artık daha geniş ve esnek) */}
+          {/* Senin Kameran */}
           <div className="flex-1 bg-gray-800 rounded-xl relative overflow-hidden flex items-center justify-center border border-gray-700 aspect-[4/3] min-h-[30vh]">
             {cameraError ? (
               <span className="text-red-500 font-medium text-sm text-center px-4">{cameraError}</span>
@@ -144,7 +210,7 @@ export default function VideoChatPage() {
                 )}
                 {msg.sender === 'Stranger' && (
                   <div>
-                    <span className="text-red-400 font-bold mr-2">Stranger:</span>
+                    <span className="text-red-400 font-bold mr-2">{msg.senderName || 'Stranger'}:</span>
                     <span className="text-gray-200">{msg.text}</span>
                   </div>
                 )}
@@ -159,12 +225,13 @@ export default function VideoChatPage() {
                 type="text"
                 value={inputValue}
                 onChange={(e) => setInputValue(e.target.value)}
-                placeholder="Type a message..."
-                className="flex-1 bg-gray-900 border border-gray-700 rounded-lg px-3 py-2 focus:outline-none focus:ring-1 focus:ring-blue-500 focus:border-transparent transition-all text-white placeholder-gray-500 text-sm"
+                placeholder={isSearching ? "Searching..." : isDisconnected ? "Disconnected." : "Type a message..."}
+                disabled={isSearching || isDisconnected}
+                className="flex-1 bg-gray-900 border border-gray-700 rounded-lg px-3 py-2 focus:outline-none focus:ring-1 focus:ring-blue-500 focus:border-transparent transition-all text-white placeholder-gray-500 text-sm disabled:opacity-50"
               />
               <button 
                 type="submit" 
-                disabled={!inputValue.trim()}
+                disabled={!inputValue.trim() || isSearching || isDisconnected}
                 className="bg-blue-500 hover:bg-blue-600 disabled:bg-blue-500/50 disabled:cursor-not-allowed text-white font-bold px-4 py-2 rounded-lg transition-colors text-sm"
               >
                 Send

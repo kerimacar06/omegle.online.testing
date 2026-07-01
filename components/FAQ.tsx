@@ -45,7 +45,7 @@ export default async function FAQ() {
               </span>
             </summary>
             
-            <div className="px-6 pb-6 text-gray-600 leading-relaxed border-t border-gray-100 pt-4 mt-2">
+            <div className="px-6 pb-6 text-gray-600 leading-relaxed border-t border-gray-100 pt-4 mt-2 whitespace-pre-wrap">
               {faq.answer}
             </div>
           </details>
