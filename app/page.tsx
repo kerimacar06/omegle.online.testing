@@ -48,7 +48,9 @@ async function getSeoJsonLd() {
   }
 }
 
-export default async function Home() {
+export default async function Home(props: any) {
+  const searchParams = await props.searchParams;
+  const showAll = searchParams?.showAll === 'true';
   const jsonLd = await getSeoJsonLd();
 
   return (
@@ -75,7 +77,7 @@ export default async function Home() {
         {/* 2. BÖLÜM: Orta Kısım (Saf beyaz arka plan) */}
         <section className="w-full bg-white py-12">
           {/* Alternatif Uygulamalar Bölümü */}
-          <Alternatives />
+          <Alternatives showAll={showAll} />
           
           {/* Neden Bizi Seçmelisiniz Bölümü */}
           <WhyChoose />
