@@ -1,36 +1,79 @@
 import Navbar from '@/components/Navbar';
 import Footer from '@/components/Footer';
 import Link from 'next/link';
-import Head from 'next/head';
+import { connectMongoDB } from '@/lib/mongodb';
+import Seo from '@/models/Seo';
 
-export default function ContactPage() {
+export const dynamic = 'force-dynamic';
+
+export async function generateMetadata() {
+  try {
+    await connectMongoDB();
+    const seoData = await Seo.findOne({ pageKey: 'contact' });
+    
+    if (seoData) {
+      return {
+        title: seoData.title,
+        description: seoData.description,
+        keywords: seoData.keywords,
+        alternates: {
+          canonical: seoData.canonicalUrl,
+        },
+        robots: seoData.robots,
+      };
+    }
+  } catch (error) {
+    console.error("SEO çekilemedi:", error);
+  }
+  
+  return {
+    title: 'Contact - Omegle Test',
+    description: 'Contact us for any questions regarding Omegletest.online.',
+  };
+}
+
+async function getSeoJsonLd() {
+  try {
+    await connectMongoDB();
+    const seoData = await Seo.findOne({ pageKey: 'contact' });
+    return seoData?.jsonLd || null;
+  } catch (error) {
+    return null;
+  }
+}
+
+export default async function ContactPage() {
+  const jsonLd = await getSeoJsonLd();
+
   return (
-    <main className="min-h-screen bg-gray-50 flex flex-col justify-between">
-      {/* Tarayıcı sekmesindeki başlığı garanti eden standart etiket */}
-      <Head>
-        <title>Omegle talk to strangers</title>
-      </Head>
+    <>
+      {jsonLd && (
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{ __html: jsonLd }}
+        />
+      )}
+      <main className="min-h-screen bg-gray-50 flex flex-col justify-between">
+        <Navbar />
 
-      <Navbar />
-
-      <div className="w-full max-w-6xl mx-auto px-4 py-16 flex-grow">
-        
-        {/* Üst Kısım: Logo Kartı ve Altındaki Contact Başlığı */}
-        <div className="flex flex-col items-center justify-center mb-20">
+        <div className="w-full max-w-6xl mx-auto px-4 py-16 flex-grow">
           
-          {/* Büyütülmüş ve Ferahlatılmış Beyaz Kart */}
-          <div className="flex flex-col items-center bg-white p-10 md:p-16 rounded-3xl border border-gray-200 shadow-md w-full max-w-3xl mb-16 text-center">
+          {/* Üst Kısım: Logo Kartı ve Altındaki Contact Başlığı */}
+          <div className="flex flex-col items-center justify-center mb-20">
             
-            {/* Logo ve İsim (Mobilde alt alta, PC'de yan yana - Taşma önlendi) */}
-            <div className="flex flex-col md:flex-row items-center justify-center gap-4 mb-10 w-full">
-              <div className="w-16 h-16 bg-black rounded-full flex items-center justify-center shadow-sm shrink-0">
-                <div className="grid grid-cols-2 gap-1.5">
-                  <div className="w-2.5 h-2.5 bg-white rounded-full"></div>
-                  <div className="w-2.5 h-2.5 bg-white rounded-full"></div>
-                  <div className="w-2.5 h-2.5 bg-white rounded-full"></div>
-                  <div className="w-2.5 h-2.5 bg-white rounded-full"></div>
+            {/* Büyütülmüş ve Ferahlatılmış Beyaz Kart */}
+            <div className="flex flex-col items-center bg-white p-10 md:p-16 rounded-3xl border border-gray-200 shadow-md w-full max-w-3xl mb-16 text-center">
+              
+              {/* Logo ve İsim (Mobilde alt alta, PC'de yan yana - Taşma önlendi) */}
+              <div className="flex flex-col md:flex-row items-center justify-center gap-4 mb-10 w-full">
+                <div className="w-16 h-16 bg-black rounded-full flex items-center justify-center shadow-sm shrink-0">
+                  <div className="grid grid-cols-2 gap-1.5">
+                    <div className="w-2.5 h-2.5 bg-white rounded-full"></div>
+                    <div className="w-2.5 h-2.5 bg-white rounded-full"></div>
+                    <div className="w-2.5 h-2.5 bg-white rounded-full"></div>
+                    <div className="w-2.5 h-2.5 bg-white rounded-full"></div>
+                  </div>
                 </div>
-              </div>
               <span className="text-3xl md:text-4xl font-extrabold text-gray-900 tracking-tight break-all sm:break-normal px-2">
                 omegletest.online
               </span>
@@ -152,5 +195,6 @@ export default function ContactPage() {
 
       <Footer />
     </main>
+    </>
   );
 }

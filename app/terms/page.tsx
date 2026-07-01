@@ -1,10 +1,59 @@
 import Navbar from '@/components/Navbar';
 import Footer from '@/components/Footer';
 import Link from 'next/link';
+import { connectMongoDB } from '@/lib/mongodb';
+import Seo from '@/models/Seo';
 
-export default function TermsPage() {
+export const dynamic = 'force-dynamic';
+
+export async function generateMetadata() {
+  try {
+    await connectMongoDB();
+    const seoData = await Seo.findOne({ pageKey: 'terms' });
+    
+    if (seoData) {
+      return {
+        title: seoData.title,
+        description: seoData.description,
+        keywords: seoData.keywords,
+        alternates: {
+          canonical: seoData.canonicalUrl,
+        },
+        robots: seoData.robots,
+      };
+    }
+  } catch (error) {
+    console.error("SEO çekilemedi:", error);
+  }
+  
+  return {
+    title: 'Terms and Conditions - Omegle Test',
+    description: 'Read the terms and conditions for using Omegletest.online.',
+  };
+}
+
+async function getSeoJsonLd() {
+  try {
+    await connectMongoDB();
+    const seoData = await Seo.findOne({ pageKey: 'terms' });
+    return seoData?.jsonLd || null;
+  } catch (error) {
+    return null;
+  }
+}
+
+export default async function TermsPage() {
+  const jsonLd = await getSeoJsonLd();
+
   return (
-    <main className="min-h-screen bg-gray-50 flex flex-col justify-between">
+    <>
+      {jsonLd && (
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{ __html: jsonLd }}
+        />
+      )}
+      <main className="min-h-screen bg-gray-50 flex flex-col justify-between">
       <Navbar />
 
       <div className="w-full max-w-6xl mx-auto px-4 py-16 flex-grow">
@@ -92,5 +141,6 @@ export default function TermsPage() {
 
       <Footer />
     </main>
+    </>
   );
 }

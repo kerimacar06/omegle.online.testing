@@ -12,6 +12,7 @@ export default function CreateNewPost() {
     coverImage: "",
     content: "",
     rating: 5,
+    voteCount: 0,
     pros: "", 
     cons: "",
     faqs: [] as { question: string, answer: string }[] // YENİ: SSS için boş dizi
@@ -62,7 +63,7 @@ export default function CreateNewPost() {
 
       if (response.ok) {
         setMessage("✅ Post başarıyla veritabanına kaydedildi!");
-        setFormData({ title: "", slug: "", description: "", coverImage: "", content: "", rating: 5, pros: "", cons: "", faqs: [] });
+        setFormData({ title: "", slug: "", description: "", coverImage: "", content: "", rating: 5, voteCount: 0, pros: "", cons: "", faqs: [] });
       } else {
         setMessage("❌ Kayıt sırasında bir hata oluştu.");
       }
@@ -156,9 +157,15 @@ export default function CreateNewPost() {
                 <label className="block text-sm font-medium text-gray-700 mb-1">Cons (Comma separated)</label>
                 <input type="text" value={formData.cons} onChange={(e) => setFormData({...formData, cons: e.target.value})} className="w-full px-4 py-2 border border-gray-300 rounded-md outline-none focus:border-red-500" placeholder="Many ads, Connection drops..." />
               </div>
-              <div>
-                <label className="block text-sm font-medium text-gray-700 mb-1">Rating (1-5)</label>
-                <input type="number" min="1" max="5" value={formData.rating} onChange={(e) => setFormData({...formData, rating: Number(e.target.value)})} className="w-32 px-4 py-2 border border-gray-300 rounded-md outline-none focus:border-blue-500" />
+              <div className="flex gap-4">
+                <div className="flex-1">
+                  <label className="block text-sm font-medium text-gray-700 mb-1">Rating (1-5)</label>
+                  <input type="number" min="1" max="5" value={formData.rating} onChange={(e) => setFormData({...formData, rating: Number(e.target.value)})} className="w-full px-4 py-2 border border-gray-300 rounded-md outline-none focus:border-blue-500" />
+                </div>
+                <div className="flex-1">
+                  <label className="block text-sm font-medium text-gray-700 mb-1">Vote Count (Oy Sayısı)</label>
+                  <input type="number" min="0" value={formData.voteCount} onChange={(e) => setFormData({...formData, voteCount: Number(e.target.value)})} className="w-full px-4 py-2 border border-gray-300 rounded-md outline-none focus:border-blue-500" />
+                </div>
               </div>
             </div>
           </div>

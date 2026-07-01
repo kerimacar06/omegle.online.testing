@@ -8,6 +8,7 @@ const postSchema = new mongoose.Schema(
     coverImage: { type: String },
     content: { type: String },
     rating: { type: Number, default: 5 },
+    voteCount: { type: Number, default: 0 },
     pros: { type: [String], default: [] },
     cons: { type: [String], default: [] },
     // YENİ: SSS (Sıkça Sorulan Sorular) Alanı
