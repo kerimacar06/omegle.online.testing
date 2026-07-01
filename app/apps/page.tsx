@@ -53,7 +53,7 @@ async function getSeoJsonLd() {
 async function getPosts() {
   try {
     await connectMongoDB();
-    const posts = await Post.find({}).sort({ createdAt: -1 });
+    const posts = await Post.find({ status: { $ne: 'Draft' } }).sort({ createdAt: -1 });
     return posts;
   } catch (error) {
     console.error("Postlar çekilemedi:", error);
