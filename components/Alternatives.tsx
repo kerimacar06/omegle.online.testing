@@ -2,21 +2,23 @@ import Link from 'next/link';
 import { connectMongoDB } from '@/lib/mongodb';
 import Post from '@/models/Post';
 
-// Veritabanından sadece en son eklenen 4 postu çeken fonksiyon
-async function getLatestPosts() {
+// Veritabanından postları çeken fonksiyon
+async function getLatestPosts(showAll: boolean) {
   try {
     await connectMongoDB();
-    // .limit(4) komutu ile sadece en yeni 4 tanesini alıyoruz
-    const posts = await Post.find({}).sort({ createdAt: -1 }).limit(4);
-    return posts;
+    if (showAll) {
+      return await Post.find({}).sort({ createdAt: -1 });
+    } else {
+      return await Post.find({}).sort({ createdAt: -1 }).limit(4);
+    }
   } catch (error) {
     console.error("Ana sayfa postları çekilemedi:", error);
     return [];
   }
 }
 
-export default async function Alternatives() {
-  const posts = await getLatestPosts();
+export default async function Alternatives({ showAll = false }: { showAll?: boolean }) {
+  const posts = await getLatestPosts(showAll);
 
   // Renkli yedek ikonlar için gradyan dizisi
   const gradients = [
@@ -84,11 +86,13 @@ export default async function Alternatives() {
       </div>
       
       {/* Tümünü Gör Butonu */}
-      <div className="text-center mt-10">
-        <Link href="/apps" className="inline-block bg-white text-gray-800 font-bold border border-gray-200 px-8 py-3 rounded-xl hover:bg-gray-50 transition shadow-sm">
-          View All Applications
-        </Link>
-      </div>
+      {!showAll && posts.length >= 4 && (
+        <div className="text-center mt-10">
+          <Link href="?showAll=true" scroll={false} className="inline-block bg-white text-gray-800 font-bold border border-gray-200 px-8 py-3 rounded-xl hover:bg-gray-50 transition shadow-sm">
+            View All Applications
+          </Link>
+        </div>
+      )}
 
     </div>
   );
