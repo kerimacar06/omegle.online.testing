@@ -49,7 +49,7 @@ export default function NewBotPage() {
     <div className="min-h-screen bg-gray-50 font-sans pb-12">
       <nav className="bg-white border-b border-gray-200 px-6 py-4 flex items-center justify-between">
         <div className="flex items-center space-x-8">
-          <span className="text-blue-600 font-bold text-xl tracking-tight">Omegle Online Admin</span>
+          <Link href="/admin/dashboard" className="text-blue-600 font-bold text-xl tracking-tight hover:text-blue-700 transition">Omegle Online Admin</Link>
           <div className="hidden md:flex space-x-6 text-sm font-medium text-gray-600 mt-1">
             <Link href="/admin/dashboard" className="hover:text-blue-600 transition pb-5">Dashboard</Link>
             <Link href="/admin/posts" className="hover:text-blue-600 transition pb-5">Posts</Link>

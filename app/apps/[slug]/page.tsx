@@ -45,8 +45,57 @@ export default async function BlogPostPage(props: any) {
   const consLength = post.cons ? post.cons.length : 0;
   const maxRows = Math.max(prosLength, consLength);
 
+  // Otomatik Article JSON-LD
+  const articleJsonLd = {
+    '@context': 'https://schema.org',
+    '@type': 'Article',
+    headline: post.title,
+    description: post.description,
+    image: post.coverImage || 'https://omegletest.online/img/default-cover.jpg',
+    author: {
+      '@type': 'Organization',
+      name: 'Omegle Test',
+      url: 'https://omegletest.online'
+    },
+    publisher: {
+      '@type': 'Organization',
+      name: 'Omegle Test',
+      logo: {
+        '@type': 'ImageObject',
+        url: 'https://omegletest.online/img/logo.png'
+      }
+    },
+    datePublished: post.createdAt || new Date().toISOString(),
+    dateModified: post.updatedAt || new Date().toISOString(),
+  };
+
+  // Otomatik FAQ JSON-LD (Eğer SSS varsa)
+  const faqJsonLd = post.faqs && post.faqs.length > 0 ? {
+    '@context': 'https://schema.org',
+    '@type': 'FAQPage',
+    mainEntity: post.faqs.map((faq: any) => ({
+      '@type': 'Question',
+      name: faq.question,
+      acceptedAnswer: {
+        '@type': 'Answer',
+        text: faq.answer
+      }
+    }))
+  } : null;
+
   return (
-    <main className="min-h-screen bg-gray-50 flex flex-col justify-between">
+    <>
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(articleJsonLd) }}
+      />
+      {faqJsonLd && (
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{ __html: JSON.stringify(faqJsonLd) }}
+        />
+      )}
+      <main className="min-h-screen bg-gray-50 flex flex-col justify-between">
       <Navbar />
       
       <article className="w-full max-w-4xl mx-auto px-4 py-12 flex-grow">
@@ -79,13 +128,13 @@ export default async function BlogPostPage(props: any) {
 
         {/* Kapak Fotoğrafı */}
         {post.coverImage ? (
-          <div className="w-full h-[400px] rounded-3xl overflow-hidden mb-12 shadow-lg border border-gray-100">
+          <div className="w-full rounded-3xl overflow-hidden mb-12 shadow-lg border border-gray-100 flex items-center justify-center bg-gray-50">
             <img 
               src={post.coverImage} 
               alt={post.title} 
               loading="lazy"
               decoding="async"
-              className="w-full h-full object-cover"
+              className="w-full h-auto max-h-[600px] object-contain"
             />
           </div>
         ) : (
@@ -177,5 +226,6 @@ export default async function BlogPostPage(props: any) {
 
       <Footer />
     </main>
+    </>
   );
 }

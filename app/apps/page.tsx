@@ -151,7 +151,7 @@ export default async function AppsPage() {
                             alt={post.title} 
                             loading="lazy"
                             decoding="async"
-                            className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" 
+                            className="w-full h-full object-contain group-hover:scale-105 transition-transform duration-500 p-2" 
                           />
                         ) : (
                           <div className={`w-full h-full bg-gradient-to-tr ${color} flex items-center justify-center group-hover:scale-105 transition-transform duration-500`}>
