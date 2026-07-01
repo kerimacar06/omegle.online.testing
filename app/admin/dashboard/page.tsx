@@ -10,12 +10,14 @@ async function getStats() {
   try {
     await connectMongoDB();
     const totalPosts = await Post.countDocuments();
+    const published = await Post.countDocuments({ status: { $ne: "Draft" } });
+    const drafts = await Post.countDocuments({ status: "Draft" });
     const activeBots = await Bot.countDocuments({ status: "Active" });
 
     return {
       totalPosts,
-      published: totalPosts, // Şu an tüm postlar direkt yayında sayılıyor
-      drafts: 0, // Taslak sistemi olmadığı için 0
+      published,
+      drafts,
       activeUsers: activeBots // Botlar aktif kullanıcı gibi gösteriliyor
     };
   } catch (error) {

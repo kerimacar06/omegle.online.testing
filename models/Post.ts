@@ -17,7 +17,8 @@ const postSchema = new mongoose.Schema(
         question: { type: String },
         answer: { type: String }
       }
-    ]
+    ],
+    status: { type: String, enum: ['Published', 'Draft'], default: 'Published' }
   },
   { timestamps: true }
 );

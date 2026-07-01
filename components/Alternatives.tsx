@@ -6,19 +6,25 @@ import Post from '@/models/Post';
 async function getLatestPosts(showAll: boolean) {
   try {
     await connectMongoDB();
+    const query = { status: { $ne: 'Draft' } };
+    const totalCount = await Post.countDocuments(query);
+    
+    let posts;
     if (showAll) {
-      return await Post.find({}).sort({ createdAt: -1 });
+      posts = await Post.find(query).sort({ createdAt: -1 });
     } else {
-      return await Post.find({}).sort({ createdAt: -1 }).limit(4);
+      posts = await Post.find(query).sort({ createdAt: -1 }).limit(4);
     }
+    
+    return { posts, totalCount };
   } catch (error) {
     console.error("Ana sayfa postları çekilemedi:", error);
-    return [];
+    return { posts: [], totalCount: 0 };
   }
 }
 
 export default async function Alternatives({ showAll = false }: { showAll?: boolean }) {
-  const posts = await getLatestPosts(showAll);
+  const { posts, totalCount } = await getLatestPosts(showAll);
 
   // Renkli yedek ikonlar için gradyan dizisi
   const gradients = [
@@ -86,7 +92,7 @@ export default async function Alternatives({ showAll = false }: { showAll?: bool
       </div>
       
       {/* Tümünü Gör Butonu */}
-      {!showAll && posts.length >= 4 && (
+      {!showAll && totalCount > 4 && (
         <div className="text-center mt-10">
           <Link href="?showAll=true" scroll={false} className="inline-block bg-white text-gray-800 font-bold border border-gray-200 px-8 py-3 rounded-xl hover:bg-gray-50 transition shadow-sm">
             View All Applications
