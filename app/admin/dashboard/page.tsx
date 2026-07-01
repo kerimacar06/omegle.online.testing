@@ -33,7 +33,7 @@ export default async function Dashboard() {
       {/* Üst Menü (Navbar) */}
       <nav className="bg-white border-b border-gray-200 px-6 py-4 flex items-center justify-between">
         <div className="flex items-center space-x-8">
-          <span className="text-blue-600 font-bold text-xl tracking-tight">Omegle Online Admin</span>
+          <Link href="/admin/dashboard" className="text-blue-600 font-bold text-xl tracking-tight hover:text-blue-700 transition">Omegle Online Admin</Link>
           
           {/* Linkler - İhtiyaca göre güncellendi */}
           <div className="hidden md:flex space-x-6 text-sm font-medium text-gray-600 mt-1">
