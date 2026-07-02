@@ -50,14 +50,8 @@ export default function VideoChatPage() {
           { sender: 'System', text: `You're now chatting with a random stranger. Say hi!` }
         ]);
 
-        timeoutRef.current = setTimeout(() => {
-          if (currentSessionId === chatSessionIdRef.current) {
-            setMessages(prev => [
-              ...prev, 
-              { sender: 'Stranger', text: bot.autoMessage, senderName: bot.name }
-            ]);
-          }
-        }, bot.timing || 2000);
+        // Video chat'te botun otomatik mesaj göndermesini engelliyoruz (kullanıcı isteği)
+        // timeoutRef.current = setTimeout(...) bloğu kaldırıldı.
 
       } else {
         setIsSearching(false);

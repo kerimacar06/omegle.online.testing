@@ -2,14 +2,20 @@ import Navbar from '@/components/Navbar';
 import Footer from '@/components/Footer';
 import Link from 'next/link';
 import { connectMongoDB } from '@/lib/mongodb';
-import Seo from '@/models/Seo';
+import Seo from "@/models/Seo";
+import { getFromCache, setInCache } from "@/lib/ramCache";
 
 export const dynamic = 'force-dynamic';
 
 export async function generateMetadata() {
   try {
     await connectMongoDB();
-    const seoData = await Seo.findOne({ pageKey: 'terms' });
+    const cacheKey = 'seo_terms';
+    let seoData = getFromCache(cacheKey);
+    if (!seoData) {
+      seoData = await Seo.findOne({ pageKey: 'terms' }).lean();
+      if (seoData) setInCache(cacheKey, seoData, 300);
+    }
     
     if (seoData) {
       return {
@@ -35,7 +41,12 @@ export async function generateMetadata() {
 async function getSeoJsonLd() {
   try {
     await connectMongoDB();
-    const seoData = await Seo.findOne({ pageKey: 'terms' });
+    const cacheKey = 'seo_terms';
+    let seoData = getFromCache(cacheKey);
+    if (!seoData) {
+      seoData = await Seo.findOne({ pageKey: 'terms' }).lean();
+      if (seoData) setInCache(cacheKey, seoData, 300);
+    }
     return seoData?.jsonLd || null;
   } catch (error) {
     return null;
