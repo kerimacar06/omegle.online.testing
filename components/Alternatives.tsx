@@ -1,30 +1,33 @@
 import Link from 'next/link';
 import { connectMongoDB } from '@/lib/mongodb';
 import Post from '@/models/Post';
+import { getFromCache, setInCache } from '@/lib/ramCache';
 
 // Veritabanından postları çeken fonksiyon
-async function getLatestPosts(showAll: boolean) {
+async function getLatestPosts() {
+  const cacheKey = 'home_alternatives_6';
+  const cached = getFromCache(cacheKey);
+  if (cached) return cached;
+
   try {
     await connectMongoDB();
-    const query = { status: { $ne: 'Draft' } };
+    const query = { status: { $ne: 'Draft' }, isDeleted: { $ne: true } };
     const totalCount = await Post.countDocuments(query);
     
-    let posts;
-    if (showAll) {
-      posts = await Post.find(query).sort({ createdAt: -1 });
-    } else {
-      posts = await Post.find(query).sort({ createdAt: -1 }).limit(4);
-    }
+    // Sadece en son eklenen 6 postu göster
+    const posts = await Post.find(query).sort({ createdAt: -1 }).limit(6).lean();
     
-    return { posts, totalCount };
+    const result = { posts, totalCount };
+    setInCache(cacheKey, result, 300); // 5 dakika RAM'de tut
+    return result;
   } catch (error) {
     console.error("Ana sayfa postları çekilemedi:", error);
     return { posts: [], totalCount: 0 };
   }
 }
 
-export default async function Alternatives({ showAll = false }: { showAll?: boolean }) {
-  const { posts, totalCount } = await getLatestPosts(showAll);
+export default async function Alternatives() {
+  const { posts, totalCount } = await getLatestPosts();
 
   // Renkli yedek ikonlar için gradyan dizisi
   const gradients = [
@@ -92,9 +95,9 @@ export default async function Alternatives({ showAll = false }: { showAll?: bool
       </div>
       
       {/* Tümünü Gör Butonu */}
-      {!showAll && totalCount > 4 && (
+      {totalCount > 6 && (
         <div className="text-center mt-10">
-          <Link href="?showAll=true" scroll={false} className="inline-block bg-white text-gray-800 font-bold border border-gray-200 px-8 py-3 rounded-xl hover:bg-gray-50 transition shadow-sm">
+          <Link href="/apps" scroll={true} className="inline-block bg-white text-gray-800 font-bold border border-gray-200 px-8 py-3 rounded-xl hover:bg-gray-50 transition shadow-sm">
             View All Applications
           </Link>
         </div>
