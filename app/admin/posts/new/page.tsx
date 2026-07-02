@@ -94,7 +94,7 @@ export default function CreateNewPost() {
 
       if (response.ok) {
         setMessage("✅ Post başarıyla veritabanına kaydedildi!");
-        setFormData({ title: "", slug: "", description: "", coverImage: "", content: "", rating: 5, voteCount: 0, pros: "", cons: "", author: "Omegle Test", status: "Published", faqs: [] });
+        setFormData({ title: "", slug: "", description: "", coverImage: "", content: "", alternativeAppsContent: "", rating: 5, voteCount: 0, pros: "", cons: "", author: "Omegle Test", status: "Published", faqs: [] });
       } else {
         setMessage("❌ Kayıt sırasında bir hata oluştu.");
       }

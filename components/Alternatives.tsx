@@ -52,7 +52,7 @@ export default async function Alternatives() {
 
       {/* Dinamik Kartlar (4 Adet) */}
       <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-        {posts.map((post, index) => {
+        {posts.map((post: any, index: number) => {
           const color = gradients[index % gradients.length];
           
           return (
