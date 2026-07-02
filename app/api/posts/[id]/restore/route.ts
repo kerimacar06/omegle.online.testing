@@ -1,6 +1,5 @@
 import { NextResponse } from "next/server";
-import { connectMongoDB } from "@/lib/mongodb";
-import Post from "@/models/Post";
+import { postService } from "@/services/postService";
 import { clearCache } from "@/lib/ramCache";
 import { revalidatePath } from "next/cache";
 
@@ -9,10 +8,9 @@ export const dynamic = 'force-dynamic';
 export async function PUT(request: Request, context: any) {
   try {
     const { id } = await context.params;
-    await connectMongoDB();
     
     // isDeleted bayrağını false yaparak geri yüklüyoruz
-    await Post.findByIdAndUpdate(id, { isDeleted: false });
+    await postService.restorePost(id);
     
     // RAM Cache'i temizliyoruz ki geri yüklenen veri hemen listelensin
     clearCache();

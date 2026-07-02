@@ -7,36 +7,30 @@ import Reviews from '@/components/Reviews';
 import FAQ from '@/components/FAQ';
 import BottomBanner from '@/components/BottomBanner';
 import Footer from '@/components/Footer';
-import { connectMongoDB } from '@/lib/mongodb';
-import Seo from "@/models/Seo";
-import { getFromCache, setInCache } from "@/lib/ramCache";
-import Faq from '@/models/Faq';
 
+// NOT: Veritabanı ile (Mongoose vb.) burada direkt konuşmuyoruz. 
+// Bunun yerine yazdığımız "Servisleri" çağırıyoruz. Bu sayede kod temiz kalıyor.
+import { seoService } from '@/services/seoService';
+import { faqService } from '@/services/faqService';
+
+// Sayfanın her istendiğinde yeniden oluşturulmasını (önbellekten gelmemesini) sağlar.
 export const dynamic = 'force-dynamic';
 
+// Next.js'in özel fonksiyonudur. Sayfanın Google'daki görünümünü (Title, Description) ayarlar.
 export async function generateMetadata() {
-  try {
-    await connectMongoDB();
-    const cacheKey = 'seo_home';
-    let seoData = getFromCache(cacheKey);
-    if (!seoData) {
-      seoData = await Seo.findOne({ pageKey: 'home' }).lean();
-      if (seoData) setInCache(cacheKey, seoData, 300);
-    }
-    
-    if (seoData) {
-      return {
-        title: seoData.title,
-        description: seoData.description,
-        keywords: seoData.keywords,
-        alternates: {
-          canonical: seoData.canonicalUrl,
-        },
-        robots: seoData.robots,
-      };
-    }
-  } catch (error) {
-    console.error("SEO çekilemedi:", error);
+  // Veriyi API'ye istek atmadan, doğrudan kendi servisimizden (aşçıdan) alıyoruz.
+  const seoData = await seoService.getSeoData('home');
+  
+  if (seoData) {
+    return {
+      title: seoData.title,
+      description: seoData.description,
+      keywords: seoData.keywords,
+      alternates: {
+        canonical: seoData.canonicalUrl,
+      },
+      robots: seoData.robots,
+    };
   }
   
   return {
@@ -46,49 +40,16 @@ export async function generateMetadata() {
 }
 
 async function getSeoJsonLd() {
-  try {
-    await connectMongoDB();
-    const cacheKey = 'seo_home';
-    let seoData = getFromCache(cacheKey);
-    if (!seoData) {
-      seoData = await Seo.findOne({ pageKey: 'home' }).lean();
-      if (seoData) setInCache(cacheKey, seoData, 300);
-    }
-    return seoData?.jsonLd || null;
-  } catch (error) {
-    return null;
-  }
+  return await seoService.getSeoJsonLd('home');
 }
 
 async function getFaqJsonLd() {
-  try {
-    await connectMongoDB();
-    let faqs = getFromCache('all_faqs_active');
-    if (!faqs) {
-      faqs = await Faq.find({ isActive: true }).sort({ order: 1, createdAt: -1 }).lean();
-      if (faqs) setInCache('all_faqs_active', faqs, 300);
-    }
-    
-    if (faqs.length === 0) return null;
-
-    return {
-      '@context': 'https://schema.org',
-      '@type': 'FAQPage',
-      mainEntity: faqs.map((faq: any) => ({
-        '@type': 'Question',
-        name: faq.question,
-        acceptedAnswer: {
-          '@type': 'Answer',
-          text: faq.answer
-        }
-      }))
-    };
-  } catch (error) {
-    return null;
-  }
+  return await faqService.getFaqJsonLd();
 }
 
+// Ana sayfa bileşenimiz. 'async' olduğu için sayfayı oluştururken verileri bekleyebilir.
 export default async function Home() {
+  // Google için yapılandırılmış verileri (JSON-LD) servislerden çekiyoruz.
   const jsonLdString = await getSeoJsonLd();
   const faqJsonLd = await getFaqJsonLd();
 

@@ -1,29 +1,17 @@
 import Link from "next/link";
-import { connectMongoDB } from "@/lib/mongodb";
-import Post from "@/models/Post";
-import Bot from "@/models/Bot";
 import LogoutButton from "@/components/LogoutButton";
+import { dashboardService } from "@/services/dashboardService";
 
 export const dynamic = 'force-dynamic';
 
 async function getStats() {
-  try {
-    await connectMongoDB();
-    const totalPosts = await Post.countDocuments({ isDeleted: { $ne: true } });
-    const published = await Post.countDocuments({ status: { $ne: "Draft" }, isDeleted: { $ne: true } });
-    const drafts = await Post.countDocuments({ status: "Draft", isDeleted: { $ne: true } });
-    const activeBots = await Bot.countDocuments({ status: "Active" });
-
-    return {
-      totalPosts,
-      published,
-      drafts,
-      activeUsers: activeBots // Botlar aktif kullanıcı gibi gösteriliyor
-    };
-  } catch (error) {
-    console.error("Dashboard stats hatası:", error);
-    return { totalPosts: 0, published: 0, drafts: 0, activeUsers: 0 };
-  }
+  const stats = await dashboardService.getDashboardStats();
+  return {
+    totalPosts: stats.posts.total,
+    published: stats.posts.published,
+    drafts: stats.posts.draft,
+    activeUsers: stats.bots.active
+  };
 }
 
 export default async function Dashboard() {

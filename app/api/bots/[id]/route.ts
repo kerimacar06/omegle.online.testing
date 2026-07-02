@@ -1,6 +1,5 @@
 import { NextResponse } from "next/server";
-import { connectMongoDB } from "@/lib/mongodb";
-import Bot from "@/models/Bot";
+import { botService } from "@/services/botService";
 
 export const dynamic = 'force-dynamic';
 
@@ -8,8 +7,7 @@ export const dynamic = 'force-dynamic';
 export async function GET(request: Request, context: any) {
   try {
     const { id } = await context.params;
-    await connectMongoDB();
-    const bot = await Bot.findById(id);
+    const bot = await botService.getBotById(id);
     if (!bot) return NextResponse.json({ message: "Bot bulunamadı" }, { status: 404 });
     return NextResponse.json({ bot }, { status: 200 });
   } catch (error) {
@@ -22,8 +20,7 @@ export async function PUT(request: Request, context: any) {
   try {
     const { id } = await context.params;
     const body = await request.json();
-    await connectMongoDB();
-    await Bot.findByIdAndUpdate(id, body);
+    await botService.updateBot(id, body);
     return NextResponse.json({ message: "Bot başarıyla güncellendi!" }, { status: 200 });
   } catch (error) {
     return NextResponse.json({ message: "Güncelleme hatası" }, { status: 500 });
@@ -34,8 +31,7 @@ export async function PUT(request: Request, context: any) {
 export async function DELETE(request: Request, context: any) {
   try {
     const { id } = await context.params;
-    await connectMongoDB();
-    await Bot.findByIdAndDelete(id);
+    await botService.deleteBot(id);
     return NextResponse.json({ message: "Bot başarıyla silindi!" }, { status: 200 });
   } catch (error) {
     return NextResponse.json({ message: "Silme hatası" }, { status: 500 });

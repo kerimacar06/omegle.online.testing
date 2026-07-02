@@ -1,42 +1,28 @@
 import Navbar from '@/components/Navbar';
 import Footer from '@/components/Footer';
 import Link from 'next/link';
-import { connectMongoDB } from '@/lib/mongodb';
-import Post from '@/models/Post';
-import Seo from '@/models/Seo'; // YENİ: SEO modelimizi içeri aktarıyoruz
-import { getFromCache, setInCache } from '@/lib/ramCache';
+import { seoService } from '@/services/seoService';
+import { postService } from '@/services/postService';
 
 export const dynamic = 'force-dynamic';
 
 // 1. YENİ: SEO (Meta Tag) Üretici Fonksiyon
 // Bu fonksiyon sayfa yüklenmeden önce çalışır ve sekmeye adını (Title) verir.
 export async function generateMetadata() {
-  try {
-    await connectMongoDB();
-    // Admin panelinden girdiğimiz pageKey: 'apps' olan ayarı bul
-    const cacheKey = 'seo_apps';
-    let seoData = getFromCache(cacheKey);
-    if (!seoData) {
-      seoData = await Seo.findOne({ pageKey: 'apps' }).lean();
-      if (seoData) setInCache(cacheKey, seoData, 300);
-    }
-    
-    if (seoData) {
-      return {
-        title: seoData.title,
-        description: seoData.description,
-        keywords: seoData.keywords,
-        alternates: {
-          canonical: seoData.canonicalUrl,
-        },
-        robots: seoData.robots,
-      };
-    }
-  } catch (error) {
-    console.error("SEO çekilemedi:", error);
+  const seoData = await seoService.getSeoData('apps');
+  
+  if (seoData) {
+    return {
+      title: seoData.title,
+      description: seoData.description,
+      keywords: seoData.keywords,
+      alternates: {
+        canonical: seoData.canonicalUrl,
+      },
+      robots: seoData.robots,
+    };
   }
   
-  // Veritabanında bir hata olursa veya veri girilmediyse görünecek yedek başlık
   return {
     title: 'Omegle Alternatives & Reviews',
     description: 'Expert reviews for the best random chat platforms.',
@@ -46,38 +32,12 @@ export async function generateMetadata() {
 // 2. YENİ: JSON-LD Verisini Çeken Fonksiyon
 // Zengin Google arama sonuçları için eklediğin JSON kodunu çeker
 async function getSeoJsonLd() {
-  try {
-    await connectMongoDB();
-    const cacheKey = 'seo_apps';
-    let seoData = getFromCache(cacheKey);
-    if (!seoData) {
-      seoData = await Seo.findOne({ pageKey: 'apps' }).lean();
-      if (seoData) setInCache(cacheKey, seoData, 300);
-    }
-    return seoData?.jsonLd || null;
-  } catch (error) {
-    return null;
-  }
+  return await seoService.getSeoJsonLd('apps');
 }
 
 // Veritabanından postları çeken fonksiyon
 async function getPosts() {
-  try {
-    await connectMongoDB();
-    
-    const cacheKey = 'all_apps_posts';
-    let posts = getFromCache(cacheKey);
-    
-    if (!posts) {
-      posts = await Post.find({ status: { $ne: 'Draft' }, isDeleted: { $ne: true } }).sort({ createdAt: -1 }).lean();
-      setInCache(cacheKey, posts, 300); // 5 dakika
-    }
-
-    return posts;
-  } catch (error) {
-    console.error("Postlar çekilemedi:", error);
-    return [];
-  }
+  return await postService.getPublishedPosts();
 }
 
 export default async function AppsPage() {
@@ -105,14 +65,14 @@ export default async function AppsPage() {
 
       <main className="min-h-screen bg-gray-50 flex flex-col justify-between">
         <Navbar />
-        
+
         <div className="w-full max-w-5xl mx-auto px-4 py-12 flex-grow">
-          
+
           {/* Üst Kısım: Logo Kartı ve Altındaki Başlık */}
           <div className="flex flex-col items-center justify-center mb-16">
-            
+
             <div className="flex flex-col items-center bg-white p-10 md:p-16 rounded-3xl border border-gray-200 shadow-md w-full max-w-3xl mb-12 text-center">
-              
+
               <div className="flex flex-col md:flex-row items-center justify-center gap-4 mb-10 w-full">
                 <div className="w-16 h-16 bg-black rounded-full flex items-center justify-center shadow-sm shrink-0">
                   <div className="grid grid-cols-2 gap-1.5">
@@ -131,12 +91,12 @@ export default async function AppsPage() {
                 Connect with strangers worldwide in real-time video chat!
               </p>
 
-              <Link 
-                href="/chat/video" 
+              <Link
+                href="/chat/video"
                 className="flex items-center gap-3 bg-blue-500 text-white px-8 md:px-10 py-4 md:py-5 rounded-2xl shadow-sm hover:shadow-lg hover:bg-blue-600 hover:-translate-y-1 transition-all duration-300 font-bold text-xl md:text-2xl group w-full md:w-auto justify-center"
               >
                 <svg className="w-8 h-8 text-white shrink-0" fill="currentColor" viewBox="0 0 24 24">
-                   <path d="M17 10.5V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-3.5l4 4v-11l-4 4z" />
+                  <path d="M17 10.5V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-3.5l4 4v-11l-4 4z" />
                 </svg>
                 Video Chat
               </Link>
@@ -157,20 +117,20 @@ export default async function AppsPage() {
               {posts.map((post: any, index: number) => {
                 const color = gradients[index % gradients.length];
                 const voteCount = post.voteCount !== undefined && post.voteCount !== null ? post.voteCount : 0;
-                
+
                 return (
                   <Link key={post._id.toString()} href={`/apps/${post.slug}`} className="group block h-full">
                     <div className="bg-white rounded-2xl border border-gray-200 shadow-sm flex flex-col h-full overflow-hidden hover:shadow-xl hover:-translate-y-1 transition-all duration-300">
-                      
+
                       {/* Üst Fotoğraf Alanı */}
                       <div className="w-full h-48 md:h-52 relative overflow-hidden bg-gray-100 shrink-0 border-b border-gray-100">
                         {post.coverImage ? (
-                          <img 
-                            src={post.coverImage} 
-                            alt={post.title} 
+                          <img
+                            src={post.coverImage}
+                            alt={post.title}
                             loading="lazy"
                             decoding="async"
-                            className="w-full h-full object-contain group-hover:scale-105 transition-transform duration-500 p-2" 
+                            className="w-full h-full object-contain group-hover:scale-105 transition-transform duration-500 p-2"
                           />
                         ) : (
                           <div className={`w-full h-full bg-gradient-to-tr ${color} flex items-center justify-center group-hover:scale-105 transition-transform duration-500`}>
@@ -186,11 +146,11 @@ export default async function AppsPage() {
                         <h2 className="text-xl font-bold text-gray-900 mb-3 group-hover:text-orange-500 transition-colors line-clamp-2">
                           {post.title}
                         </h2>
-                        
+
                         <p className="text-gray-500 text-sm line-clamp-3 leading-relaxed mb-6 flex-grow">
                           {post.description}
                         </p>
-                        
+
                         {/* Tarih ve Yıldız / Oy */}
                         <div className="flex justify-between items-center text-xs font-medium text-gray-500 mb-6">
                           <div className="flex items-center gap-1.5">
@@ -201,7 +161,7 @@ export default async function AppsPage() {
                               {new Date(post.createdAt || Date.now()).toLocaleDateString('en-GB')}
                             </span>
                           </div>
-                          
+
                           <div className="flex items-center gap-1 text-amber-500 font-bold">
                             <span>★ {post.rating} stars, {voteCount} votes</span>
                           </div>
@@ -212,7 +172,7 @@ export default async function AppsPage() {
                           Read More &rarr;
                         </div>
                       </div>
-                      
+
                     </div>
                   </Link>
                 );

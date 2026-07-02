@@ -1,16 +1,19 @@
 import { NextResponse } from "next/server";
-import { connectMongoDB } from "@/lib/mongodb";
-import Post from "@/models/Post";
+import { postService } from "@/services/postService";
 import { clearCache } from "@/lib/ramCache";
 import { revalidatePath } from "next/cache";
 
-// Yeni Post Ekleme İşlemi
+// NOT: Burası bizim "Garsonumuz". Admin panelinden gelen istekleri alır, Service'e iletir.
+export const dynamic = 'force-dynamic';
+
+// Yeni Post Ekleme İşlemi (POST İsteği)
 export async function POST(request: Request) {
   try {
-    const body = await request.json(); // Ön yüzden gelen verileri al
+    // Admin panelindeki formdan gönderilen veriyi alıyoruz
+    const body = await request.json(); 
     
-    await connectMongoDB(); // Veritabanına bağlan
-    const newPost = await Post.create(body); // Veriyi MongoDB'ye kaydet
+    // Veriyi direkt Mongoose ile değil, "Aşçımız" olan Service katmanından kaydediyoruz
+    const newPost = await postService.createPost(body);
 
     // YENİ: RAM Cache'i temizliyoruz ki yeni eklenen post anında görünsün
     clearCache();

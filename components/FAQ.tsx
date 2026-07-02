@@ -1,23 +1,7 @@
-import { connectMongoDB } from "@/lib/mongodb";
-import Faq from "@/models/Faq";
-
-import { getFromCache, setInCache } from "@/lib/ramCache";
+import { faqService } from "@/services/faqService";
 
 async function getFaqs() {
-  const cacheKey = "all_faqs_active";
-  const cached = getFromCache(cacheKey);
-  if (cached) return cached;
-
-  try {
-    await connectMongoDB();
-    // Sadece aktif olanları sıralamaya göre getiriyoruz
-    const faqs = await Faq.find({ isActive: true }).sort({ order: 1, createdAt: -1 }).lean();
-    if (faqs) setInCache(cacheKey, faqs, 300);
-    return faqs;
-  } catch (error) {
-    console.error("FAQ çekme hatası:", error);
-    return [];
-  }
+  return await faqService.getActiveFaqs();
 }
 
 export default async function FAQ() {

@@ -1,29 +1,9 @@
 import Link from 'next/link';
-import { connectMongoDB } from '@/lib/mongodb';
-import Post from '@/models/Post';
-import { getFromCache, setInCache } from '@/lib/ramCache';
+import { postService } from '@/services/postService';
 
 // Veritabanından postları çeken fonksiyon
 async function getLatestPosts() {
-  const cacheKey = 'home_alternatives_6';
-  const cached = getFromCache(cacheKey);
-  if (cached) return cached;
-
-  try {
-    await connectMongoDB();
-    const query = { status: { $ne: 'Draft' }, isDeleted: { $ne: true } };
-    const totalCount = await Post.countDocuments(query);
-    
-    // Sadece en son eklenen 6 postu göster
-    const posts = await Post.find(query).sort({ createdAt: -1 }).limit(6).lean();
-    
-    const result = { posts, totalCount };
-    setInCache(cacheKey, result, 300); // 5 dakika RAM'de tut
-    return result;
-  } catch (error) {
-    console.error("Ana sayfa postları çekilemedi:", error);
-    return { posts: [], totalCount: 0 };
-  }
+  return await postService.getLatestPosts(6);
 }
 
 export default async function Alternatives() {

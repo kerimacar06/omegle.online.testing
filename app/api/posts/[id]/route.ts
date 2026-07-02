@@ -1,6 +1,5 @@
 import { NextResponse } from "next/server";
-import { connectMongoDB } from "@/lib/mongodb";
-import Post from "@/models/Post";
+import { postService } from "@/services/postService";
 import { clearCache } from "@/lib/ramCache";
 import { revalidatePath } from "next/cache";
 
@@ -13,8 +12,7 @@ export async function GET(request: Request, context: any) {
     // YENİ NEXT.JS SÜRÜMÜ İÇİN KRİTİK NOKTA: Params'ı await ile bekliyoruz
     const { id } = await context.params;
 
-    await connectMongoDB();
-    const post = await Post.findById(id);
+    const post = await postService.getPostById(id);
     
     if (!post) {
       return NextResponse.json({ message: "Post veritabanında bulunamadı!" }, { status: 404 });
@@ -34,8 +32,7 @@ export async function PUT(request: Request, context: any) {
     const { id } = await context.params;
     const body = await request.json();
     
-    await connectMongoDB();
-    await Post.findByIdAndUpdate(id, body);
+    await postService.updatePost(id, body);
     
     // YENİ: RAM Cache'i temizliyoruz ki güncel veriler anında yansısın
     clearCache();
@@ -52,9 +49,8 @@ export async function PUT(request: Request, context: any) {
 export async function DELETE(request: Request, context: any) {
   try {
     const { id } = await context.params;
-    await connectMongoDB();
     // YENİ: Artık kalıcı olarak silmiyoruz, sadece isDeleted bayrağını true yapıyoruz (Çöp Kutusu)
-    await Post.findByIdAndUpdate(id, { isDeleted: true });
+    await postService.softDeletePost(id);
     
     // YENİ: RAM Cache'i temizliyoruz ki silinen veri hemen kalksın
     clearCache();
