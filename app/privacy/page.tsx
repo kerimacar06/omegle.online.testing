@@ -1,35 +1,23 @@
 import Navbar from '@/components/Navbar';
 import Footer from '@/components/Footer';
 import Link from 'next/link';
-import { connectMongoDB } from '@/lib/mongodb';
-import Seo from "@/models/Seo";
-import { getFromCache, setInCache } from "@/lib/ramCache";
+import { seoService } from '@/services/seoService';
 
 export const dynamic = 'force-dynamic';
 
 export async function generateMetadata() {
-  try {
-    await connectMongoDB();
-    const cacheKey = 'seo_privacy';
-    let seoData = getFromCache(cacheKey);
-    if (!seoData) {
-      seoData = await Seo.findOne({ pageKey: 'privacy' }).lean();
-      if (seoData) setInCache(cacheKey, seoData, 300);
-    }
-    
-    if (seoData) {
-      return {
-        title: seoData.title,
-        description: seoData.description,
-        keywords: seoData.keywords,
-        alternates: {
-          canonical: seoData.canonicalUrl,
-        },
-        robots: seoData.robots,
-      };
-    }
-  } catch (error) {
-    console.error("SEO çekilemedi:", error);
+  const seoData = await seoService.getSeoData('privacy');
+  
+  if (seoData) {
+    return {
+      title: seoData.title,
+      description: seoData.description,
+      keywords: seoData.keywords,
+      alternates: {
+        canonical: seoData.canonicalUrl,
+      },
+      robots: seoData.robots,
+    };
   }
   
   return {
@@ -39,18 +27,7 @@ export async function generateMetadata() {
 }
 
 async function getSeoJsonLd() {
-  try {
-    await connectMongoDB();
-    const cacheKey = 'seo_privacy';
-    let seoData = getFromCache(cacheKey);
-    if (!seoData) {
-      seoData = await Seo.findOne({ pageKey: 'privacy' }).lean();
-      if (seoData) setInCache(cacheKey, seoData, 300);
-    }
-    return seoData?.jsonLd || null;
-  } catch (error) {
-    return null;
-  }
+  return await seoService.getSeoJsonLd('privacy');
 }
 
 export default async function PrivacyPage() {

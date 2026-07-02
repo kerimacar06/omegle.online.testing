@@ -1,6 +1,5 @@
 import { NextResponse } from "next/server";
-import { connectMongoDB } from "@/lib/mongodb";
-import Faq from "@/models/Faq";
+import { faqService } from "@/services/faqService";
 import { clearCache } from "@/lib/ramCache";
 import { revalidatePath } from "next/cache";
 
@@ -8,8 +7,7 @@ export async function PUT(request: Request, context: any) {
   try {
     const { id } = await context.params;
     const body = await request.json();
-    await connectMongoDB();
-    await Faq.findByIdAndUpdate(id, body);
+    await faqService.updateFaq(id, body);
     clearCache();
     revalidatePath("/", "layout");
     return NextResponse.json({ message: "Güncellendi" }, { status: 200 });
@@ -21,8 +19,7 @@ export async function PUT(request: Request, context: any) {
 export async function DELETE(request: Request, context: any) {
   try {
     const { id } = await context.params;
-    await connectMongoDB();
-    await Faq.findByIdAndDelete(id);
+    await faqService.deleteFaq(id);
     clearCache();
     revalidatePath("/", "layout");
     return NextResponse.json({ message: "Silindi" }, { status: 200 });

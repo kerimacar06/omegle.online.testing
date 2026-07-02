@@ -1,32 +1,16 @@
 import Navbar from '@/components/Navbar';
 import Footer from '@/components/Footer';
-import { connectMongoDB } from '@/lib/mongodb';
-import Post from '@/models/Post';
 import { notFound } from 'next/navigation';
 import { Metadata } from 'next';
 import Link from 'next/link';
-import { getFromCache, setInCache } from '@/lib/ramCache';
+import { postService } from '@/services/postService';
 
 export const dynamic = 'force-dynamic';
 
 // SEO için dinamik sayfa başlığı ve açıklaması oluşturma
 export async function generateMetadata(props: any): Promise<Metadata> {
   const params = await props.params;
-  
-  let post = null;
-  const cacheKey = `post_meta_${params.slug}`;
-
-  try {
-    await connectMongoDB();
-    post = getFromCache(cacheKey);
-    
-    if (!post) {
-      post = await Post.findOne({ slug: params.slug, isDeleted: { $ne: true } }).lean();
-      if (post) setInCache(cacheKey, post, 300);
-    }
-  } catch (error) {
-    console.error("Metadata DB error:", error);
-  }
+  const post = await postService.getPostBySlug(params.slug);
   
   if (!post) return { title: 'Sayfa Bulunamadı' };
   
@@ -49,23 +33,7 @@ export async function generateMetadata(props: any): Promise<Metadata> {
 // Ana sayfa bileşeni
 export default async function BlogPostPage(props: any) {
   const params = await props.params;
-
-  let post = null;
-  const cacheKey = `post_detail_${params.slug}`;
-  
-  try {
-    // Veritabanına bağlan ve URL'deki slug ile eşleşen postu bul
-    await connectMongoDB();
-    post = getFromCache(cacheKey);
-    
-    if (!post) {
-      post = await Post.findOne({ slug: params.slug, isDeleted: { $ne: true } }).lean();
-      if (post) setInCache(cacheKey, post, 300);
-    }
-  } catch (error) {
-    console.error("Database connection or query error:", error);
-    // Veritabanı hatasında uygulamayı tamamen çökertmek yerine post bulunamadı sayfasına atıyoruz
-  }
+  const post = await postService.getPostBySlug(params.slug);
 
   if (!post) {
     notFound();

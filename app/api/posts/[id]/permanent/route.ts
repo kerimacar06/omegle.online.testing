@@ -1,6 +1,5 @@
 import { NextResponse } from "next/server";
-import { connectMongoDB } from "@/lib/mongodb";
-import Post from "@/models/Post";
+import { postService } from "@/services/postService";
 import { clearCache } from "@/lib/ramCache";
 import { revalidatePath } from "next/cache";
 
@@ -9,10 +8,9 @@ export const dynamic = 'force-dynamic';
 export async function DELETE(request: Request, context: any) {
   try {
     const { id } = await context.params;
-    await connectMongoDB();
     
     // Veritabanından kalıcı olarak siliyoruz
-    await Post.findByIdAndDelete(id);
+    await postService.permanentDeletePost(id);
     
     // RAM Cache'i temizliyoruz
     clearCache();
