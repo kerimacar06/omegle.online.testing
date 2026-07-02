@@ -8,7 +8,8 @@ import FAQ from '@/components/FAQ';
 import BottomBanner from '@/components/BottomBanner';
 import Footer from '@/components/Footer';
 import { connectMongoDB } from '@/lib/mongodb';
-import Seo from '@/models/Seo';
+import Seo from "@/models/Seo";
+import { getFromCache, setInCache } from "@/lib/ramCache";
 import Faq from '@/models/Faq';
 
 export const dynamic = 'force-dynamic';
@@ -16,7 +17,12 @@ export const dynamic = 'force-dynamic';
 export async function generateMetadata() {
   try {
     await connectMongoDB();
-    const seoData = await Seo.findOne({ pageKey: 'home' });
+    const cacheKey = 'seo_home';
+    let seoData = getFromCache(cacheKey);
+    if (!seoData) {
+      seoData = await Seo.findOne({ pageKey: 'home' }).lean();
+      if (seoData) setInCache(cacheKey, seoData, 300);
+    }
     
     if (seoData) {
       return {
@@ -42,7 +48,12 @@ export async function generateMetadata() {
 async function getSeoJsonLd() {
   try {
     await connectMongoDB();
-    const seoData = await Seo.findOne({ pageKey: 'home' });
+    const cacheKey = 'seo_home';
+    let seoData = getFromCache(cacheKey);
+    if (!seoData) {
+      seoData = await Seo.findOne({ pageKey: 'home' }).lean();
+      if (seoData) setInCache(cacheKey, seoData, 300);
+    }
     return seoData?.jsonLd || null;
   } catch (error) {
     return null;
@@ -52,7 +63,11 @@ async function getSeoJsonLd() {
 async function getFaqJsonLd() {
   try {
     await connectMongoDB();
-    const faqs = await Faq.find({ isActive: true }).sort({ order: 1, createdAt: -1 });
+    let faqs = getFromCache('all_faqs_active');
+    if (!faqs) {
+      faqs = await Faq.find({ isActive: true }).sort({ order: 1, createdAt: -1 }).lean();
+      if (faqs) setInCache('all_faqs_active', faqs, 300);
+    }
     
     if (faqs.length === 0) return null;
 

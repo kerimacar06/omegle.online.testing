@@ -14,7 +14,12 @@ export async function generateMetadata() {
   try {
     await connectMongoDB();
     // Admin panelinden girdiğimiz pageKey: 'apps' olan ayarı bul
-    const seoData = await Seo.findOne({ pageKey: 'apps' });
+    const cacheKey = 'seo_apps';
+    let seoData = getFromCache(cacheKey);
+    if (!seoData) {
+      seoData = await Seo.findOne({ pageKey: 'apps' }).lean();
+      if (seoData) setInCache(cacheKey, seoData, 300);
+    }
     
     if (seoData) {
       return {
@@ -43,7 +48,12 @@ export async function generateMetadata() {
 async function getSeoJsonLd() {
   try {
     await connectMongoDB();
-    const seoData = await Seo.findOne({ pageKey: 'apps' });
+    const cacheKey = 'seo_apps';
+    let seoData = getFromCache(cacheKey);
+    if (!seoData) {
+      seoData = await Seo.findOne({ pageKey: 'apps' }).lean();
+      if (seoData) setInCache(cacheKey, seoData, 300);
+    }
     return seoData?.jsonLd || null;
   } catch (error) {
     return null;

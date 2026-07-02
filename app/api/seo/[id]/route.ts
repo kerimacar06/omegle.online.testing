@@ -1,6 +1,8 @@
 import { NextResponse } from "next/server";
 import { connectMongoDB } from "@/lib/mongodb";
 import Seo from "@/models/Seo";
+import { clearCache } from "@/lib/ramCache";
+import { revalidatePath } from "next/cache";
 
 export const dynamic = 'force-dynamic';
 
@@ -22,6 +24,8 @@ export async function PUT(request: Request, context: any) {
     const body = await request.json();
     await connectMongoDB();
     await Seo.findByIdAndUpdate(id, body);
+    clearCache();
+    revalidatePath("/", "layout");
     return NextResponse.json({ message: "Başarıyla güncellendi" }, { status: 200 });
   } catch (error) {
     return NextResponse.json({ message: "Hata" }, { status: 500 });
@@ -33,6 +37,8 @@ export async function DELETE(request: Request, context: any) {
     const { id } = await context.params;
     await connectMongoDB();
     await Seo.findByIdAndDelete(id);
+    clearCache();
+    revalidatePath("/", "layout");
     return NextResponse.json({ message: "Başarıyla silindi" }, { status: 200 });
   } catch (error) {
     return NextResponse.json({ message: "Hata" }, { status: 500 });

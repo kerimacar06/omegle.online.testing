@@ -1,6 +1,8 @@
 import { NextResponse } from "next/server";
 import { connectMongoDB } from "@/lib/mongodb";
 import Seo from "@/models/Seo";
+import { clearCache } from "@/lib/ramCache";
+import { revalidatePath } from "next/cache";
 
 export const dynamic = 'force-dynamic';
 
@@ -21,6 +23,8 @@ export async function POST(request: Request) {
     const body = await request.json();
     await connectMongoDB();
     await Seo.create(body);
+    clearCache();
+    revalidatePath("/", "layout");
     return NextResponse.json({ message: "SEO ayarı başarıyla oluşturuldu!" }, { status: 201 });
   } catch (error) {
     return NextResponse.json({ message: "Kayıt sırasında hata oluştu" }, { status: 500 });
