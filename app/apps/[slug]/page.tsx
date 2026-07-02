@@ -101,6 +101,12 @@ export default async function BlogPostPage(props: any) {
     }))
   } : null;
 
+  const createdAt = new Date(post.createdAt || Date.now());
+  const updatedAt = post.updatedAt ? new Date(post.updatedAt) : createdAt;
+  const isUpdated = updatedAt.getTime() > createdAt.getTime() + 60000; // 1 dakika fark varsa güncellenmiş say
+  const displayDate = isUpdated ? updatedAt : createdAt;
+  const dateLabel = isUpdated ? "Last Updated" : "Published";
+
   return (
     <>
       <script
@@ -177,9 +183,9 @@ export default async function BlogPostPage(props: any) {
               </svg>
             </div>
             <div className="flex flex-col">
-              <span className="text-sm text-gray-500 font-medium">Published</span>
+              <span className="text-sm text-gray-500 font-medium">{dateLabel}</span>
               <span className="text-gray-900 font-bold text-lg">
-                {new Date(post.createdAt || Date.now()).toLocaleDateString('en-GB', {
+                {displayDate.toLocaleDateString('en-GB', {
                   day: 'numeric',
                   month: 'numeric',
                   year: 'numeric'
