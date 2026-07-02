@@ -9,9 +9,9 @@ export const dynamic = 'force-dynamic';
 async function getStats() {
   try {
     await connectMongoDB();
-    const totalPosts = await Post.countDocuments();
-    const published = await Post.countDocuments({ status: { $ne: "Draft" } });
-    const drafts = await Post.countDocuments({ status: "Draft" });
+    const totalPosts = await Post.countDocuments({ isDeleted: { $ne: true } });
+    const published = await Post.countDocuments({ status: { $ne: "Draft" }, isDeleted: { $ne: true } });
+    const drafts = await Post.countDocuments({ status: "Draft", isDeleted: { $ne: true } });
     const activeBots = await Bot.countDocuments({ status: "Active" });
 
     return {

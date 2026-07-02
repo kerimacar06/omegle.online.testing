@@ -12,6 +12,24 @@ const globalForCache = globalThis as unknown as {
 const cache = globalForCache.ramCache ?? new Map<string, CacheItem>();
 if (process.env.NODE_ENV !== 'production') globalForCache.ramCache = cache;
 
+// YENİ: Otomatik Çöp Toplayıcı (Garbage Collector) - Bellek Sızıntısını (Memory Leak) Önler
+// Her 15 dakikada bir çalışır ve süresi dolmuş tüm verileri RAM'den temizler
+if (!globalForCache.ramCache) {
+  setInterval(() => {
+    const now = Date.now();
+    let cleaned = 0;
+    for (const [key, item] of cache.entries()) {
+      if (now > item.expiry) {
+        cache.delete(key);
+        cleaned++;
+      }
+    }
+    if (cleaned > 0) {
+      console.log(`[RAM CACHE GC] ${cleaned} adet süresi dolmuş veri bellekten silindi.`);
+    }
+  }, 15 * 60 * 1000);
+}
+
 export const getFromCache = (key: string) => {
   const item = cache.get(key);
   if (!item) return null;

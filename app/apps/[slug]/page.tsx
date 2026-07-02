@@ -13,13 +13,19 @@ export const dynamic = 'force-dynamic';
 export async function generateMetadata(props: any): Promise<Metadata> {
   const params = await props.params;
   
-  await connectMongoDB();
+  let post = null;
   const cacheKey = `post_meta_${params.slug}`;
-  let post = getFromCache(cacheKey);
-  
-  if (!post) {
-    post = await Post.findOne({ slug: params.slug, isDeleted: { $ne: true } }).lean();
-    if (post) setInCache(cacheKey, post, 300);
+
+  try {
+    await connectMongoDB();
+    post = getFromCache(cacheKey);
+    
+    if (!post) {
+      post = await Post.findOne({ slug: params.slug, isDeleted: { $ne: true } }).lean();
+      if (post) setInCache(cacheKey, post, 300);
+    }
+  } catch (error) {
+    console.error("Metadata DB error:", error);
   }
   
   if (!post) return { title: 'Sayfa Bulunamadı' };
@@ -44,14 +50,21 @@ export async function generateMetadata(props: any): Promise<Metadata> {
 export default async function BlogPostPage(props: any) {
   const params = await props.params;
 
-  // Veritabanına bağlan ve URL'deki slug ile eşleşen postu bul
-  await connectMongoDB();
+  let post = null;
   const cacheKey = `post_detail_${params.slug}`;
-  let post = getFromCache(cacheKey);
   
-  if (!post) {
-    post = await Post.findOne({ slug: params.slug, isDeleted: { $ne: true } }).lean();
-    if (post) setInCache(cacheKey, post, 300);
+  try {
+    // Veritabanına bağlan ve URL'deki slug ile eşleşen postu bul
+    await connectMongoDB();
+    post = getFromCache(cacheKey);
+    
+    if (!post) {
+      post = await Post.findOne({ slug: params.slug, isDeleted: { $ne: true } }).lean();
+      if (post) setInCache(cacheKey, post, 300);
+    }
+  } catch (error) {
+    console.error("Database connection or query error:", error);
+    // Veritabanı hatasında uygulamayı tamamen çökertmek yerine post bulunamadı sayfasına atıyoruz
   }
 
   if (!post) {

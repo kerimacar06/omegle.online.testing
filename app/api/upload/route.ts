@@ -11,6 +11,12 @@ export async function POST(req: NextRequest) {
       return NextResponse.json({ success: false, message: "No file uploaded" }, { status: 400 });
     }
 
+    // YENİ: Sadece resim dosyalarına izin ver (Güvenlik kontrolü)
+    const validMimeTypes = ['image/jpeg', 'image/png', 'image/webp', 'image/gif'];
+    if (!validMimeTypes.includes(file.type)) {
+      return NextResponse.json({ success: false, message: "Only image files (JPG, PNG, WEBP, GIF) are allowed" }, { status: 400 });
+    }
+
     const bytes = await file.arrayBuffer();
     const buffer = Buffer.from(bytes);
 
