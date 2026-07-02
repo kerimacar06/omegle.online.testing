@@ -1,6 +1,8 @@
 import { NextResponse } from "next/server";
 import { connectMongoDB } from "@/lib/mongodb";
 import Post from "@/models/Post";
+import { clearCache } from "@/lib/ramCache";
+import { revalidatePath } from "next/cache";
 
 // Önbelleğe almayı kesinlikle kapatır (Her seferinde veritabanına gider)
 export const dynamic = 'force-dynamic';
@@ -35,6 +37,12 @@ export async function PUT(request: Request, context: any) {
     await connectMongoDB();
     await Post.findByIdAndUpdate(id, body);
     
+    // YENİ: RAM Cache'i temizliyoruz ki güncel veriler anında yansısın
+    clearCache();
+    
+    // YENİ: Next.js'in kendi önbelleğini (Data/Route Cache) temizliyoruz
+    revalidatePath('/', 'layout');
+    
     return NextResponse.json({ message: "Post başarıyla güncellendi!" }, { status: 200 });
   } catch (error) {
     return NextResponse.json({ message: "Güncelleme hatası" }, { status: 500 });
@@ -45,7 +53,15 @@ export async function DELETE(request: Request, context: any) {
   try {
     const { id } = await context.params;
     await connectMongoDB();
-    await Post.findByIdAndDelete(id); // ID'yi bul ve sil
+    // YENİ: Artık kalıcı olarak silmiyoruz, sadece isDeleted bayrağını true yapıyoruz (Çöp Kutusu)
+    await Post.findByIdAndUpdate(id, { isDeleted: true });
+    
+    // YENİ: RAM Cache'i temizliyoruz ki silinen veri hemen kalksın
+    clearCache();
+    
+    // YENİ: Next.js'in kendi önbelleğini (Data/Route Cache) temizliyoruz
+    revalidatePath('/', 'layout');
+    
     return NextResponse.json({ message: "Post başarıyla silindi!" }, { status: 200 });
   } catch (error) {
     return NextResponse.json({ message: "Silme hatası" }, { status: 500 });

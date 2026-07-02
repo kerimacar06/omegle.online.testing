@@ -9,6 +9,7 @@ import BottomBanner from '@/components/BottomBanner';
 import Footer from '@/components/Footer';
 import { connectMongoDB } from '@/lib/mongodb';
 import Seo from '@/models/Seo';
+import Faq from '@/models/Faq';
 
 export const dynamic = 'force-dynamic';
 
@@ -48,17 +49,59 @@ async function getSeoJsonLd() {
   }
 }
 
-export default async function Home(props: any) {
-  const searchParams = await props.searchParams;
-  const showAll = searchParams?.showAll === 'true';
-  const jsonLd = await getSeoJsonLd();
+async function getFaqJsonLd() {
+  try {
+    await connectMongoDB();
+    const faqs = await Faq.find({ isActive: true }).sort({ order: 1, createdAt: -1 });
+    
+    if (faqs.length === 0) return null;
+
+    return {
+      '@context': 'https://schema.org',
+      '@type': 'FAQPage',
+      mainEntity: faqs.map((faq: any) => ({
+        '@type': 'Question',
+        name: faq.question,
+        acceptedAnswer: {
+          '@type': 'Answer',
+          text: faq.answer
+        }
+      }))
+    };
+  } catch (error) {
+    return null;
+  }
+}
+
+export default async function Home() {
+  const jsonLdString = await getSeoJsonLd();
+  const faqJsonLd = await getFaqJsonLd();
+
+  let combinedJsonLd: any[] = [];
+
+  if (jsonLdString) {
+    try {
+      const parsed = JSON.parse(jsonLdString);
+      if (Array.isArray(parsed)) {
+        combinedJsonLd.push(...parsed);
+      } else {
+        combinedJsonLd.push(parsed);
+      }
+    } catch (e) {
+      console.error("JSON-LD parse error:", e);
+    }
+  }
+
+  if (faqJsonLd) {
+    combinedJsonLd.push(faqJsonLd);
+  }
 
   return (
     <>
-      {jsonLd && (
+      {combinedJsonLd.length > 0 && (
         <script
           type="application/ld+json"
-          dangerouslySetInnerHTML={{ __html: jsonLd }}
+          dangerouslySetInnerHTML={{ __html: JSON.stringify(combinedJsonLd) }}
         />
       )}
       <main className="min-h-screen bg-white flex flex-col">
@@ -77,10 +120,18 @@ export default async function Home(props: any) {
         {/* 2. BÖLÜM: Orta Kısım (Saf beyaz arka plan) */}
         <section className="w-full bg-white py-12">
           {/* Alternatif Uygulamalar Bölümü */}
-          <Alternatives showAll={showAll} />
+          <Alternatives />
           
           {/* Neden Bizi Seçmelisiniz Bölümü */}
           <WhyChoose />
+          
+          {/* Ortadaki Yönlendirme Butonu */}
+          <div className="max-w-4xl mx-auto px-4 mt-12 mb-4 flex justify-center">
+            <a href="https://chathub.cam/" target="_blank" rel="noopener noreferrer" className="bg-red-500 hover:bg-red-600 text-white font-bold py-4 px-12 rounded-full text-xl shadow-lg hover:shadow-xl transition-all transform hover:-translate-y-1 flex items-center justify-center gap-3">
+              <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 10l4.553-2.276A1 1 0 0121 8.618v6.764a1 1 0 01-1.447.894L15 14M5 18h8a2 2 0 002-2V8a2 2 0 00-2-2H5a2 2 0 00-2 2v8a2 2 0 002 2z" /></svg>
+              Start Video Chat Now
+            </a>
+          </div>
         </section>
 
         {/* 3. BÖLÜM: Alt Kısım (Blokları ayıran hafif soğuk gri tonu) */}

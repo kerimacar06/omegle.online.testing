@@ -7,7 +7,7 @@ export default function DeleteButton({ id }: { id: string }) {
 
   const handleDelete = async () => {
     // Silmeden önce kullanıcıya emin misin diye sorarız
-    const confirmed = confirm("Bu yazıyı kalıcı olarak silmek istediğinize emin misiniz?");
+    const confirmed = confirm("Bu yazıyı çöp kutusuna taşımak istediğinize emin misiniz?");
     
     if (confirmed) {
       try {

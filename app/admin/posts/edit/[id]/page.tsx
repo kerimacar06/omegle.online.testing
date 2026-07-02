@@ -11,12 +11,14 @@ export default function EditPost() {
   const postId = params?.id;
 
   const [formData, setFormData] = useState({
-    title: "", slug: "", description: "", coverImage: "", content: "", rating: 5, voteCount: 0, pros: "", cons: "",
+    title: "", slug: "", description: "", coverImage: "", content: "", alternativeAppsContent: "", rating: 5, voteCount: 0, pros: "", cons: "",
     status: "Published",
+    author: "Omegle Test", // YENİ: Yazar alanı eklendi
     faqs: [] as { question: string, answer: string }[] // YENİ: SSS Alanı eklendi
   });
 
   const [isLoading, setIsLoading] = useState(false);
+  const [isUploadingImage, setIsUploadingImage] = useState(false); // YENİ: Resim yükleme durumu
   const [isFetching, setIsFetching] = useState(true);
   const [message, setMessage] = useState("");
 
@@ -36,10 +38,12 @@ export default function EditPost() {
             description: post.description || "",
             coverImage: post.coverImage || "",
             content: post.content || "",
+            alternativeAppsContent: post.alternativeAppsContent || "",
             rating: post.rating || 5,
             voteCount: post.voteCount || 0,
             pros: post.pros ? post.pros.join(", ") : "",
             cons: post.cons ? post.cons.join(", ") : "",
+            author: post.author || "Omegle Test", // YENİ: Yazar verisini çekiyoruz
             status: post.status || "Published",
             faqs: post.faqs || [] // YENİ: Veritabanındaki eski SSS'leri çekiyoruz
           });
@@ -60,6 +64,33 @@ export default function EditPost() {
   // Dinamik SSS Ekleme Fonksiyonu
   const handleAddFaq = () => {
     setFormData({ ...formData, faqs: [...formData.faqs, { question: "", answer: "" }] });
+  };
+
+  const handleImageUpload = async (e: React.ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0];
+    if (!file) return;
+
+    setIsUploadingImage(true);
+    const data = new FormData();
+    data.append("file", file);
+
+    try {
+      const res = await fetch("/api/upload", {
+        method: "POST",
+        body: data,
+      });
+      const result = await res.json();
+      if (result.success) {
+        setFormData((prev) => ({ ...prev, coverImage: result.url }));
+      } else {
+        alert("Upload failed: " + result.message);
+      }
+    } catch (error) {
+      console.error(error);
+      alert("Error uploading file.");
+    } finally {
+      setIsUploadingImage(false);
+    }
   };
 
   // SSS Silme Fonksiyonu
@@ -181,8 +212,27 @@ export default function EditPost() {
                 <textarea value={formData.description} onChange={(e) => setFormData({...formData, description: e.target.value})} rows={3} className="w-full px-4 py-2 border border-gray-300 rounded-md outline-none focus:border-blue-500 resize-none" placeholder="Brief summary of the article..." />
               </div>
               <div>
-                <label className="block text-sm font-medium text-gray-700 mb-1">Cover Image URL</label>
-                <input type="text" value={formData.coverImage} onChange={(e) => setFormData({...formData, coverImage: e.target.value})} className="w-full px-4 py-2 border border-gray-300 rounded-md outline-none focus:border-blue-500" placeholder="https://example.com/image.jpg" />
+                <label className="block text-sm font-medium text-gray-700 mb-1">Featured Image</label>
+                <div className="flex flex-col gap-2">
+                  <input 
+                    type="file" 
+                    accept="image/*"
+                    onChange={handleImageUpload}
+                    className="w-full text-sm text-gray-500 file:mr-4 file:py-2 file:px-4 file:rounded-md file:border-0 file:text-sm file:font-semibold file:bg-blue-50 file:text-blue-700 hover:file:bg-blue-100 outline-none" 
+                  />
+                  {isUploadingImage && <p className="text-sm text-blue-500">Uploading...</p>}
+                  {formData.coverImage && (
+                    <div className="w-full max-w-sm rounded-lg overflow-hidden border border-gray-200 mt-2 mb-2">
+                      <img src={formData.coverImage} alt="Preview" className="w-full h-auto" />
+                    </div>
+                  )}
+                  <label className="block text-xs font-medium text-gray-500 mt-2 mb-1">Or use image URL:</label>
+                  <input type="text" value={formData.coverImage} onChange={(e) => setFormData({...formData, coverImage: e.target.value})} className="w-full px-4 py-2 border border-gray-300 rounded-md outline-none focus:border-blue-500" placeholder="https://example.com/image.jpg" />
+                </div>
+              </div>
+              <div>
+                <label className="block text-sm font-medium text-gray-700 mb-1">Author (İsteğe Bağlı)</label>
+                <input type="text" value={formData.author} onChange={(e) => setFormData({...formData, author: e.target.value})} className="w-full px-4 py-2 border border-gray-300 rounded-md outline-none focus:border-blue-500" placeholder="Omegle Test" />
               </div>
               <div>
                 <label className="block text-sm font-medium text-gray-700 mb-1">Status</label>
@@ -197,7 +247,11 @@ export default function EditPost() {
           <div className="bg-white p-8 rounded-xl shadow-sm border border-gray-100">
             <h2 className="text-lg font-bold text-gray-900 mb-4">Content</h2>
             <div className="h-[400px] mb-12">
-              <Editor value={formData.content} onChange={(value) => setFormData({...formData, content: value})} />
+              <Editor value={formData.content} onChange={(value) => {
+                if (formData.content !== value) {
+                  setFormData({...formData, content: value});
+                }
+              }} />
             </div>
           </div>
 
@@ -218,13 +272,25 @@ export default function EditPost() {
               <div className="flex gap-4">
                 <div className="flex-1">
                   <label className="block text-sm font-medium text-gray-700 mb-1">Rating (1-5)</label>
-                  <input type="number" min="1" max="5" value={formData.rating} onChange={(e) => setFormData({...formData, rating: Number(e.target.value)})} className="w-full px-4 py-2 border border-gray-300 rounded-md outline-none focus:border-blue-500" />
+                  <input type="number" step="0.1" min="1" max="5" value={formData.rating} onChange={(e) => setFormData({...formData, rating: Number(e.target.value)})} className="w-full px-4 py-2 border border-gray-300 rounded-md outline-none focus:border-blue-500" />
                 </div>
                 <div className="flex-1">
                   <label className="block text-sm font-medium text-gray-700 mb-1">Vote Count (Oy Sayısı)</label>
                   <input type="number" min="0" value={formData.voteCount} onChange={(e) => setFormData({...formData, voteCount: Number(e.target.value)})} className="w-full px-4 py-2 border border-gray-300 rounded-md outline-none focus:border-blue-500" />
                 </div>
               </div>
+            </div>
+          </div>
+
+          <div className="bg-white p-8 rounded-xl shadow-sm border border-gray-100">
+            <h2 className="text-lg font-bold text-gray-900 mb-2">Alternative Apps</h2>
+            <p className="text-sm text-gray-500 mb-4">Add alternative apps section here. You can use the editor to bold app names and link them.</p>
+            <div className="h-[300px] mb-12">
+              <Editor value={formData.alternativeAppsContent} onChange={(value) => {
+                if (formData.alternativeAppsContent !== value) {
+                  setFormData({...formData, alternativeAppsContent: value});
+                }
+              }} />
             </div>
           </div>
 

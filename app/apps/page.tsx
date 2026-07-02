@@ -4,6 +4,7 @@ import Link from 'next/link';
 import { connectMongoDB } from '@/lib/mongodb';
 import Post from '@/models/Post';
 import Seo from '@/models/Seo'; // YENİ: SEO modelimizi içeri aktarıyoruz
+import { getFromCache, setInCache } from '@/lib/ramCache';
 
 export const dynamic = 'force-dynamic';
 
@@ -53,7 +54,15 @@ async function getSeoJsonLd() {
 async function getPosts() {
   try {
     await connectMongoDB();
-    const posts = await Post.find({ status: { $ne: 'Draft' } }).sort({ createdAt: -1 });
+    
+    const cacheKey = 'all_apps_posts';
+    let posts = getFromCache(cacheKey);
+    
+    if (!posts) {
+      posts = await Post.find({ status: { $ne: 'Draft' }, isDeleted: { $ne: true } }).sort({ createdAt: -1 }).lean();
+      setInCache(cacheKey, posts, 300); // 5 dakika
+    }
+
     return posts;
   } catch (error) {
     console.error("Postlar çekilemedi:", error);
