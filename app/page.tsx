@@ -77,12 +77,12 @@ export default async function Home() {
           dangerouslySetInnerHTML={{ __html: JSON.stringify(combinedJsonLd) }}
         />
       )}
-      <main className="min-h-screen bg-white flex flex-col">
-        {/* üst taraftaki düzenleme çubuğu */}
-        <Navbar /> 
+      <main className="min-h-screen bg-gradient-to-br from-indigo-100 via-purple-50 to-pink-100 flex flex-col">
+        {/* Navbar (Sadece bu sayfada sticky) */}
+        <Navbar isSticky={true} /> 
         
-        {/* 1. BÖLÜM: Üst Kısım (Hafif gri arka plan) */}
-        <section className="w-full bg-gray-50 pt-8 pb-12">
+        {/* 1. BÖLÜM: Üst Kısım */}
+        <section className="w-full pt-8 pb-12">
           {/* Sitenin ortasındaki giriş kartı */}
           <ChatStarter />
           
@@ -90,8 +90,8 @@ export default async function Home() {
           <InfoSection />
         </section>
         
-        {/* 2. BÖLÜM: Orta Kısım (Saf beyaz arka plan) */}
-        <section className="w-full bg-white py-12">
+        {/* 2. BÖLÜM: Orta Kısım */}
+        <section className="w-full py-12">
           {/* Alternatif Uygulamalar Bölümü */}
           <Alternatives />
           
@@ -107,8 +107,8 @@ export default async function Home() {
           </div>
         </section>
 
-        {/* 3. BÖLÜM: Alt Kısım (Blokları ayıran hafif soğuk gri tonu) */}
-        <section className="w-full bg-slate-50 pt-16">
+        {/* 3. BÖLÜM: Alt Kısım */}
+        <section className="w-full pt-16">
           {/* Kullanıcı Yorumları Bölümü */}
           <Reviews />
           

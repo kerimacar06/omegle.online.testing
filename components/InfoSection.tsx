@@ -1,7 +1,7 @@
 export default function InfoSection() {
   return (
     <div className="w-full max-w-3xl mx-auto mt-12 px-4 pb-12 text-gray-700 leading-relaxed">
-      
+
       {/* 3 Paragraflık Tanıtım ve Güvenlik Metinleri */}
       <div className="space-y-6 text-sm sm:text-base">
         <p>
