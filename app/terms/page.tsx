@@ -31,11 +31,14 @@ async function getSeoJsonLd() {
 }
 
 export default async function TermsPage() {
-  const jsonLd = await getSeoJsonLd();
+  const seoData = await seoService.getSeoData('terms');
+  const jsonLd = seoData?.jsonLd || null;
+
+  const breadcrumbName = seoData?.breadcrumb && seoData.breadcrumb.trim() !== "" ? seoData.breadcrumb : 'Terms of Service';
 
   const breadcrumbJsonLd = seoService.generateBreadcrumbJsonLd([
-    { name: 'Home', url: 'https://omegletest.online' },
-    { name: 'Terms of Service', url: 'https://omegletest.online/terms' }
+    { name: 'Omegle Test Online', url: 'https://omegletest.online' },
+    { name: breadcrumbName, url: 'https://omegletest.online/terms' }
   ]);
 
   return (
@@ -58,7 +61,7 @@ export default async function TermsPage() {
         <div className="flex items-center gap-2 text-sm text-gray-500 mb-8 font-medium">
           <Link href="/" className="hover:text-blue-500 transition-colors">Home</Link>
           <span>›</span>
-          <span className="text-gray-900">Terms of Service</span>
+          <span className="text-gray-900">{breadcrumbName}</span>
         </div>
         
         {/* Üst Kısım: Logo ve Buton Kartı */}

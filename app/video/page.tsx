@@ -27,10 +27,13 @@ export const metadata = {
   title: 'Video Chat | omegletest.online',
 };
 
-export default function VideoPage() {
+export default async function VideoPage() {
+  const seoData = await seoService.getSeoData('video');
+  const breadcrumbName = seoData?.breadcrumb && seoData.breadcrumb.trim() !== "" ? seoData.breadcrumb : 'Video Chat';
+
   const breadcrumbJsonLd = seoService.generateBreadcrumbJsonLd([
-    { name: 'Home', url: 'https://omegletest.online' },
-    { name: 'Video Chat', url: 'https://omegletest.online/video' }
+    { name: 'Omegle Test Online', url: 'https://omegletest.online' },
+    { name: breadcrumbName, url: 'https://omegletest.online/video' }
   ]);
 
   return (
@@ -46,7 +49,7 @@ export default function VideoPage() {
           <div className="flex items-center gap-2 text-sm text-gray-400 font-medium pb-4">
             <Link href="/" className="hover:text-blue-400 transition-colors">Home</Link>
             <span>›</span>
-            <span className="text-white">Video Chat</span>
+            <span className="text-white">{breadcrumbName}</span>
           </div>
         </div>
         <ChatVideoScreen />

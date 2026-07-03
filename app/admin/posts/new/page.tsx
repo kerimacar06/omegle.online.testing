@@ -8,6 +8,7 @@ export default function CreateNewPost() {
   const [formData, setFormData] = useState({
     title: "",
     slug: "",
+    breadcrumb: "", // YENİ: Breadcrumb alanı
     description: "",
     coverImage: "",
     content: "",
@@ -94,7 +95,7 @@ export default function CreateNewPost() {
 
       if (response.ok) {
         setMessage("✅ Post başarıyla veritabanına kaydedildi!");
-        setFormData({ title: "", slug: "", description: "", coverImage: "", content: "", alternativeAppsContent: "", rating: 5, voteCount: 0, pros: "", cons: "", author: "Omegle Test", status: "Published", faqs: [] });
+        setFormData({ title: "", slug: "", breadcrumb: "", description: "", coverImage: "", content: "", alternativeAppsContent: "", rating: 5, voteCount: 0, pros: "", cons: "", author: "Omegle Test", status: "Published", faqs: [] });
       } else {
         setMessage("❌ Kayıt sırasında bir hata oluştu.");
       }
@@ -143,11 +144,31 @@ export default function CreateNewPost() {
           <div className="bg-white p-8 rounded-xl shadow-sm border border-gray-100 flex flex-col md:flex-row gap-8">
             <div className="md:w-1/3">
               <h2 className="text-lg font-bold text-gray-900">Basic Information</h2>
-              <p className="text-sm text-gray-500 mt-1">Title, description and permalink settings.</p>
+              <p className="text-sm text-gray-500 mt-1">Title, breadcrumb, description and permalink settings.</p>
             </div>
             <div className="md:w-2/3 space-y-5">
               <div>
                 <label className="block text-sm font-medium text-gray-700 mb-1">Post Title *</label>
+                <input 
+                  type="text" 
+                  value={formData.title} 
+                  onChange={(e) => setFormData({...formData, title: e.target.value})}
+                  className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition" 
+                  required 
+                />
+              </div>
+
+              <div>
+                <label className="block text-sm font-medium text-gray-700 mb-1">Breadcrumb Name</label>
+                <input 
+                  type="text" 
+                  value={formData.breadcrumb} 
+                  onChange={(e) => setFormData({...formData, breadcrumb: e.target.value})}
+                  placeholder="Leave empty to use slug"
+                  className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition" 
+                />
+                <p className="text-xs text-gray-500 mt-1">Boş bırakılırsa otomatik olarak slug kullanılır.</p>
+              </div>
                 <input required type="text" value={formData.title} onChange={(e) => setFormData({...formData, title: e.target.value})} className="w-full px-4 py-2 border border-gray-300 rounded-md outline-none focus:border-blue-500" placeholder="e.g. Omegle Alternative Apps" />
               </div>
               <div>

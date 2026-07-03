@@ -31,11 +31,14 @@ async function getSeoJsonLd() {
 }
 
 export default async function PrivacyPage() {
-  const jsonLd = await getSeoJsonLd();
+  const seoData = await seoService.getSeoData('privacy');
+  const jsonLd = seoData?.jsonLd || null;
+
+  const breadcrumbName = seoData?.breadcrumb && seoData.breadcrumb.trim() !== "" ? seoData.breadcrumb : 'Privacy Policy';
 
   const breadcrumbJsonLd = seoService.generateBreadcrumbJsonLd([
-    { name: 'Home', url: 'https://omegletest.online' },
-    { name: 'Privacy Policy', url: 'https://omegletest.online/privacy' }
+    { name: 'Omegle Test Online', url: 'https://omegletest.online' },
+    { name: breadcrumbName, url: 'https://omegletest.online/privacy' }
   ]);
 
   return (
@@ -59,7 +62,7 @@ export default async function PrivacyPage() {
         <div className="flex items-center gap-2 text-sm text-gray-500 mb-8 font-medium">
           <Link href="/" className="hover:text-blue-500 transition-colors">Home</Link>
           <span>›</span>
-          <span className="text-gray-900">Privacy Policy</span>
+          <span className="text-gray-900">{breadcrumbName}</span>
         </div>
         
         {/* Üst Kısım: Logo Kartı */}

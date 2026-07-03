@@ -4,6 +4,7 @@ const postSchema = new mongoose.Schema(
   {
     title: { type: String, required: true },
     slug: { type: String, required: true, unique: true },
+    breadcrumb: { type: String }, // YENİ: Breadcrumb alanı
     description: { type: String },
     coverImage: { type: String },
     content: { type: String },

@@ -11,7 +11,7 @@ export default function EditPost() {
   const postId = params?.id;
 
   const [formData, setFormData] = useState({
-    title: "", slug: "", description: "", coverImage: "", content: "", alternativeAppsContent: "", rating: 5, voteCount: 0, pros: "", cons: "",
+    title: "", slug: "", breadcrumb: "", description: "", coverImage: "", content: "", alternativeAppsContent: "", rating: 5, voteCount: 0, pros: "", cons: "",
     status: "Published",
     author: "Omegle Test", // YENİ: Yazar alanı eklendi
     faqs: [] as { question: string, answer: string }[] // YENİ: SSS Alanı eklendi
@@ -35,6 +35,7 @@ export default function EditPost() {
           setFormData({
             title: post.title || "",
             slug: post.slug || "",
+            breadcrumb: post.breadcrumb || "",
             description: post.description || "",
             coverImage: post.coverImage || "",
             content: post.content || "",
@@ -186,12 +187,23 @@ export default function EditPost() {
           <div className="bg-white p-8 rounded-xl shadow-sm border border-gray-100 flex flex-col md:flex-row gap-8">
             <div className="md:w-1/3">
               <h2 className="text-lg font-bold text-gray-900">Basic Information</h2>
-              <p className="text-sm text-gray-500 mt-1">Title, description and permalink settings.</p>
+              <p className="text-sm text-gray-500 mt-1">Title, breadcrumb, description and permalink settings.</p>
             </div>
             <div className="md:w-2/3 space-y-5">
               <div>
                 <label className="block text-sm font-medium text-gray-700 mb-1">Post Title *</label>
                 <input required type="text" value={formData.title} onChange={(e) => setFormData({...formData, title: e.target.value})} className="w-full px-4 py-2 border border-gray-300 rounded-md outline-none focus:border-blue-500" placeholder="e.g. Omegle Alternative Apps" />
+              </div>
+              <div>
+                <label className="block text-sm font-medium text-gray-700 mb-1">Breadcrumb Name</label>
+                <input 
+                  type="text" 
+                  value={formData.breadcrumb} 
+                  onChange={(e) => setFormData({...formData, breadcrumb: e.target.value})}
+                  placeholder="Leave empty to use slug"
+                  className="w-full px-4 py-2 border border-gray-300 rounded-md outline-none focus:border-blue-500" 
+                />
+                <p className="text-xs text-gray-500 mt-1">Boş bırakılırsa otomatik olarak slug kullanılır.</p>
               </div>
               <div>
                 <label className="block text-sm font-medium text-gray-700 mb-1">URL Slug *</label>

@@ -36,10 +36,13 @@ export const metadata = {
   title: 'Text Chat | omegletest.online',
 };
 
-export default function TextPage() {
+export default async function TextPage() {
+  const seoData = await seoService.getSeoData('text');
+  const breadcrumbName = seoData?.breadcrumb && seoData.breadcrumb.trim() !== "" ? seoData.breadcrumb : 'Text Chat';
+
   const breadcrumbJsonLd = seoService.generateBreadcrumbJsonLd([
-    { name: 'Home', url: 'https://omegletest.online' },
-    { name: 'Text Chat', url: 'https://omegletest.online/text' }
+    { name: 'Omegle Test Online', url: 'https://omegletest.online' },
+    { name: breadcrumbName, url: 'https://omegletest.online/text' }
   ]);
 
   return (
@@ -52,10 +55,10 @@ export default function TextPage() {
         <Navbar />
         <div className="w-full max-w-4xl mx-auto px-4 pt-8">
           {/* Visual Breadcrumb */}
-          <div className="flex items-center gap-2 text-sm text-gray-500 font-medium">
+          <div className="flex items-center gap-2 text-sm text-gray-500 mb-8 font-medium">
             <Link href="/" className="hover:text-blue-500 transition-colors">Home</Link>
             <span>›</span>
-            <span className="text-gray-900">Text Chat</span>
+            <span className="text-gray-900">{breadcrumbName}</span>
           </div>
         </div>
         <ChatTextScreen />

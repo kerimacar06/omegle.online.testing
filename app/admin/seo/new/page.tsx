@@ -10,6 +10,7 @@ export default function NewSeoPage() {
     pageName: "",
     pageKey: "",
     title: "",
+    breadcrumb: "",
     description: "",
     keywords: "",
     canonicalUrl: "",
@@ -117,6 +118,17 @@ export default function NewSeoPage() {
               <div>
                 <label className="block text-sm font-medium text-gray-700 mb-1">Başlık (Title) *</label>
                 <input required type="text" value={formData.title} onChange={(e) => setFormData({...formData, title: e.target.value})} className="w-full px-4 py-2 border border-gray-300 rounded-md outline-none focus:border-blue-500" placeholder="Best Live Chat App Alternatives | Omegle.Online" />
+              </div>
+
+              <div>
+                <label className="block text-sm font-medium text-gray-700 mb-1">Breadcrumb Name</label>
+                <input 
+                  type="text" 
+                  value={formData.breadcrumb} 
+                  onChange={(e) => setFormData({...formData, breadcrumb: e.target.value})} 
+                  className="w-full px-4 py-2 border border-gray-300 rounded-md outline-none focus:border-blue-500" 
+                  placeholder="Leave empty to use default name" 
+                />
               </div>
               
               <div>

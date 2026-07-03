@@ -31,11 +31,14 @@ async function getSeoJsonLd() {
 }
 
 export default async function ContactPage() {
-  const jsonLd = await getSeoJsonLd();
+  const seoData = await seoService.getSeoData('contact');
+  const jsonLd = seoData?.jsonLd || null;
+
+  const breadcrumbName = seoData?.breadcrumb && seoData.breadcrumb.trim() !== "" ? seoData.breadcrumb : 'Contact';
 
   const breadcrumbJsonLd = seoService.generateBreadcrumbJsonLd([
-    { name: 'Home', url: 'https://omegletest.online' },
-    { name: 'Contact', url: 'https://omegletest.online/contact' }
+    { name: 'Omegle Test Online', url: 'https://omegletest.online' },
+    { name: breadcrumbName, url: 'https://omegletest.online/contact' }
   ]);
 
   return (
@@ -58,7 +61,7 @@ export default async function ContactPage() {
           <div className="flex items-center gap-2 text-sm text-gray-500 mb-8 font-medium">
             <Link href="/" className="hover:text-blue-500 transition-colors">Home</Link>
             <span>›</span>
-            <span className="text-gray-900">Contact</span>
+            <span className="text-gray-900">{breadcrumbName}</span>
           </div>
           
           {/* Üst Kısım: Logo Kartı ve Altındaki Contact Başlığı */}

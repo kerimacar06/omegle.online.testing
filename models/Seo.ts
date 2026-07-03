@@ -5,6 +5,7 @@ const seoSchema = new mongoose.Schema(
     pageName: { type: String, required: true }, // Örn: Uygulamalar
     pageKey: { type: String, required: true, unique: true }, // Örn: apps (URL ve kod içinde tanımak için)
     title: { type: String, required: true }, // Başlık
+    breadcrumb: { type: String }, // YENİ: Breadcrumb alanı
     description: { type: String }, // Açıklama
     keywords: { type: String }, // Anahtar Kelimeler
     canonicalUrl: { type: String }, // Canonical URL

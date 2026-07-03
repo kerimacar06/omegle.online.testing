@@ -46,7 +46,7 @@ export default async function BlogPostPage(props: any) {
   const maxRows = Math.max(prosLength, consLength);
 
   // Otomatik Article JSON-LD
-  const articleJsonLd = {
+  const articleJsonLd: any = {
     '@context': 'https://schema.org',
     '@type': 'Article',
     headline: post.title,
@@ -69,6 +69,17 @@ export default async function BlogPostPage(props: any) {
     dateModified: post.updatedAt || new Date().toISOString(),
   };
 
+  // Dinamik Oylama Sistemi JSON-LD
+  if (post.voteCount && post.voteCount > 0) {
+    articleJsonLd.aggregateRating = {
+      "@type": "AggregateRating",
+      "ratingValue": post.rating ? post.rating.toString() : "5",
+      "bestRating": "5",
+      "worstRating": "1",
+      "ratingCount": post.voteCount.toString()
+    };
+  }
+
   // Otomatik FAQ JSON-LD (Eğer SSS varsa)
   const faqJsonLd = post.faqs && post.faqs.length > 0 ? {
     '@context': 'https://schema.org',
@@ -84,10 +95,13 @@ export default async function BlogPostPage(props: any) {
   } : null;
 
   // YENİ: Otomatik Breadcrumb JSON-LD (Sayfa kaynağı için)
+  // Eğer admin panelinden breadcrumb girildiyse onu kullan, girilmediyse slug'daki tireleri boşluk yapıp kullan
+  const breadcrumbName = post.breadcrumb && post.breadcrumb.trim() !== "" ? post.breadcrumb : post.slug.replace(/-/g, ' ');
+
   const breadcrumbJsonLd = seoService.generateBreadcrumbJsonLd([
-    { name: 'Home', url: 'https://omegletest.online' },
+    { name: 'Omegle Test Online', url: 'https://omegletest.online' },
     { name: 'Omegle Alternatives', url: 'https://omegletest.online/apps' },
-    { name: post.title, url: `https://omegletest.online/apps/${post.slug}` }
+    { name: breadcrumbName, url: `https://omegletest.online/apps/${post.slug}` }
   ]);
 
   const createdAt = new Date(post.createdAt || Date.now());
@@ -122,7 +136,7 @@ export default async function BlogPostPage(props: any) {
           <span>›</span>
           <Link href="/apps" className="hover:text-blue-500 transition-colors">Apps</Link>
           <span>›</span>
-          <span className="text-gray-900 capitalize">{post.slug.replace(/-/g, ' ')}</span>
+          <span className="text-gray-900 capitalize">{breadcrumbName}</span>
         </div>
 
         {/* YENİ: Video Chat Yönlendirme Banner'ı */}
@@ -138,12 +152,7 @@ export default async function BlogPostPage(props: any) {
           </Link>
         </div>
 
-        {/* Üst Kısım: Başlık */}
-        <div className="text-center mb-10">
-          <h1 className="text-4xl md:text-5xl font-extrabold text-gray-900 mb-6 leading-tight">
-            {post.title}
-          </h1>
-        </div>
+
 
         {/* Kapak Fotoğrafı */}
         {post.coverImage ? (
