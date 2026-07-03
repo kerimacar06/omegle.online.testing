@@ -46,7 +46,11 @@ export default async function Home() {
   const jsonLdString = await getSeoJsonLd();
   const faqJsonLd = await getFaqJsonLd();
 
-  let combinedJsonLd: any[] = [];
+  const breadcrumbJsonLd = seoService.generateBreadcrumbJsonLd([
+    { name: 'Omegle Test Online', url: 'https://omegletest.online' }
+  ]);
+
+  let combinedJsonLd: any[] = [breadcrumbJsonLd];
 
   if (jsonLdString) {
     try {

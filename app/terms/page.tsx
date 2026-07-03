@@ -26,9 +26,7 @@ export async function generateMetadata() {
   };
 }
 
-async function getSeoJsonLd() {
-  return await seoService.getSeoJsonLd('terms');
-}
+
 
 export default async function TermsPage() {
   const seoData = await seoService.getSeoData('terms');

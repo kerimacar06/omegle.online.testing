@@ -3,6 +3,22 @@ import Footer from '@/components/Footer';
 import Link from 'next/link';
 import { seoService } from '@/services/seoService';
 
+export const dynamic = 'force-dynamic';
+
+export async function generateMetadata() {
+  const seoData = await seoService.getSeoData('text');
+  if (seoData) {
+    return {
+      title: seoData.title,
+      description: seoData.description,
+      keywords: seoData.keywords,
+      alternates: { canonical: seoData.canonicalUrl },
+      robots: seoData.robots,
+    };
+  }
+  return { title: 'Text Chat | omegletest.online' };
+}
+
 function ChatTextScreen() {
   return (
     <div className="flex-grow flex flex-col max-w-4xl mx-auto w-full px-4 py-8 justify-between h-[calc(100vh-160px)]">
@@ -32,12 +48,11 @@ function ChatTextScreen() {
   );
 }
 
-export const metadata = {
-  title: 'Text Chat | omegletest.online',
-};
+
 
 export default async function TextPage() {
   const seoData = await seoService.getSeoData('text');
+  const jsonLd = seoData?.jsonLd || null;
   const breadcrumbName = seoData?.breadcrumb && seoData.breadcrumb.trim() !== "" ? seoData.breadcrumb : 'Text Chat';
 
   const breadcrumbJsonLd = seoService.generateBreadcrumbJsonLd([
@@ -47,6 +62,12 @@ export default async function TextPage() {
 
   return (
     <>
+      {jsonLd && (
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{ __html: jsonLd }}
+        />
+      )}
       <script
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbJsonLd) }}

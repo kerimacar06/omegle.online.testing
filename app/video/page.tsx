@@ -3,6 +3,22 @@ import Footer from '@/components/Footer';
 import Link from 'next/link';
 import { seoService } from '@/services/seoService';
 
+export const dynamic = 'force-dynamic';
+
+export async function generateMetadata() {
+  const seoData = await seoService.getSeoData('video');
+  if (seoData) {
+    return {
+      title: seoData.title,
+      description: seoData.description,
+      keywords: seoData.keywords,
+      alternates: { canonical: seoData.canonicalUrl },
+      robots: seoData.robots,
+    };
+  }
+  return { title: 'Video Chat | omegletest.online' };
+}
+
 function ChatVideoScreen() {
   return (
     <div className="flex-grow flex flex-col items-center justify-center bg-gray-900 text-white p-6 text-center">
@@ -23,12 +39,11 @@ function ChatVideoScreen() {
   );
 }
 
-export const metadata = {
-  title: 'Video Chat | omegletest.online',
-};
+
 
 export default async function VideoPage() {
   const seoData = await seoService.getSeoData('video');
+  const jsonLd = seoData?.jsonLd || null;
   const breadcrumbName = seoData?.breadcrumb && seoData.breadcrumb.trim() !== "" ? seoData.breadcrumb : 'Video Chat';
 
   const breadcrumbJsonLd = seoService.generateBreadcrumbJsonLd([
@@ -38,6 +53,12 @@ export default async function VideoPage() {
 
   return (
     <>
+      {jsonLd && (
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{ __html: jsonLd }}
+        />
+      )}
       <script
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbJsonLd) }}

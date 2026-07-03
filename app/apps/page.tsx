@@ -29,11 +29,7 @@ export async function generateMetadata() {
   };
 }
 
-// 2. YENİ: JSON-LD Verisini Çeken Fonksiyon
-// Zengin Google arama sonuçları için eklediğin JSON kodunu çeker
-async function getSeoJsonLd() {
-  return await seoService.getSeoJsonLd('apps');
-}
+
 
 // Veritabanından postları çeken fonksiyon
 async function getPosts() {

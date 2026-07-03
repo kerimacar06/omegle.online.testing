@@ -26,9 +26,7 @@ export async function generateMetadata() {
   };
 }
 
-async function getSeoJsonLd() {
-  return await seoService.getSeoJsonLd('contact');
-}
+
 
 export default async function ContactPage() {
   const seoData = await seoService.getSeoData('contact');

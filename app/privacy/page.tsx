@@ -26,9 +26,7 @@ export async function generateMetadata() {
   };
 }
 
-async function getSeoJsonLd() {
-  return await seoService.getSeoJsonLd('privacy');
-}
+
 
 export default async function PrivacyPage() {
   const seoData = await seoService.getSeoData('privacy');
