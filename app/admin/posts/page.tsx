@@ -56,8 +56,8 @@ export default async function AdminPostsPage() {
                 Henüz hiç post eklenmemiş. "Add New Post" butonuna tıklayarak ilk içeriğinizi oluşturun.
               </div>
             ) : (
-              posts.map((post) => (
-                <div key={post._id.toString()} className="p-6 flex items-center justify-between hover:bg-gray-50 transition">
+              posts.map((post: any) => (
+                <div key={post._id.toString()} className="p-6 flex items-center justify-between border-b border-gray-100 last:border-0 hover:bg-gray-50/50 transition">
                   <div>
                     <h3 className="text-lg font-medium text-gray-900 mb-1">{post.title}</h3>
                     <div className="text-sm text-gray-500 flex items-center gap-2">

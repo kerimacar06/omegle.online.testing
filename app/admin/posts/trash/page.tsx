@@ -60,8 +60,8 @@ export default async function AdminTrashPage() {
                 <p className="text-gray-500 mt-1">Şu an silinmiş herhangi bir post bulunmuyor.</p>
               </div>
             ) : (
-              posts.map((post) => (
-                <div key={post._id.toString()} className="p-6 flex items-center justify-between hover:bg-gray-50 transition">
+              posts.map((post: any) => (
+                <div key={post._id.toString()} className="p-6 flex items-center justify-between border-b border-gray-100 last:border-0 hover:bg-red-50/50 transition">
                   <div className="opacity-70">
                     <h3 className="text-lg font-medium text-gray-900 mb-1 line-through">{post.title}</h3>
                     <div className="text-sm text-gray-500 flex items-center gap-2">
