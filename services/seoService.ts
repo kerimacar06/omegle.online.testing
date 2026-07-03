@@ -33,6 +33,23 @@ export const seoService = {
   },
 
   /**
+   * Sayfa hiyerarşisi (Breadcrumb) için dinamik JSON-LD üretir
+   * items dizisi: [{ name: "Ana Sayfa", url: "https://..." }, ...] şeklinde gelir.
+   */
+  generateBreadcrumbJsonLd(items: { name: string, url: string }[]) {
+    return {
+      '@context': 'https://schema.org',
+      '@type': 'BreadcrumbList',
+      itemListElement: items.map((item, index) => ({
+        '@type': 'ListItem',
+        position: index + 1,
+        name: item.name,
+        item: item.url
+      }))
+    };
+  },
+
+  /**
    * Admin paneli için tüm SEO ayarlarını getirir
    */
   async getAllSeo() {

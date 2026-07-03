@@ -1,16 +1,12 @@
 import Link from "next/link";
-import { connectMongoDB } from "@/lib/mongodb";
-import Post from "@/models/Post";
+import { postService } from "@/services/postService";
 import { RestoreButton, PermanentDeleteButton } from "@/components/TrashButtons";
 
 export const dynamic = 'force-dynamic';
 
 async function getDeletedPosts() {
   try {
-    await connectMongoDB();
-    // Sadece silinmiş olan (isDeleted: true) postları getir
-    const posts = await Post.find({ isDeleted: true }).sort({ updatedAt: -1 });
-    return posts;
+    return await postService.getDeletedPosts();
   } catch (error) {
     console.error("Çöp kutusu çekilemedi:", error);
     return []; 

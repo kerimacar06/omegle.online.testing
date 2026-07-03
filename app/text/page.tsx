@@ -1,5 +1,7 @@
 import Navbar from '@/components/Navbar';
 import Footer from '@/components/Footer';
+import Link from 'next/link';
+import { seoService } from '@/services/seoService';
 
 function ChatTextScreen() {
   return (
@@ -35,11 +37,30 @@ export const metadata = {
 };
 
 export default function TextPage() {
+  const breadcrumbJsonLd = seoService.generateBreadcrumbJsonLd([
+    { name: 'Home', url: 'https://omegletest.online' },
+    { name: 'Text Chat', url: 'https://omegletest.online/text' }
+  ]);
+
   return (
-    <main className="min-h-screen bg-gray-50 flex flex-col justify-between">
-      <Navbar />
-      <ChatTextScreen />
-      <Footer />
-    </main>
+    <>
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbJsonLd) }}
+      />
+      <main className="min-h-screen bg-gray-50 flex flex-col justify-between">
+        <Navbar />
+        <div className="w-full max-w-4xl mx-auto px-4 pt-8">
+          {/* Visual Breadcrumb */}
+          <div className="flex items-center gap-2 text-sm text-gray-500 font-medium">
+            <Link href="/" className="hover:text-blue-500 transition-colors">Home</Link>
+            <span>›</span>
+            <span className="text-gray-900">Text Chat</span>
+          </div>
+        </div>
+        <ChatTextScreen />
+        <Footer />
+      </main>
+    </>
   );
 }

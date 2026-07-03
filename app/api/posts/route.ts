@@ -3,7 +3,6 @@ import { postService } from "@/services/postService";
 import { clearCache } from "@/lib/ramCache";
 import { revalidatePath } from "next/cache";
 
-// NOT: Burası bizim "Garsonumuz". Admin panelinden gelen istekleri alır, Service'e iletir.
 export const dynamic = 'force-dynamic';
 
 // Yeni Post Ekleme İşlemi (POST İsteği)
@@ -12,7 +11,7 @@ export async function POST(request: Request) {
     // Admin panelindeki formdan gönderilen veriyi alıyoruz
     const body = await request.json(); 
     
-    // Veriyi direkt Mongoose ile değil, "Aşçımız" olan Service katmanından kaydediyoruz
+    // Veriyi Service katmanından kaydediyoruz
     const newPost = await postService.createPost(body);
 
     // YENİ: RAM Cache'i temizliyoruz ki yeni eklenen post anında görünsün

@@ -44,6 +44,12 @@ export default async function AppsPage() {
   const posts = await getPosts();
   const jsonLd = await getSeoJsonLd(); // JSON-LD verimizi çekiyoruz
 
+  // Otomatik Breadcrumb JSON-LD
+  const breadcrumbJsonLd = seoService.generateBreadcrumbJsonLd([
+    { name: 'Home', url: 'https://omegletest.online' },
+    { name: 'Omegle Alternatives', url: 'https://omegletest.online/apps' }
+  ]);
+
   const gradients = [
     'from-pink-500 to-purple-500',
     'from-blue-500 to-teal-400',
@@ -62,11 +68,22 @@ export default async function AppsPage() {
           dangerouslySetInnerHTML={{ __html: jsonLd }}
         />
       )}
+      
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbJsonLd) }}
+      />
 
       <main className="min-h-screen bg-gray-50 flex flex-col justify-between">
         <Navbar />
 
-        <div className="w-full max-w-5xl mx-auto px-4 py-12 flex-grow">
+        <div className="w-full max-w-5xl mx-auto px-4 py-8 flex-grow">
+          {/* Visual Breadcrumb */}
+          <div className="flex items-center gap-2 text-sm text-gray-500 mb-8 font-medium">
+            <Link href="/" className="hover:text-blue-500 transition-colors">Home</Link>
+            <span>›</span>
+            <span className="text-gray-900">Omegle Alternatives</span>
+          </div>
 
           {/* Üst Kısım: Logo Kartı ve Altındaki Başlık */}
           <div className="flex flex-col items-center justify-center mb-16">

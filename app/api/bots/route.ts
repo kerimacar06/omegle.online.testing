@@ -1,5 +1,7 @@
 import { NextResponse } from "next/server";
 import { botService } from "@/services/botService";
+import { clearCache } from "@/lib/ramCache";
+import { revalidatePath } from "next/cache";
 
 export const dynamic = 'force-dynamic';
 
@@ -18,6 +20,8 @@ export async function POST(request: Request) {
   try {
     const body = await request.json();
     await botService.createBot(body);
+    clearCache();
+    revalidatePath("/", "layout");
     return NextResponse.json({ message: "Bot başarıyla oluşturuldu!" }, { status: 201 });
   } catch (error) {
     return NextResponse.json({ message: "Bot eklenirken hata oluştu" }, { status: 500 });

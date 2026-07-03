@@ -4,6 +4,7 @@ import { notFound } from 'next/navigation';
 import { Metadata } from 'next';
 import Link from 'next/link';
 import { postService } from '@/services/postService';
+import { seoService } from '@/services/seoService';
 
 export const dynamic = 'force-dynamic';
 
@@ -82,6 +83,13 @@ export default async function BlogPostPage(props: any) {
     }))
   } : null;
 
+  // YENİ: Otomatik Breadcrumb JSON-LD (Sayfa kaynağı için)
+  const breadcrumbJsonLd = seoService.generateBreadcrumbJsonLd([
+    { name: 'Home', url: 'https://omegletest.online' },
+    { name: 'Omegle Alternatives', url: 'https://omegletest.online/apps' },
+    { name: post.title, url: `https://omegletest.online/apps/${post.slug}` }
+  ]);
+
   const createdAt = new Date(post.createdAt || Date.now());
   const updatedAt = post.updatedAt ? new Date(post.updatedAt) : createdAt;
   const isUpdated = updatedAt.getTime() > createdAt.getTime() + 60000; // 1 dakika fark varsa güncellenmiş say
@@ -100,6 +108,10 @@ export default async function BlogPostPage(props: any) {
           dangerouslySetInnerHTML={{ __html: JSON.stringify(faqJsonLd) }}
         />
       )}
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbJsonLd) }}
+      />
       <main className="min-h-screen bg-gray-50 flex flex-col justify-between">
       <Navbar />
       

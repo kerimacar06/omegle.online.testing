@@ -7,18 +7,13 @@ import Reviews from '@/components/Reviews';
 import FAQ from '@/components/FAQ';
 import BottomBanner from '@/components/BottomBanner';
 import Footer from '@/components/Footer';
-
-// NOT: Veritabanı ile (Mongoose vb.) burada direkt konuşmuyoruz. 
-// Bunun yerine yazdığımız "Servisleri" çağırıyoruz. Bu sayede kod temiz kalıyor.
 import { seoService } from '@/services/seoService';
 import { faqService } from '@/services/faqService';
 
 // Sayfanın her istendiğinde yeniden oluşturulmasını (önbellekten gelmemesini) sağlar.
 export const dynamic = 'force-dynamic';
 
-// Next.js'in özel fonksiyonudur. Sayfanın Google'daki görünümünü (Title, Description) ayarlar.
 export async function generateMetadata() {
-  // Veriyi API'ye istek atmadan, doğrudan kendi servisimizden (aşçıdan) alıyoruz.
   const seoData = await seoService.getSeoData('home');
   
   if (seoData) {
@@ -47,9 +42,7 @@ async function getFaqJsonLd() {
   return await faqService.getFaqJsonLd();
 }
 
-// Ana sayfa bileşenimiz. 'async' olduğu için sayfayı oluştururken verileri bekleyebilir.
 export default async function Home() {
-  // Google için yapılandırılmış verileri (JSON-LD) servislerden çekiyoruz.
   const jsonLdString = await getSeoJsonLd();
   const faqJsonLd = await getFaqJsonLd();
 

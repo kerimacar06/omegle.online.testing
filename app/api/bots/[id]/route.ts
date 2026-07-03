@@ -1,5 +1,7 @@
 import { NextResponse } from "next/server";
 import { botService } from "@/services/botService";
+import { clearCache } from "@/lib/ramCache";
+import { revalidatePath } from "next/cache";
 
 export const dynamic = 'force-dynamic';
 
@@ -21,6 +23,8 @@ export async function PUT(request: Request, context: any) {
     const { id } = await context.params;
     const body = await request.json();
     await botService.updateBot(id, body);
+    clearCache();
+    revalidatePath("/", "layout");
     return NextResponse.json({ message: "Bot başarıyla güncellendi!" }, { status: 200 });
   } catch (error) {
     return NextResponse.json({ message: "Güncelleme hatası" }, { status: 500 });
@@ -32,6 +36,8 @@ export async function DELETE(request: Request, context: any) {
   try {
     const { id } = await context.params;
     await botService.deleteBot(id);
+    clearCache();
+    revalidatePath("/", "layout");
     return NextResponse.json({ message: "Bot başarıyla silindi!" }, { status: 200 });
   } catch (error) {
     return NextResponse.json({ message: "Silme hatası" }, { status: 500 });

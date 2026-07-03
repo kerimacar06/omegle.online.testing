@@ -2,8 +2,6 @@ import { connectMongoDB } from '@/lib/mongodb';
 import Post from '@/models/Post';
 import { getFromCache, setInCache } from '@/lib/ramCache';
 
-// NOT: Servis katmanı, Mongoose kodlarının ve veritabanı karmaşasının dışarıya (sayfalara ve API'lere) sızmasını engeller.
-// Burada yapılan değişiklikler tüm projeye otomatik yansır.
 export const postService = {
   /**
    * Admin paneli veya API için tüm postları getirir
@@ -24,6 +22,47 @@ export const postService = {
       return [];
     }
   },
+
+  /**
+   * Admin paneli için sadece silinmemiş (aktif) postları getirir
+   */
+  async getActivePosts() {
+    try {
+      const cacheKey = 'admin_active_posts';
+      let posts = getFromCache(cacheKey);
+      
+      if (!posts) {
+        await connectMongoDB();
+        posts = await Post.find({ isDeleted: { $ne: true } }).sort({ createdAt: -1 }).lean();
+        if (posts) setInCache(cacheKey, posts, 300);
+      }
+      return posts || [];
+    } catch (error) {
+      console.error("Aktif postlar çekilemedi:", error);
+      return [];
+    }
+  },
+
+  /**
+   * Çöp kutusundaki (silinmiş) postları getirir
+   */
+  async getDeletedPosts() {
+    try {
+      const cacheKey = 'admin_deleted_posts';
+      let posts = getFromCache(cacheKey);
+      
+      if (!posts) {
+        await connectMongoDB();
+        posts = await Post.find({ isDeleted: true }).sort({ updatedAt: -1 }).lean();
+        if (posts) setInCache(cacheKey, posts, 300);
+      }
+      return posts || [];
+    } catch (error) {
+      console.error("Çöp kutusu çekilemedi:", error);
+      return [];
+    }
+  },
+
 
   /**
    * Yayında olan (Draft veya Deleted olmayan) postları getirir (Apps sayfası için)

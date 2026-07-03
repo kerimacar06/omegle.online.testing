@@ -33,6 +33,11 @@ async function getSeoJsonLd() {
 export default async function ContactPage() {
   const jsonLd = await getSeoJsonLd();
 
+  const breadcrumbJsonLd = seoService.generateBreadcrumbJsonLd([
+    { name: 'Home', url: 'https://omegletest.online' },
+    { name: 'Contact', url: 'https://omegletest.online/contact' }
+  ]);
+
   return (
     <>
       {jsonLd && (
@@ -41,10 +46,20 @@ export default async function ContactPage() {
           dangerouslySetInnerHTML={{ __html: jsonLd }}
         />
       )}
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbJsonLd) }}
+      />
       <main className="min-h-screen bg-gray-50 flex flex-col justify-between">
         <Navbar />
 
-        <div className="w-full max-w-6xl mx-auto px-4 py-16 flex-grow">
+        <div className="w-full max-w-6xl mx-auto px-4 py-8 flex-grow">
+          {/* Visual Breadcrumb */}
+          <div className="flex items-center gap-2 text-sm text-gray-500 mb-8 font-medium">
+            <Link href="/" className="hover:text-blue-500 transition-colors">Home</Link>
+            <span>›</span>
+            <span className="text-gray-900">Contact</span>
+          </div>
           
           {/* Üst Kısım: Logo Kartı ve Altındaki Contact Başlığı */}
           <div className="flex flex-col items-center justify-center mb-20">

@@ -1,5 +1,7 @@
 import Navbar from '@/components/Navbar';
 import Footer from '@/components/Footer';
+import Link from 'next/link';
+import { seoService } from '@/services/seoService';
 
 function ChatVideoScreen() {
   return (
@@ -26,11 +28,30 @@ export const metadata = {
 };
 
 export default function VideoPage() {
+  const breadcrumbJsonLd = seoService.generateBreadcrumbJsonLd([
+    { name: 'Home', url: 'https://omegletest.online' },
+    { name: 'Video Chat', url: 'https://omegletest.online/video' }
+  ]);
+
   return (
-    <main className="min-h-screen bg-gray-50 flex flex-col justify-between">
-      <Navbar />
-      <ChatVideoScreen />
-      <Footer />
-    </main>
+    <>
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbJsonLd) }}
+      />
+      <main className="min-h-screen bg-gray-50 flex flex-col justify-between">
+        <Navbar />
+        <div className="w-full max-w-4xl mx-auto px-4 pt-8 bg-gray-900">
+          {/* Visual Breadcrumb */}
+          <div className="flex items-center gap-2 text-sm text-gray-400 font-medium pb-4">
+            <Link href="/" className="hover:text-blue-400 transition-colors">Home</Link>
+            <span>›</span>
+            <span className="text-white">Video Chat</span>
+          </div>
+        </div>
+        <ChatVideoScreen />
+        <Footer />
+      </main>
+    </>
   );
 }

@@ -1,16 +1,12 @@
 import Link from "next/link";
-import { connectMongoDB } from "@/lib/mongodb";
-import Post from "@/models/Post";
+import { postService } from "@/services/postService";
 import DeleteButton from "@/components/DeleteButton"; // YENİ: Silme butonumuzu çağırdık
 
 export const dynamic = 'force-dynamic';
 
 async function getPosts() {
   try {
-    await connectMongoDB();
-    // YENİ: Sadece isDeleted özelliği true OLMAYAN (yani silinmemiş) postları getir
-    const posts = await Post.find({ isDeleted: { $ne: true } }).sort({ createdAt: -1 });
-    return posts;
+    return await postService.getActivePosts();
   } catch (error) {
     console.error("Postlar çekilemedi:", error);
     return []; 
