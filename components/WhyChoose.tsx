@@ -40,7 +40,7 @@ const reasonsData = [
 export default function WhyChoose() {
   return (
     <div className="w-full max-w-5xl mx-auto mt-16 px-4 pb-12 text-center">
-      
+
       {/* Bölüm Başlığı */}
       <h2 className="text-3xl font-bold text-gray-800 mb-12">
         Why Choose Omegletest Online?
@@ -49,13 +49,13 @@ export default function WhyChoose() {
       {/* md:grid-cols-3 ile yan yana 3'lü dizilim */}
       <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
         {reasonsData.map((reason, index) => (
-          <div 
+          <div
             key={index}
             className="bg-white p-6 rounded-xl shadow border border-gray-100 flex flex-col items-center hover:-translate-y-1 transition-transform duration-300"
           >
             {/* İkon Konteyneri */}
             <div className="mb-6">
-                {reason.icon}
+              {reason.icon}
             </div>
 
             {/* Metin İçeriği */}
