@@ -15,7 +15,7 @@ export const dynamic = 'force-dynamic';
 
 export async function generateMetadata() {
   const seoData = await seoService.getSeoData('home');
-  
+
   if (seoData) {
     return {
       title: seoData.title,
@@ -27,7 +27,7 @@ export async function generateMetadata() {
       robots: seoData.robots,
     };
   }
-  
+
   return {
     title: 'Omegle Test - talk to strangers',
     description: 'Connect with strangers worldwide in real-time video chat with omegletest.online',
@@ -79,25 +79,50 @@ export default async function Home() {
       )}
       <main className="min-h-screen bg-gradient-to-br from-indigo-100 via-purple-50 to-pink-100 flex flex-col">
         {/* Navbar (Sadece bu sayfada sticky) */}
-        <Navbar isSticky={true} /> 
-        
+        <Navbar isSticky={true} />
+
+
+        {/* === ÖZEL GÖRSEL BAŞLANGICI === */}
+        <div
+          className="absolute z-0 pointer-events-none"
+          style={{
+            top: '100px',    // (DİKEY) Yukarıdan aşağıya ne kadar ineceğini belirler
+            right: '10px',   // (YATAY) Sağ köşeden sola doğru ne kadar geleceğini belirler
+          }}
+        >
+          {/* Görselin adı tam olarak sizin belirttiğiniz gibi: */}
+          <img
+            src="/selfie çeken kız.png"
+            alt="Selfie Çeken Kız"
+            style={{
+              width: '700px',   // Görselin büyüklüğü. Bu rakamla oynayıp büyütebilirsiniz.
+              maxWidth: 'none', // Sırf ekranın sağında duruyor diye otomatik KÜÇÜLMESİNİ ENGELLER.
+              height: 'auto'
+            }}
+            className="drop-shadow-2xl"
+          />
+        </div>
+        {/* === ÖZEL GÖRSEL BİTİŞİ === */}
+
+
+
         {/* 1. BÖLÜM: Üst Kısım */}
         <section className="w-full pt-8 pb-12">
           {/* Sitenin ortasındaki giriş kartı */}
           <ChatStarter />
-          
+
           {/* Alt kısımdaki bilgilendirme ve About metinleri */}
           <InfoSection />
         </section>
-        
+
         {/* 2. BÖLÜM: Orta Kısım */}
         <section className="w-full py-12">
           {/* Alternatif Uygulamalar Bölümü */}
           <Alternatives />
-          
+
           {/* Neden Bizi Seçmelisiniz Bölümü */}
           <WhyChoose />
-          
+
           {/* Ortadaki Yönlendirme Butonu */}
           <div className="max-w-4xl mx-auto px-4 mt-12 mb-4 flex justify-center">
             <a href="https://chathub.cam/" target="_blank" rel="noopener noreferrer" className="bg-red-500 hover:bg-red-600 text-white font-bold py-4 px-12 rounded-full text-xl shadow-lg hover:shadow-xl transition-all transform hover:-translate-y-1 flex items-center justify-center gap-3">
@@ -111,7 +136,7 @@ export default async function Home() {
         <section className="w-full pt-16">
           {/* Kullanıcı Yorumları Bölümü */}
           <Reviews />
-          
+
           {/* SSS Bölümü */}
           <FAQ />
 
