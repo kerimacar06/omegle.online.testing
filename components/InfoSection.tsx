@@ -2,14 +2,14 @@ export default function InfoSection() {
   return (
     <>
       <div className="w-full max-w-6xl mx-auto mt-20 px-4 pb-10">
-        
+
         {/* 3 Paragraph Section - Temiz & Renksiz 3 Kolon Düzeni */}
         <div className="grid grid-cols-3 gap-2 sm:gap-10">
-          
+
           {/* Madde 1 */}
           <div className="flex flex-col items-center text-center p-2 sm:p-6 bg-white border border-slate-200 rounded-lg sm:rounded-xl shadow-sm hover:shadow-md transition-shadow duration-200">
             <div className="w-8 h-8 sm:w-12 sm:h-12 bg-slate-100 text-slate-600 rounded-lg sm:rounded-xl flex items-center justify-center mb-2 sm:mb-5 shrink-0">
-               <svg className="w-4 h-4 sm:w-6 sm:h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z"></path></svg>
+              <svg className="w-4 h-4 sm:w-6 sm:h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z"></path></svg>
             </div>
             <h3 className="text-[10px] sm:text-lg font-bold text-slate-800 mb-1 sm:mb-3 leading-tight">Relevant Chats</h3>
             <p className="text-[8px] sm:text-sm text-slate-500 leading-tight sm:leading-relaxed">

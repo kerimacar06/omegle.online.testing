@@ -103,7 +103,7 @@ export default function Reviews() {
   const scrollLeftBtn = () => {
     if (!scrollRef.current) return;
     const container = scrollRef.current;
-    
+
     // 10 elemanlık tek bir setin tam genişliğini hesapla
     const child0 = container.children[0] as HTMLElement;
     const child10 = container.children[10] as HTMLElement;
@@ -114,7 +114,7 @@ export default function Reviews() {
     if (container.scrollLeft - 360 < child0.offsetLeft + setWidth / 4) {
       container.style.scrollBehavior = 'auto';
       container.scrollLeft += setWidth;
-      
+
       requestAnimationFrame(() => {
         container.style.scrollBehavior = 'smooth';
         container.scrollBy({ left: -360 });
@@ -128,7 +128,7 @@ export default function Reviews() {
   const scrollRightBtn = () => {
     if (!scrollRef.current) return;
     const container = scrollRef.current;
-    
+
     const child10 = container.children[10] as HTMLElement;
     const child20 = container.children[20] as HTMLElement;
     const setWidth = child20.offsetLeft - child10.offsetLeft;
@@ -138,7 +138,7 @@ export default function Reviews() {
     if (container.scrollLeft + container.clientWidth + 360 > child20.offsetLeft + setWidth - (setWidth / 4)) {
       container.style.scrollBehavior = 'auto';
       container.scrollLeft -= setWidth;
-      
+
       requestAnimationFrame(() => {
         container.style.scrollBehavior = 'smooth';
         container.scrollBy({ left: 360 });
@@ -151,7 +151,7 @@ export default function Reviews() {
 
   return (
     <div className="w-full max-w-6xl mx-auto mt-12 px-4 pb-16">
-      
+
       {/* Bölüm Başlığı & Oklar */}
       <div className="flex flex-col items-center justify-center mb-10 gap-6 relative">
         <div className="text-center">
@@ -160,17 +160,17 @@ export default function Reviews() {
           </h2>
           <p className="text-gray-500 mt-2 font-medium">Don't just take our word for it.</p>
         </div>
-        
+
         {/* Yön Tuşları */}
         <div className="flex items-center gap-2 md:absolute md:right-0 md:top-1/2 md:-translate-y-1/2">
-          <button 
+          <button
             onClick={scrollLeftBtn}
             className="w-10 h-10 rounded-full bg-gray-100 flex items-center justify-center text-gray-600 hover:bg-gray-200 hover:text-gray-900 transition-colors"
             aria-label="Previous reviews"
           >
             <svg className="w-5 h-5" fill="none" stroke="currentColor" strokeWidth={2.5} viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" d="M15 19l-7-7 7-7" /></svg>
           </button>
-          <button 
+          <button
             onClick={scrollRightBtn}
             className="w-10 h-10 rounded-full bg-gray-100 flex items-center justify-center text-gray-600 hover:bg-gray-200 hover:text-gray-900 transition-colors"
             aria-label="Next reviews"
@@ -181,13 +181,13 @@ export default function Reviews() {
       </div>
 
       {/* Yatay Kaydırılabilir Carousel Container (Sonsuz Döngü İçin Relative eklendi) */}
-      <div 
+      <div
         ref={scrollRef}
         className="flex overflow-x-auto relative gap-5 snap-x snap-mandatory pb-4 pt-2 -mx-4 px-4 md:mx-0 md:px-0 [&::-webkit-scrollbar]:hidden [-ms-overflow-style:none] [scrollbar-width:none]"
       >
         {infiniteReviews.map((review, index) => {
           return (
-            <div 
+            <div
               key={index}
               className="snap-center shrink-0 w-[280px] md:w-[340px] bg-gray-50/80 rounded-3xl p-6 flex flex-col border border-gray-100 hover:bg-gray-100/80 transition-colors"
             >

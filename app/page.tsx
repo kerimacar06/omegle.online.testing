@@ -84,7 +84,7 @@ export default async function Home() {
 
         {/* GÖRSELLERİ SARMALAYAN VE MOBİLDE TAŞMAYI ENGELLEYEN KUTU */}
         <div className="absolute inset-0 overflow-x-hidden sm:overflow-visible pointer-events-none z-10">
-          
+
           {/* === SOLDAKİ ERKEK GÖRSELİ === */}
           {/*
             MANUEL MOBİL AYARI İÇİN: 
