@@ -189,7 +189,7 @@ export default function Reviews() {
           return (
             <div
               key={index}
-              className="snap-center shrink-0 w-[280px] md:w-[340px] bg-gray-50/80 rounded-3xl p-6 flex flex-col border border-gray-100 hover:bg-gray-100/80 transition-colors"
+              className="snap-center shrink-0 w-[280px] md:w-[340px] bg-gray-50/80 rounded-xl p-6 flex flex-col border border-gray-100 hover:bg-gray-100/80 transition-colors"
             >
               {/* Üst Kısım: Avatar, İsim ve @Username */}
               <div className="flex items-center justify-between mb-4">

@@ -28,7 +28,7 @@ export default async function FAQ() {
           {faqs.map((faq: any) => (
             <details 
               key={faq._id.toString()} 
-              className="group bg-white rounded-[32px] shadow-sm hover:shadow-md transition-all duration-300 [&_summary::-webkit-details-marker]:hidden border border-white/50"
+              className="group bg-white rounded-xl shadow-sm hover:shadow-md transition-all duration-300 [&_summary::-webkit-details-marker]:hidden border border-white/50"
             >
               {/* Soru (Mesaj Balonu) */}
               <summary className="flex cursor-pointer items-center justify-between px-8 py-5 focus:outline-none">

@@ -1,9 +1,9 @@
 const reasonsData = [
   {
     icon: (
-      // 3 Maymun İkonu (Complete Anonymity) - Daire fonu kaldırıldı, yan yana dizildi
-      <div className="flex items-center justify-center p-3">
-        <span className="text-5xl" role="img" aria-label="3 monkeys">
+      // 3 Maymun İkonu (Complete Anonymity)
+      <div className="flex items-center justify-center p-2 md:p-3">
+        <span className="text-3xl sm:text-4xl md:text-5xl" role="img" aria-label="3 monkeys">
           🙉🙈🙊
         </span>
       </div>
@@ -13,9 +13,9 @@ const reasonsData = [
   },
   {
     icon: (
-      // Alev Almış Roket İkonu (Instant Connection) - Daire fonu kaldırıldı
-      <div className="flex items-center justify-center p-3">
-        <span className="text-5xl" role="img" aria-label="rocket speed">
+      // Alev Almış Roket İkonu (Instant Connection)
+      <div className="flex items-center justify-center p-2 md:p-3">
+        <span className="text-3xl sm:text-4xl md:text-5xl" role="img" aria-label="rocket speed">
           🚀🔥
         </span>
       </div>
@@ -25,9 +25,9 @@ const reasonsData = [
   },
   {
     icon: (
-      // Sohbet Balonu İkonu (Classic Chat Experience) - Daire fonu kaldırıldı
-      <div className="flex items-center justify-center p-3">
-        <span className="text-5xl" role="img" aria-label="chat bubbles">
+      // Sohbet Balonu İkonu (Classic Chat Experience)
+      <div className="flex items-center justify-center p-2 md:p-3">
+        <span className="text-3xl sm:text-4xl md:text-5xl" role="img" aria-label="chat bubbles">
           💬✨
         </span>
       </div>
@@ -40,32 +40,34 @@ const reasonsData = [
 export default function WhyChoose() {
   return (
     <div className="w-full bg-gradient-to-br from-indigo-100 via-purple-50 to-pink-100 py-16">
-      <div className="w-full max-w-5xl mx-auto px-4 text-center">
+      <div className="w-full max-w-5xl mx-auto px-4 text-center md:text-center">
 
         {/* Bölüm Başlığı */}
-        <h2 className="text-3xl font-bold text-gray-800 mb-12">
+        <h2 className="text-2xl md:text-3xl font-bold text-gray-800 mb-8 md:mb-12">
           Why Choose Omegletest Online?
         </h2>
 
-        {/* md:grid-cols-3 ile yan yana 3'lü dizilim */}
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-12">
+        {/* Mobilde Kompakt Liste (List View), Masaüstünde 3'lü Grid Dizilimi */}
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-4 md:gap-6 mb-8 md:mb-12">
           {reasonsData.map((reason, index) => (
             <div
               key={index}
-              className="bg-white p-6 rounded-xl shadow border border-gray-100 flex flex-col items-center hover:-translate-y-1 transition-transform duration-300"
+              className="bg-white p-4 md:p-6 rounded-xl shadow border border-gray-100 flex flex-row md:flex-col items-center md:items-center justify-start hover:-translate-y-1 transition-transform duration-300 gap-4 md:gap-0"
             >
-              {/* İkon Konteyneri */}
-              <div className="mb-6">
+              {/* İkon Konteyneri (Mobilde Sabit Genişlik ile Metinleri Hizalar, Masaüstünde Üstte) */}
+              <div className="shrink-0 w-[110px] md:w-auto flex justify-center md:mb-6">
                 {reason.icon}
               </div>
 
-              {/* Metin İçeriği */}
-              <h3 className="text-lg font-bold text-gray-800 mb-3">
-                {reason.title}
-              </h3>
-              <p className="text-sm text-gray-500 leading-relaxed max-w-xs mx-auto">
-                {reason.description}
-              </p>
+              {/* Metin İçeriği (Mobilde Sola Hizalı, Masaüstünde Ortalanmış) */}
+              <div className="flex flex-col text-left md:text-center w-full">
+                <h3 className="text-base md:text-lg font-bold text-gray-800 mb-1 md:mb-3">
+                  {reason.title}
+                </h3>
+                <p className="text-sm text-gray-500 leading-relaxed md:max-w-xs md:mx-auto">
+                  {reason.description}
+                </p>
+              </div>
             </div>
           ))}
         </div>

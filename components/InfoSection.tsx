@@ -57,7 +57,7 @@ export default function InfoSection() {
           </div>
 
           {/* MOBİL İÇİN KAPSAYICI (Arkaplan Görseli ve Cam Kart efekti bu div'de) */}
-          <div className="relative w-full rounded-[2rem] overflow-hidden shadow-2xl lg:shadow-none lg:rounded-none lg:overflow-visible min-h-[500px] lg:min-h-0 flex items-center lg:block">
+          <div className="relative w-full rounded-xl overflow-hidden shadow-2xl lg:shadow-none lg:rounded-none lg:overflow-visible min-h-[500px] lg:min-h-0 flex items-center lg:block">
             
             {/* MOBİL: Arka Plan Görseli */}
             <div className="absolute inset-0 lg:hidden">
@@ -75,7 +75,7 @@ export default function InfoSection() {
             <div className="relative z-10 flex flex-col lg:flex-row items-center gap-12 lg:gap-20 p-4 sm:p-10 lg:p-0 w-full">
               
               {/* SOL TARAF (Metinler) */}
-              <div className="w-full lg:w-1/2 bg-white/80 lg:bg-transparent backdrop-blur-lg lg:backdrop-blur-none rounded-3xl lg:rounded-none p-6 sm:p-10 lg:p-0 shadow-[0_8px_30px_rgb(0,0,0,0.12)] lg:shadow-none border border-white/60 lg:border-none flex flex-col justify-center">
+              <div className="w-full lg:w-1/2 bg-white/80 lg:bg-transparent backdrop-blur-lg lg:backdrop-blur-none rounded-xl lg:rounded-none p-6 sm:p-10 lg:p-0 shadow-[0_8px_30px_rgb(0,0,0,0.12)] lg:shadow-none border border-white/60 lg:border-none flex flex-col justify-center">
                 
                 {/* MOBİL İÇİN BAŞLIK (Masaüstünde yukarıda gösterildiği için burada gizli) */}
                 <div className="lg:hidden">
@@ -97,7 +97,7 @@ export default function InfoSection() {
 
               {/* SAĞ TARAF (Masaüstü Görseli) */}
               <div className="hidden lg:block lg:w-1/2">
-                <div className="relative w-full aspect-[4/3] rounded-[2rem] overflow-hidden shadow-2xl transform transition-transform hover:-translate-y-2 duration-500 border-4 border-white/60">
+                <div className="relative w-full aspect-[4/3] rounded-xl overflow-hidden shadow-2xl transform transition-transform hover:-translate-y-2 duration-500 border-4 border-white/60">
                   <Image 
                     src="/about_illustration.png" 
                     alt="Omegletest Online Global Connectivity" 
