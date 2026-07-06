@@ -110,7 +110,7 @@ export default async function Home() {
           className="absolute z-0 pointer-events-none"
           style={{
             top: '70px',    // (DİKEY) Yukarıdan aşağıya ne kadar ineceğini belirler
-            right: '1px',   // (YATAY) SAĞ köşeden sola doğru ne kadar geleceğini belirler (artırdıkça sola gider)
+            right: '-10px',  // (YATAY) Negatif değer alırsa sağdan dışarı doğru taşar
           }}
         >
           <img
