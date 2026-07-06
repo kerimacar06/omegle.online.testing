@@ -1,3 +1,5 @@
+import Image from 'next/image';
+
 export default function InfoSection() {
   return (
     <>
@@ -42,22 +44,71 @@ export default function InfoSection() {
         </div>
       </div>
 
-      {/* About Section - Mor Gradyan Arkaplan (Tam Genişlik) */}
-      <div className="w-full bg-gradient-to-br from-indigo-100 via-purple-50 to-pink-100 py-12 md:py-16">
+      {/* About Section - Hibrit Tasarım (Mobil: Cam Kart, Masaüstü: Başlık Ortada, Split Screen) */}
+      <div className="w-full relative py-16 md:py-24 lg:bg-gradient-to-br lg:from-indigo-100 lg:via-purple-50 lg:to-pink-100">
         <div className="max-w-6xl mx-auto px-4 sm:px-6">
-          <h2 className="text-2xl md:text-3xl font-extrabold text-slate-800 mb-6 text-center">
-            About Omegletest App
-          </h2>
-          <div className="text-slate-600 text-base md:text-lg leading-relaxed space-y-6 text-justify">
-            <p>
-              Omegletest is a premier free online chat platform designed to connect you with random strangers from all corners of the globe. Born out of the desire to keep the classic random chat spirit alive, our platform offers a seamless, instant connection without the hassle of registrations or hidden fees. Whether you&apos;re here to make new friends, discover different cultures, or simply pass the time with an engaging conversation, Omegletest provides the perfect environment to meet people you would never cross paths with otherwise.
-            </p>
-            <p>
-              What sets Omegletest apart is our commitment to both freedom and safety. We understand that anonymity is the core of random chatting, which is why we never ask for your personal details. However, we pair this freedom with state-of-the-art AI moderation and a dedicated human reporting system. This dual-layered approach ensures that while you enjoy the thrill of the unknown, you are protected from malicious behavior. You are always in control—a single click of the &quot;Next&quot; button instantly pairs you with someone new.
-            </p>
-            <p>
-              Our platform is fully optimized for all devices, meaning you can enjoy high-quality video streams and lightning-fast text chats whether you are on your desktop at home or using your mobile phone on the go. By allowing users to filter connections based on shared interests, we eliminate the awkward silences and help you jump straight into meaningful and fun discussions. Welcome to the future of online socializing, where every chat is a new adventure waiting to happen.
-            </p>
+          
+          {/* MASAÜSTÜ İÇİN ORTALANMIŞ BAŞLIK */}
+          <div className="hidden lg:flex flex-col items-center mb-16">
+            <h2 className="text-3xl md:text-4xl lg:text-5xl font-extrabold text-slate-800 mb-6 leading-tight text-center">
+              About Omegletest App
+            </h2>
+            <div className="w-24 h-1.5 bg-gradient-to-r from-blue-500 to-purple-500 rounded-full"></div>
+          </div>
+
+          {/* MOBİL İÇİN KAPSAYICI (Arkaplan Görseli ve Cam Kart efekti bu div'de) */}
+          <div className="relative w-full rounded-[2rem] overflow-hidden shadow-2xl lg:shadow-none lg:rounded-none lg:overflow-visible min-h-[500px] lg:min-h-0 flex items-center lg:block">
+            
+            {/* MOBİL: Arka Plan Görseli */}
+            <div className="absolute inset-0 lg:hidden">
+              <Image 
+                src="/about_illustration.png" 
+                alt="Omegletest Online Global Connectivity" 
+                fill 
+                className="object-cover"
+              />
+              {/* Metnin rahat okunabilmesi için çok hafif bir karanlık katman */}
+              <div className="absolute inset-0 bg-slate-900/20"></div>
+            </div>
+
+            {/* İÇERİK: Mobilde cam kart, Masaüstünde Split Screen */}
+            <div className="relative z-10 flex flex-col lg:flex-row items-center gap-12 lg:gap-20 p-4 sm:p-10 lg:p-0 w-full">
+              
+              {/* SOL TARAF (Metinler) */}
+              <div className="w-full lg:w-1/2 bg-white/80 lg:bg-transparent backdrop-blur-lg lg:backdrop-blur-none rounded-3xl lg:rounded-none p-6 sm:p-10 lg:p-0 shadow-[0_8px_30px_rgb(0,0,0,0.12)] lg:shadow-none border border-white/60 lg:border-none flex flex-col justify-center">
+                
+                {/* MOBİL İÇİN BAŞLIK (Masaüstünde yukarıda gösterildiği için burada gizli) */}
+                <div className="lg:hidden">
+                  <h2 className="text-3xl md:text-4xl font-extrabold text-slate-800 mb-6 leading-tight">
+                    About Omegletest App
+                  </h2>
+                  <div className="w-16 h-1.5 bg-gradient-to-r from-pink-500 to-purple-500 rounded-full mb-6"></div>
+                </div>
+                
+                <div className="text-slate-800 lg:text-slate-600 text-base sm:text-lg lg:text-xl leading-relaxed space-y-5 lg:space-y-6">
+                  <p>
+                    <strong className="text-slate-900 lg:text-slate-800 font-extrabold lg:font-bold">Omegletest</strong> is a premier free online chat platform designed to connect you with random strangers from all corners of the globe. Born out of the desire to keep the classic random chat spirit alive, our platform offers a seamless, instant connection without the hassle of registrations or hidden fees.
+                  </p>
+                  <p>
+                    What sets us apart is our commitment to both <strong className="text-slate-900 lg:text-slate-800 font-extrabold lg:font-bold">freedom and safety</strong>. We understand that anonymity is the core of random chatting. We pair this freedom with state-of-the-art AI moderation and a dedicated reporting system, ensuring that while you enjoy the thrill of the unknown, you are fully protected.
+                  </p>
+                </div>
+              </div>
+
+              {/* SAĞ TARAF (Masaüstü Görseli) */}
+              <div className="hidden lg:block lg:w-1/2">
+                <div className="relative w-full aspect-[4/3] rounded-[2rem] overflow-hidden shadow-2xl transform transition-transform hover:-translate-y-2 duration-500 border-4 border-white/60">
+                  <Image 
+                    src="/about_illustration.png" 
+                    alt="Omegletest Online Global Connectivity" 
+                    fill 
+                    className="object-cover hover:scale-105 transition-transform duration-700"
+                  />
+                  <div className="absolute inset-0 bg-gradient-to-tr from-purple-500/10 to-transparent pointer-events-none"></div>
+                </div>
+              </div>
+
+            </div>
           </div>
         </div>
       </div>
