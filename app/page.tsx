@@ -78,71 +78,61 @@ export default async function Home() {
           dangerouslySetInnerHTML={{ __html: JSON.stringify(combinedJsonLd) }}
         />
       )}
-      <main className="min-h-screen bg-white flex flex-col">
+      <main className="relative min-h-screen bg-white flex flex-col">
         {/* Navbar (Sadece bu sayfada sticky) */}
         <Navbar isSticky={true} />
 
+        {/* GÖRSELLERİ SARMALAYAN VE MOBİLDE TAŞMAYI ENGELLEYEN KUTU */}
+        <div className="absolute inset-0 overflow-x-hidden sm:overflow-visible pointer-events-none z-10">
+          
+          {/* === SOLDAKİ ERKEK GÖRSELİ === */}
+          {/*
+            MANUEL MOBİL AYARI İÇİN: 
+            Aşağıdaki "className" içindeki İLK BAŞTA YAZAN (başında sm:, md: veya lg: OLMAYAN) değerleri değiştirin:
+            - top-[160px]  -> Yukarıdan ne kadar aşağıda olacağı. (Yukarı almak için top-[100px] yapabilirsiniz)
+            - -left-2      -> Soldan konum. (Daha sola kaydırmak için -left-6 veya içeri almak için left-4 yapabilirsiniz)
+            - w-[110px]    -> Görselin büyüklüğü/genişliği. (Büyütmek için w-[140px] deneyebilirsiniz)
+          */}
+          <div className="absolute top-[180px] -left-2 w-[110px] sm:top-[120px] sm:left-4 sm:w-[160px] md:z-0 md:top-[70px] md:left-[50px] md:w-[250px] lg:left-[150px] lg:w-[320px]">
+            <Image
+              src="/selfie çeken erkek.png"
+              alt="Selfie Çeken Erkek"
+              width={320}
+              height={400}
+              priority
+              className="w-full h-auto drop-shadow-2xl"
+            />
+          </div>
+          {/* === SOLDAKİ ERKEK GÖRSELİ BİTİŞİ === */}
 
-        {/* === SOLDAKİ ERKEK GÖRSELİ BAŞLANGICI === */}
-        <div
-          className="absolute z-0 pointer-events-none"
-          style={{
-            top: '70px',    // (DİKEY) Yukarıdan aşağıya ne kadar ineceğini belirler
-            left: '150px',    // (YATAY) SOL köşeden sağa doğru ne kadar geleceğini belirler (artırdıkça sağa gider)
-          }}
-        >
-          <Image
-            src="/selfie çeken erkek.png"
-            alt="Selfie Çeken Erkek"
-            width={320}
-            height={400}
-            priority
-            style={{
-              width: '320px',   // Görselin büyüklüğü. Bu rakamla oynayıp büyütebilirsiniz.
-              maxWidth: 'none', // Ekran dışına taşarsa otomatik KÜÇÜLMESİNİ ENGELLER.
-              height: 'auto'
-            }}
-            className="drop-shadow-2xl"
-          />
+          {/* === SAĞDAKİ KIZ GÖRSELİ === */}
+          {/*
+            MANUEL MOBİL AYARI İÇİN:
+            - -right-10    -> Sağdan konum (Eksi değer sağa doğru dışarı iter. Daha çok kaydırmak için -right-14 vs yapabilirsiniz)
+            - w-[160px]    -> Boyutu ayarlar.
+          */}
+          <div className="absolute top-[182px] right-[-50px] w-[240px] sm:top-[100px] sm:right-4 sm:w-[220px] md:z-0 md:top-[70px] md:right-[-30px] md:w-[500px] lg:right-[-10px] lg:w-[700px]">
+            <Image
+              src="/selfie çeken kız new-Photoroom.png"
+              alt="Selfie Çeken Kız"
+              width={700}
+              height={875}
+              priority
+              className="w-full h-auto drop-shadow-2xl overflow-hidden"
+            />
+          </div>
+          {/* === SAĞDAKİ KIZ GÖRSELİ BİTİŞİ === */}
+
         </div>
-        {/* === SOLDAKİ ERKEK GÖRSELİ BİTİŞİ === */}
-
-
-
-        {/* === SAĞDAKİ KIZ GÖRSELİ BAŞLANGICI === */}
-        <div
-          className="absolute z-0 pointer-events-none"
-          style={{
-            top: '70px',    // (DİKEY) Yukarıdan aşağıya ne kadar ineceğini belirler
-            right: '-10px',  // (YATAY) Negatif değer alırsa sağdan dışarı doğru taşar
-          }}
-        >
-          <Image
-            src="/selfie çeken kız.png"
-            alt="Selfie Çeken Kız"
-            width={700}
-            height={875}
-            priority
-            style={{
-              width: '700px',   // Görselin büyüklüğü. Bu rakamla oynayıp büyütebilirsiniz.
-              maxWidth: 'none', // Ekran dışına taşarsa otomatik KÜÇÜLMESİNİ ENGELLER.
-              height: 'auto'
-            }}
-            className="drop-shadow-2xl"
-          />
-        </div>
-        {/* === SAĞDAKİ KIZ GÖRSELİ BİTİŞİ === */}
-
-
+        {/* SARMALAYICI BİTİŞİ */}
 
         {/* 1. BÖLÜM: Üst Kısım */}
-        <section className="w-full pt-8 pb-0">
+        <section className="w-full pt-8 sm:pt-24 md:pt-8 pb-0 relative z-20">
           {/* Sitenin ortasındaki giriş kartı */}
           <ChatStarter />
-
-          {/* Alt kısımdaki bilgilendirme ve About metinleri */}
-          <InfoSection />
         </section>
+
+        <InfoSection />
 
         {/* 2. BÖLÜM: Orta Kısım */}
         <section className="w-full">
