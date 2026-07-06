@@ -7,40 +7,49 @@ async function getFaqs() {
 export default async function FAQ() {
   const faqs = await getFaqs();
 
-  // Eğer veritabanında henüz hiç SSS yoksa bölümü gizle
   if (faqs.length === 0) return null;
 
   return (
-    <div className="w-full max-w-4xl mx-auto px-4 py-16">
-      <div className="text-center mb-12">
-        <h2 className="text-3xl md:text-4xl font-extrabold text-gray-900 mb-4">
-          Frequently Asked Questions
-        </h2>
-        <p className="text-lg text-gray-500 max-w-2xl mx-auto">
-          Everything you need to know about our service.
-        </p>
-      </div>
+    <div className="w-full bg-gradient-to-br from-indigo-100 via-purple-50 to-pink-100 py-16">
+      <div className="w-full max-w-3xl mx-auto px-4">
+        
+        {/* Ortalanmış Başlık */}
+        <div className="text-center mb-12">
+          <h2 className="text-3xl md:text-4xl font-extrabold text-gray-900 mb-4">
+            Frequently Asked Questions
+          </h2>
+          <p className="text-[16px] text-gray-500 max-w-2xl mx-auto font-medium">
+            Everything you need to know about our service.
+          </p>
+        </div>
 
-      <div className="space-y-4">
-        {faqs.map((faq: any) => (
-          <details 
-            key={faq._id.toString()} 
-            className="group border border-gray-200 rounded-xl bg-white shadow-sm [&_summary::-webkit-details-marker]:hidden"
-          >
-            <summary className="flex cursor-pointer items-center justify-between p-6 font-bold text-gray-900 focus:outline-none">
-              <span className="pr-4 text-lg">{faq.question}</span>
-              <span className="transition duration-300 group-open:-rotate-180 shrink-0 text-blue-600">
-                <svg fill="none" height="24" stroke="currentColor" strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" viewBox="0 0 24 24" width="24">
-                  <path d="M6 9l6 6 6-6"></path>
-                </svg>
-              </span>
-            </summary>
-            
-            <div className="px-6 pb-6 text-gray-600 leading-relaxed border-t border-gray-100 pt-4 mt-2 whitespace-pre-wrap">
-              {faq.answer}
-            </div>
-          </details>
-        ))}
+        {/* Chat Balonu Tarzı SSS Listesi */}
+        <div className="space-y-4">
+          {faqs.map((faq: any) => (
+            <details 
+              key={faq._id.toString()} 
+              className="group bg-white rounded-[32px] shadow-sm hover:shadow-md transition-all duration-300 [&_summary::-webkit-details-marker]:hidden border border-white/50"
+            >
+              {/* Soru (Mesaj Balonu) */}
+              <summary className="flex cursor-pointer items-center justify-between px-8 py-5 focus:outline-none">
+                <span className="font-bold text-gray-800 text-[16px] pr-4">{faq.question}</span>
+                
+                {/* Yumuşak Ok İkonu */}
+                <span className="shrink-0 w-8 h-8 rounded-full bg-indigo-50 text-indigo-600 flex items-center justify-center transition-transform duration-300 group-open:-rotate-180">
+                  <svg fill="none" height="18" stroke="currentColor" strokeLinecap="round" strokeLinejoin="round" strokeWidth="2.5" viewBox="0 0 24 24" width="18">
+                    <path d="M6 9l6 6 6-6"></path>
+                  </svg>
+                </span>
+              </summary>
+              
+              {/* Cevap */}
+              <div className="px-8 pb-7 pt-1 text-gray-600 text-[15px] leading-relaxed font-medium whitespace-pre-wrap border-t border-gray-100/50 mt-1 mx-4">
+                {faq.answer}
+              </div>
+            </details>
+          ))}
+        </div>
+
       </div>
     </div>
   );

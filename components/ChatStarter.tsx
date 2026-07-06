@@ -15,7 +15,7 @@ export default function ChatStarter() {
   return (
     <div className="w-full max-w-2xl mx-auto mt-8 px-4 sm:px-6">
       {/* Giriş Kartı */}
-      <div className="relative bg-white/60 backdrop-blur-2xl p-6 sm:p-10 rounded-3xl shadow-[0_8px_30px_rgb(0,0,0,0.08)] border-2 border-white text-center overflow-hidden">
+      <div className="relative bg-white/60 backdrop-blur-2xl p-6 sm:p-10 rounded-xl shadow-[0_8px_30px_rgb(0,0,0,0.08)] border-2 border-white text-center overflow-hidden">
         
         {/* İnce Arka Plan Deseni (Noktalı Izgara) */}
         <div className="absolute inset-0 bg-[radial-gradient(#cbd5e1_1px,transparent_1px)] [background-size:20px_20px] opacity-40 pointer-events-none"></div>
@@ -48,25 +48,27 @@ export default function ChatStarter() {
           {/* TEXT SOHBET BUTONU */}
           <Link
             href="/chat/text"
-            className="group relative flex-1 bg-gradient-to-r from-blue-400 to-emerald-400 hover:from-blue-500 hover:to-emerald-500 text-white font-bold py-4 px-6 rounded-xl transition-all duration-300 text-lg shadow-lg hover:shadow-blue-400/50 text-center transform hover:-translate-y-1 hover:scale-105"
+            className="group flex-1 bg-blue-500 hover:bg-blue-600 text-white font-bold py-4 px-6 rounded-lg transition-colors duration-300 text-lg shadow-md hover:shadow-lg text-center flex items-center justify-center gap-3 border border-blue-600/20"
           >
-            <div className="absolute -top-3 -left-3 transition-transform duration-300 group-hover:-rotate-12 group-hover:scale-125 bg-blue-500 text-white p-2 rounded-full shadow-md">
-              <svg viewBox="0 0 24 24" fill="currentColor" className="w-5 h-5">
+            <div className="bg-white/20 p-1.5 rounded-md">
+              <svg viewBox="0 0 24 24" fill="currentColor" className="w-6 h-6 text-white">
                 <path d="M20 2H4c-1.1 0-2 .9-2 2v18l4-4h14c1.1 0 2-.9 2-2V4c0-1.1-.9-2-2-2z" />
               </svg>
             </div>
-            Text
+            Text Chat
           </Link>
 
           {/* VİDEO SOHBET BUTONU */}
           <Link
             href="/chat/video"
-            className="group relative flex-1 bg-gradient-to-r from-pink-500 to-orange-400 hover:from-pink-600 hover:to-orange-500 text-white font-bold py-4 px-6 rounded-xl transition-all duration-300 text-lg shadow-lg hover:shadow-pink-500/50 text-center transform hover:-translate-y-1 hover:scale-105"
+            className="group flex-1 bg-rose-500 hover:bg-rose-600 text-white font-bold py-4 px-6 rounded-lg transition-colors duration-300 text-lg shadow-md hover:shadow-lg text-center flex items-center justify-center gap-3 border border-rose-600/20"
           >
-            <span className="absolute -top-3 -right-3 text-3xl transition-transform duration-300 group-hover:rotate-12 group-hover:scale-125">
-              🎥
-            </span>
-            Video
+            <div className="bg-white/20 p-1.5 rounded-md">
+              <svg viewBox="0 0 24 24" fill="currentColor" className="w-6 h-6 text-white">
+                <path d="M17 10.5V7c0-.55-.45-1-1-1H4c-.55 0-1 .45-1 1v10c0 .55.45 1 1 1h12c.55 0 1-.45 1-1v-3.5l4 4v-11l-4 4z"/>
+              </svg>
+            </div>
+            Video Chat
           </Link>
 
         </div>
