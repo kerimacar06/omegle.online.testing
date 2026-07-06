@@ -82,27 +82,49 @@ export default async function Home() {
         <Navbar isSticky={true} />
 
 
-        {/* === ÖZEL GÖRSEL BAŞLANGICI === */}
+        {/* === SOLDAKİ ERKEK GÖRSELİ BAŞLANGICI === */}
         <div
           className="absolute z-0 pointer-events-none"
           style={{
-            top: '100px',    // (DİKEY) Yukarıdan aşağıya ne kadar ineceğini belirler
-            right: '10px',   // (YATAY) Sağ köşeden sola doğru ne kadar geleceğini belirler
+            top: '70px',    // (DİKEY) Yukarıdan aşağıya ne kadar ineceğini belirler
+            left: '150px',    // (YATAY) SOL köşeden sağa doğru ne kadar geleceğini belirler (artırdıkça sağa gider)
           }}
         >
-          {/* Görselin adı tam olarak sizin belirttiğiniz gibi: */}
           <img
-            src="/selfie çeken kız.png"
-            alt="Selfie Çeken Kız"
+            src="/selfie çeken erkek.png"
+            alt="Selfie Çeken Erkek"
             style={{
-              width: '700px',   // Görselin büyüklüğü. Bu rakamla oynayıp büyütebilirsiniz.
-              maxWidth: 'none', // Sırf ekranın sağında duruyor diye otomatik KÜÇÜLMESİNİ ENGELLER.
+              width: '320px',   // Görselin büyüklüğü. Bu rakamla oynayıp büyütebilirsiniz.
+              maxWidth: 'none', // Ekran dışına taşarsa otomatik KÜÇÜLMESİNİ ENGELLER.
               height: 'auto'
             }}
             className="drop-shadow-2xl"
           />
         </div>
-        {/* === ÖZEL GÖRSEL BİTİŞİ === */}
+        {/* === SOLDAKİ ERKEK GÖRSELİ BİTİŞİ === */}
+
+
+
+        {/* === SAĞDAKİ KIZ GÖRSELİ BAŞLANGICI === */}
+        <div
+          className="absolute z-0 pointer-events-none"
+          style={{
+            top: '70px',    // (DİKEY) Yukarıdan aşağıya ne kadar ineceğini belirler
+            right: '1px',   // (YATAY) SAĞ köşeden sola doğru ne kadar geleceğini belirler (artırdıkça sola gider)
+          }}
+        >
+          <img
+            src="/selfie çeken kız.png"
+            alt="Selfie Çeken Kız"
+            style={{
+              width: '700px',   // Görselin büyüklüğü. Bu rakamla oynayıp büyütebilirsiniz.
+              maxWidth: 'none', // Ekran dışına taşarsa otomatik KÜÇÜLMESİNİ ENGELLER.
+              height: 'auto'
+            }}
+            className="drop-shadow-2xl"
+          />
+        </div>
+        {/* === SAĞDAKİ KIZ GÖRSELİ BİTİŞİ === */}
 
 
 
