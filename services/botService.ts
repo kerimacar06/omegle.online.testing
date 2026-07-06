@@ -21,7 +21,7 @@ export const botService = {
   /**
    * Yeni bot ekler
    */
-  async createBot(data: any) {
+  async createBot(data: Record<string, unknown>) {
     await connectMongoDB();
     return await Bot.create(data);
   },
@@ -44,7 +44,7 @@ export const botService = {
   /**
    * Bot günceller
    */
-  async updateBot(id: string, data: any) {
+  async updateBot(id: string, data: Record<string, unknown>) {
     await connectMongoDB();
     return await Bot.findByIdAndUpdate(id, data, { new: true });
   },

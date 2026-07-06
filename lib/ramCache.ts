@@ -1,5 +1,5 @@
 type CacheItem = {
-  data: any;
+  data: unknown;
   expiry: number;
 };
 
@@ -48,7 +48,7 @@ export const getFromCache = (key: string) => {
 };
 
 // Varsayılan olarak 5 dakika (300 saniye) RAM'de tut
-export const setInCache = (key: string, data: any, ttlSeconds: number = 300) => {
+export const setInCache = (key: string, data: unknown, ttlSeconds: number = 300) => {
   console.log(`[RAM CACHE] Veri RAM'e kaydedildi ve veritabanı yükü azaltıldı: ${key}`);
   cache.set(key, {
     data,

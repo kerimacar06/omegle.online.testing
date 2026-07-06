@@ -67,7 +67,7 @@ export const seoService = {
   /**
    * Yeni SEO ayarı ekler
    */
-  async createSeo(data: any) {
+  async createSeo(data: Record<string, unknown>) {
     await connectMongoDB();
     return await Seo.create(data);
   },
@@ -90,7 +90,7 @@ export const seoService = {
   /**
    * SEO verisini günceller
    */
-  async updateSeo(id: string, data: any) {
+  async updateSeo(id: string, data: Record<string, unknown>) {
     await connectMongoDB();
     return await Seo.findByIdAndUpdate(id, data, { new: true });
   },

@@ -132,7 +132,7 @@ export const postService = {
   /**
    * Yeni post ekler
    */
-  async createPost(data: any) {
+  async createPost(data: Record<string, unknown>) {
     await connectMongoDB();
     return await Post.create(data);
   },
@@ -155,7 +155,7 @@ export const postService = {
   /**
    * Postu günceller
    */
-  async updatePost(id: string, data: any) {
+  async updatePost(id: string, data: Record<string, unknown>) {
     await connectMongoDB();
     return await Post.findByIdAndUpdate(id, data, { new: true });
   },

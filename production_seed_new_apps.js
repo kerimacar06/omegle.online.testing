@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-require-imports */
 const mongoose = require('mongoose');
 
 const MONGO_URI = "mongodb+srv://omegletest:REDACTED-ROTATED@cluster0.uvvzgg2.mongodb.net/omegle_admin?appName=Cluster0";
@@ -511,3 +512,4 @@ async function seedNewPosts() {
 }
 
 seedNewPosts();
+

@@ -17,7 +17,7 @@ export async function middleware(request: NextRequest) {
             const secret = new TextEncoder().encode(process.env.JWT_SECRET || 'default_secret');
             await jwtVerify(token, secret);
             return NextResponse.redirect(new URL('/admin/dashboard', request.url));
-        } catch(e) {}
+        } catch {}
     }
     return NextResponse.next();
   }
@@ -30,7 +30,7 @@ export async function middleware(request: NextRequest) {
       const secret = new TextEncoder().encode(process.env.JWT_SECRET || 'default_secret');
       await jwtVerify(token, secret);
       return NextResponse.next();
-    } catch (error) {
+    } catch {
       return NextResponse.redirect(new URL('/admin/login', request.url));
     }
   }

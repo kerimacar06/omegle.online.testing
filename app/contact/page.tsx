@@ -139,7 +139,7 @@ export default async function ContactPage() {
           <div className="bg-white p-8 rounded-2xl border border-gray-200 shadow-sm col-span-1">
             <h2 className="text-2xl font-bold text-gray-900 mb-6">Get In Touch</h2>
             <p className="text-gray-500 mb-8 text-sm leading-relaxed">
-              Have questions, feedback, or need support? We'd love to hear from you. Reach out to our team using the contact details below.
+              Have questions, feedback, or need support? We&apos;d love to hear from you. Reach out to our team using the contact details below.
             </p>
             
             <div className="space-y-6">

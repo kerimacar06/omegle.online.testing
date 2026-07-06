@@ -1,4 +1,5 @@
 import Navbar from '@/components/Navbar';
+import Image from 'next/image';
 import ChatStarter from '@/components/ChatStarter';
 import InfoSection from '@/components/InfoSection';
 import Alternatives from '@/components/Alternatives';
@@ -90,9 +91,12 @@ export default async function Home() {
             left: '150px',    // (YATAY) SOL köşeden sağa doğru ne kadar geleceğini belirler (artırdıkça sağa gider)
           }}
         >
-          <img
+          <Image
             src="/selfie çeken erkek.png"
             alt="Selfie Çeken Erkek"
+            width={320}
+            height={400}
+            priority
             style={{
               width: '320px',   // Görselin büyüklüğü. Bu rakamla oynayıp büyütebilirsiniz.
               maxWidth: 'none', // Ekran dışına taşarsa otomatik KÜÇÜLMESİNİ ENGELLER.
@@ -113,9 +117,12 @@ export default async function Home() {
             right: '-10px',  // (YATAY) Negatif değer alırsa sağdan dışarı doğru taşar
           }}
         >
-          <img
+          <Image
             src="/selfie çeken kız.png"
             alt="Selfie Çeken Kız"
+            width={700}
+            height={875}
+            priority
             style={{
               width: '700px',   // Görselin büyüklüğü. Bu rakamla oynayıp büyütebilirsiniz.
               maxWidth: 'none', // Ekran dışına taşarsa otomatik KÜÇÜLMESİNİ ENGELLER.

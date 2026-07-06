@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-require-imports */
 const fs = require('fs');
 
 const pages = [
@@ -41,3 +42,4 @@ pages.forEach(page => {
   fs.writeFileSync(page.path, content);
   console.log('Fixed ' + page.path);
 });
+

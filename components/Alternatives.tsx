@@ -1,4 +1,6 @@
 import Link from 'next/link';
+import Image from 'next/image';
+import { IPost } from '@/models/Post';
 import { postService } from '@/services/postService';
 
 // Veritabanından postları çeken fonksiyon
@@ -32,7 +34,7 @@ export default async function Alternatives() {
 
       {/* Dinamik Kartlar (4 Adet) */}
       <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-        {posts.map((post: any, index: number) => {
+        {posts.map((post: Partial<IPost> & { _id: string, coverImage?: string }, index: number) => {
           const color = gradients[index % gradients.length];
           
           return (
@@ -42,8 +44,8 @@ export default async function Alternatives() {
                   
                   {/* Resim veya İkon */}
                   {post.coverImage ? (
-                    <div className="w-14 h-14 rounded-xl shrink-0 group-hover:scale-110 transition-transform overflow-hidden shadow-sm border border-gray-100">
-                      <img src={post.coverImage} alt={post.title} className="w-full h-full object-cover" />
+                    <div className="relative w-14 h-14 rounded-xl shrink-0 group-hover:scale-110 transition-transform overflow-hidden shadow-sm border border-gray-100">
+                      <Image src={post.coverImage} alt={post.title || 'App Logo'} fill className="object-cover" unoptimized />
                     </div>
                   ) : (
                     <div className={`w-14 h-14 rounded-xl bg-gradient-to-tr ${color} flex items-center justify-center shadow-inner shrink-0 group-hover:scale-110 transition-transform`}>

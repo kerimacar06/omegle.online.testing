@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-require-imports */
 const fs = require('fs');
 const files = [
   'app/api/seo/route.ts',
@@ -23,3 +24,4 @@ files.forEach(file => {
     console.log('Fixed ' + file);
   }
 });
+

@@ -55,7 +55,7 @@ export default function Reviews() {
               {/* Yorum İçeriği */}
               <div className="flex flex-col">
                 <p className="text-gray-700 leading-relaxed mb-3 font-medium">
-                  "{review.text}"
+                  &quot;{review.text}&quot;
                 </p>
                 
                 <div className="flex flex-wrap items-center gap-2 mt-auto">

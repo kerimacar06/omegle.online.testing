@@ -32,7 +32,7 @@ export const faqService = {
     return {
       '@context': 'https://schema.org',
       '@type': 'FAQPage',
-      mainEntity: faqs.map((faq: any) => ({
+      mainEntity: faqs.map((faq: { question: string, answer: string }) => ({
         '@type': 'Question',
         name: faq.question,
         acceptedAnswer: {
@@ -76,7 +76,7 @@ export const faqService = {
   /**
    * Yeni FAQ ekler
    */
-  async createFaq(data: any) {
+  async createFaq(data: Record<string, unknown>) {
     await connectMongoDB();
     return await Faq.create(data);
   },
@@ -84,7 +84,7 @@ export const faqService = {
   /**
    * FAQ günceller
    */
-  async updateFaq(id: string, data: any) {
+  async updateFaq(id: string, data: Record<string, unknown>) {
     await connectMongoDB();
     return await Faq.findByIdAndUpdate(id, data, { new: true });
   },

@@ -1,6 +1,5 @@
 import { connectMongoDB } from "./lib/mongodb";
 import Post from "./models/Post";
-import mongoose from "mongoose";
 
 const posts = [
   {
