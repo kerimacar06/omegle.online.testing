@@ -1,6 +1,5 @@
 import Link from 'next/link';
 import Image from 'next/image';
-import { IPost } from '@/models/Post';
 import { postService } from '@/services/postService';
 
 // Veritabanından postları çeken fonksiyon
@@ -34,7 +33,7 @@ export default async function Alternatives() {
 
       {/* Dinamik Kartlar (4 Adet) */}
       <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-        {posts.map((post: Partial<IPost> & { _id: string, coverImage?: string }, index: number) => {
+        {posts.map((post: any, index: number) => {
           const color = gradients[index % gradients.length];
           
           return (

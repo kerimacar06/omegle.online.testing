@@ -1,5 +1,5 @@
-type CacheItem = {
-  data: unknown;
+type CacheItem<T = any> = {
+  data: T;
   expiry: number;
 };
 
@@ -33,7 +33,7 @@ if (!globalForGC.gcStarted) {
   }, 15 * 60 * 1000);
 }
 
-export const getFromCache = (key: string) => {
+export const getFromCache = <T = any>(key: string): T | null => {
   const item = cache.get(key);
   if (!item) return null;
   
@@ -44,11 +44,11 @@ export const getFromCache = (key: string) => {
   }
   
   console.log(`[RAM CACHE] Veri RAM'den okundu: ${key}`);
-  return item.data;
+  return item.data as T;
 };
 
 // Varsayılan olarak 5 dakika (300 saniye) RAM'de tut
-export const setInCache = (key: string, data: unknown, ttlSeconds: number = 300) => {
+export const setInCache = <T = any>(key: string, data: T, ttlSeconds: number = 300) => {
   console.log(`[RAM CACHE] Veri RAM'e kaydedildi ve veritabanı yükü azaltıldı: ${key}`);
   cache.set(key, {
     data,
