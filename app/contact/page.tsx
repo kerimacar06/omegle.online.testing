@@ -90,7 +90,7 @@ export default async function ContactPage() {
 
             {/* GERÇEK VİDEO CHAT LINKI BAĞLANDI */}
             <Link 
-              href="/chat/video" 
+              href="/live-video"
               className="flex items-center gap-3 bg-blue-500 text-white px-8 md:px-10 py-4 md:py-5 rounded-2xl shadow-sm hover:shadow-lg hover:bg-blue-600 hover:-translate-y-1 transition-all duration-300 font-bold text-xl md:text-2xl group w-full md:w-auto justify-center"
             >
               <svg className="w-8 h-8 text-white shrink-0" fill="currentColor" viewBox="0 0 24 24">

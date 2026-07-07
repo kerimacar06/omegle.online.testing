@@ -141,7 +141,7 @@ export default async function Home() {
           {/* SSS Bölümü */}
           <FAQ />
 
-          {/* Alt Banner */}
+          {/* Alt Banner (Son CTA) */}
           <BottomBanner />
         </section>
 

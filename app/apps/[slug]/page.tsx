@@ -142,7 +142,7 @@ export default async function BlogPostPage(props: any) {
         {/* YENİ: Video Chat Yönlendirme Banner'ı */}
         <div className="w-full bg-gradient-to-r from-orange-50/50 via-orange-50 to-orange-50/50 rounded-2xl p-6 md:p-10 flex items-center justify-center mb-10 border border-orange-100 shadow-sm">
           <Link 
-            href="/chat/video" 
+            href="/live-video"
             className="flex items-center gap-3 bg-gradient-to-r from-blue-500 to-orange-500 text-white px-8 md:px-10 py-4 rounded-full shadow-lg hover:shadow-orange-500/20 hover:scale-105 transition-all duration-300 font-bold text-lg md:text-xl"
           >
             <svg className="w-6 h-6 shrink-0" fill="currentColor" viewBox="0 0 24 24">

@@ -45,11 +45,11 @@ export default function InfoSection() {
       </div>
 
       {/* About Section - Hibrit Tasarım (Mobil: Cam Kart, Masaüstü: Başlık Ortada, Split Screen) */}
-      <div className="w-full relative py-16 md:py-24 lg:bg-gradient-to-br lg:from-indigo-100 lg:via-purple-50 lg:to-pink-100">
+      <div className="w-full relative py-16 md:py-24 lg:py-10 lg:bg-gradient-to-br lg:from-indigo-100 lg:via-purple-50 lg:to-pink-100">
         <div className="max-w-[1400px] mx-auto px-4 sm:px-6">
           
           {/* MASAÜSTÜ İÇİN ORTALANMIŞ BAŞLIK */}
-          <div className="hidden lg:flex flex-col items-center mb-16">
+          <div className="hidden lg:flex flex-col items-center mb-8">
             <h2 className="text-3xl md:text-4xl lg:text-5xl font-extrabold text-slate-800 mb-6 leading-tight text-center">
               About Omegletest App
             </h2>

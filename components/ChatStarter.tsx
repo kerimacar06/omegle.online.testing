@@ -47,7 +47,7 @@ export default function ChatStarter() {
 
             {/* TEXT SOHBET BUTONU */}
             <Link
-              href="/chat/text"
+              href="/live-text"
               className="group flex-1 bg-blue-500/85 hover:bg-blue-600/90 text-white font-bold py-[clamp(5px,1.4vw,12px)] px-[clamp(6px,1.6vw,20px)] xl:py-3 xl:px-4 rounded-lg transition-colors duration-300 text-[clamp(10px,2vw,16px)] xl:text-[14px] shadow-md hover:shadow-lg text-center flex items-center justify-center gap-[clamp(4px,1.1vw,8px)] xl:gap-1.5 border border-blue-600/20"
             >
               <div className="bg-white/20 p-[clamp(2px,0.7vw,4px)] xl:p-1 rounded-md">
@@ -60,7 +60,7 @@ export default function ChatStarter() {
 
             {/* VİDEO SOHBET BUTONU */}
             <Link
-              href="/chat/video"
+              href="/live-video"
               className="group flex-1 bg-rose-500/85 hover:bg-rose-600/90 text-white font-bold py-[clamp(5px,1.4vw,12px)] px-[clamp(6px,1.6vw,20px)] xl:py-3 xl:px-4 rounded-lg transition-colors duration-300 text-[clamp(10px,2vw,16px)] xl:text-[14px] shadow-md hover:shadow-lg text-center flex items-center justify-center gap-[clamp(4px,1.1vw,8px)] xl:gap-1.5 border border-rose-600/20"
             >
               <div className="bg-white/20 p-[clamp(2px,0.7vw,4px)] xl:p-1 rounded-md">
