@@ -15,7 +15,7 @@ export default function InfoSection() {
             </div>
             <h3 className="text-[10px] sm:text-lg font-bold text-slate-800 mb-1 sm:mb-3 leading-tight">Relevant Chats</h3>
             <p className="text-[8px] sm:text-sm text-slate-500 leading-tight sm:leading-relaxed text-justify">
-              Add your interests on Omegletest Online to instantly connect with strangers who share your vibe! Skip the awkward intros and dive into conversations about things you both love. It&apos;s a smarter way to meet new people.
+              Add your interests and get matched with strangers who share your vibe. No more awkward small talk to start a conversation.
             </p>
           </div>
 
@@ -26,7 +26,7 @@ export default function InfoSection() {
             </div>
             <h3 className="text-[10px] sm:text-lg font-bold text-slate-800 mb-1 sm:mb-3 leading-tight">Safety & Privacy</h3>
             <p className="text-[8px] sm:text-sm text-slate-500 leading-tight sm:leading-relaxed text-justify">
-              Your safety matters on Omegletest.online. Chats are anonymous by default, and you can end any chat instantly. See our Chat Rules for clear guidelines on how to interact. For more, check our Blog or FAQ.
+              Chats are anonymous by default and require no registration. You can end any conversation instantly, whenever you want.
             </p>
           </div>
 
@@ -37,7 +37,7 @@ export default function InfoSection() {
             </div>
             <h3 className="text-[10px] sm:text-lg font-bold text-slate-800 mb-1 sm:mb-3 leading-tight">AI Moderation</h3>
             <p className="text-[8px] sm:text-sm text-slate-500 leading-tight sm:leading-relaxed text-justify">
-              Omegletest Online&apos;s video and text chats are moderated by both AI and human teams. This helps us create a safer space that still feels like the classic chat experience. Remember, you&apos;re responsible for your actions.
+              Every chat is moderated by AI and human teams to keep things safe. This preserves the classic random chat experience you know.
             </p>
           </div>
 

@@ -152,10 +152,10 @@ export default function Reviews() {
       {/* Bölüm Başlığı */}
       <div className="flex flex-col items-center justify-center mb-10 gap-2">
         <div className="text-center">
-          <h2 className="text-3xl md:text-4xl font-extrabold text-gray-900 mb-4">
+          <h2 className="text-3xl md:text-4xl font-extrabold text-gray-900 mb-2 leading-none">
             Omegle User Reviews
           </h2>
-          <p className="text-gray-500 text-lg font-medium">Don't just take our word for it.</p>
+          <p className="text-gray-500 text-lg font-medium leading-none">Don't just take our word for it.</p>
         </div>
       </div>
 
