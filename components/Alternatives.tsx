@@ -42,16 +42,16 @@ export default async function Alternatives() {
 
             return (
               <Link key={post._id.toString()} href={`/apps/${post.slug}`} className="group block h-full">
-                <div className="bg-white p-2.5 sm:p-3 rounded-2xl border border-gray-200 shadow-sm flex items-center gap-2.5 sm:gap-3 group-hover:border-blue-400 group-hover:shadow-lg transition-all duration-300 h-full">
+                <div className="bg-white p-2.5 sm:p-3 rounded-md border border-gray-200 shadow-sm flex items-center gap-2.5 sm:gap-3 group-hover:border-blue-400 group-hover:shadow-lg transition-all duration-300 h-full">
 
                   {/* Sol: Resim/İkon */}
                   <div className="shrink-0">
                     {post.coverImage ? (
-                      <div className="relative w-11 h-11 sm:w-14 sm:h-14 rounded-xl overflow-hidden border border-gray-100 shadow-sm group-hover:scale-105 transition-transform">
+                      <div className="relative w-11 h-11 sm:w-14 sm:h-14 rounded-md overflow-hidden border border-gray-100 shadow-sm group-hover:scale-105 transition-transform">
                         <Image src={post.coverImage} alt={post.title || 'App Logo'} fill className="object-cover" unoptimized />
                       </div>
                     ) : (
-                      <div className={`w-11 h-11 sm:w-14 sm:h-14 rounded-xl bg-gradient-to-tr ${color} flex items-center justify-center shadow-inner group-hover:scale-105 transition-transform`}>
+                      <div className={`w-11 h-11 sm:w-14 sm:h-14 rounded-md bg-gradient-to-tr ${color} flex items-center justify-center shadow-inner group-hover:scale-105 transition-transform`}>
                         <svg className="w-5 h-5 sm:w-6 sm:h-6 text-white" fill="none" stroke="currentColor" strokeWidth="2.5" viewBox="0 0 24 24">
                           <path strokeLinecap="round" strokeLinejoin="round" d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z" />
                         </svg>
@@ -90,7 +90,7 @@ export default async function Alternatives() {
         {/* Tümünü Gör Butonu */}
         {totalCount > 6 && (
           <div className="text-center mt-10">
-            <Link href="/apps" scroll={true} className="inline-block bg-white text-gray-800 font-bold border border-gray-200 px-8 py-3 rounded-lg hover:bg-gray-50 transition shadow-sm">
+            <Link href="/apps" scroll={true} className="inline-block bg-white text-gray-800 font-bold border border-gray-200 px-8 py-3 rounded-md hover:bg-gray-50 transition shadow-sm">
               View All Applications
             </Link>
           </div>

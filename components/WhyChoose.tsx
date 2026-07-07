@@ -52,7 +52,7 @@ export default function WhyChoose() {
           {reasonsData.map((reason, index) => (
             <div
               key={index}
-              className="bg-white p-2 sm:p-4 md:p-6 rounded-xl shadow border border-gray-100 flex flex-col items-center justify-start hover:-translate-y-1 transition-transform duration-300 gap-1 sm:gap-2 md:gap-0 h-full"
+              className="bg-white p-2 sm:p-4 md:p-6 rounded-md shadow border border-gray-100 flex flex-col items-center justify-start hover:-translate-y-1 transition-transform duration-300 gap-1 sm:gap-2 md:gap-0 h-full"
             >
               {/* İkon Konteyneri */}
               <div className="shrink-0 flex justify-center mb-1 md:mb-6">

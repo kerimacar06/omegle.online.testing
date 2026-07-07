@@ -182,7 +182,7 @@ export default function Reviews() {
                 key={index}
                 className="snap-center shrink-0 w-full md:w-1/3 px-12 md:px-3"
               >
-                <div className="w-full bg-gray-50/80 rounded-xl p-6 md:p-8 flex flex-col border border-gray-100 hover:bg-gray-100/80 transition-colors mx-auto h-full shadow-sm">
+                <div className="w-full bg-gray-50/80 rounded-md p-6 md:p-8 flex flex-col border border-gray-100 hover:bg-gray-100/80 transition-colors mx-auto h-full shadow-sm">
                   {/* Üst Kısım: Avatar, İsim ve @Username */}
                   <div className="flex items-center justify-between mb-4">
                     <div className="flex items-center gap-4">

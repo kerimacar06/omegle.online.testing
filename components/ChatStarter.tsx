@@ -15,7 +15,7 @@ export default function ChatStarter() {
   return (
     <div className="w-full max-w-2xl mx-auto mt-[clamp(4px,2vw,32px)] px-0 xl:mt-8 relative z-10 flex justify-center">
 
-      <div className="relative xl:-left-[5px] bg-gray-50/70 backdrop-blur-2xl p-[clamp(10px,3vw,40px)] xl:p-10 rounded-xl shadow-[0_8px_30px_rgb(0,0,0,0.08)] ring-1 ring-white/60 border border-gray-200 text-center overflow-hidden w-full">
+      <div className="relative xl:-left-[5px] bg-gray-50/70 backdrop-blur-2xl p-[clamp(10px,3vw,40px)] xl:p-10 rounded-md shadow-[0_8px_30px_rgb(0,0,0,0.08)] ring-1 ring-white/60 border border-gray-200 text-center overflow-hidden w-full">
 
         {/* İçeriklerin üstte kalması için relative container */}
         <div className="relative z-10">
@@ -45,7 +45,7 @@ export default function ChatStarter() {
             {/* TEXT SOHBET BUTONU */}
             <Link
               href="/live-text"
-              className="group flex-1 bg-blue-600 hover:bg-blue-700 text-white font-bold py-[clamp(5px,1.4vw,12px)] px-[clamp(6px,1.6vw,20px)] xl:py-3 xl:px-4 rounded-lg transition-colors duration-300 text-[clamp(10px,2vw,16px)] xl:text-[14px] shadow-md hover:shadow-lg text-center flex items-center justify-center gap-[clamp(4px,1.1vw,8px)] xl:gap-1.5 border border-blue-700/20"
+              className="group flex-1 bg-blue-600 hover:bg-blue-700 text-white font-bold py-[clamp(5px,1.4vw,12px)] px-[clamp(6px,1.6vw,20px)] xl:py-3 xl:px-4 rounded-md transition-colors duration-300 text-[clamp(10px,2vw,16px)] xl:text-[14px] shadow-md hover:shadow-lg text-center flex items-center justify-center gap-[clamp(4px,1.1vw,8px)] xl:gap-1.5 border border-blue-700/20"
             >
               <div className="bg-white/20 p-[clamp(2px,0.7vw,4px)] xl:p-1 rounded-md">
                 <svg viewBox="0 0 24 24" fill="currentColor" className="size-[clamp(13px,2.4vw,20px)] xl:size-4 text-white">
@@ -58,7 +58,7 @@ export default function ChatStarter() {
             {/* VİDEO SOHBET BUTONU */}
             <Link
               href="/live-video"
-              className="group flex-1 bg-slate-800 hover:bg-slate-900 text-white font-bold py-[clamp(5px,1.4vw,12px)] px-[clamp(6px,1.6vw,20px)] xl:py-3 xl:px-4 rounded-lg transition-colors duration-300 text-[clamp(10px,2vw,16px)] xl:text-[14px] shadow-md hover:shadow-lg text-center flex items-center justify-center gap-[clamp(4px,1.1vw,8px)] xl:gap-1.5 border border-slate-900/20"
+              className="group flex-1 bg-slate-800 hover:bg-slate-900 text-white font-bold py-[clamp(5px,1.4vw,12px)] px-[clamp(6px,1.6vw,20px)] xl:py-3 xl:px-4 rounded-md transition-colors duration-300 text-[clamp(10px,2vw,16px)] xl:text-[14px] shadow-md hover:shadow-lg text-center flex items-center justify-center gap-[clamp(4px,1.1vw,8px)] xl:gap-1.5 border border-slate-900/20"
             >
               <div className="bg-white/20 p-[clamp(2px,0.7vw,4px)] xl:p-1 rounded-md">
                 <svg viewBox="0 0 24 24" fill="currentColor" className="size-[clamp(13px,2.4vw,20px)] xl:size-4 text-white">
