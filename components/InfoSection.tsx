@@ -3,7 +3,7 @@ import Image from 'next/image';
 export default function InfoSection() {
   return (
     <>
-      <div className="w-full max-w-6xl mx-auto mt-20 px-4 pb-10">
+      <div className="w-full max-w-6xl mx-auto mt-8 sm:mt-14 lg:mt-20 px-4 pb-6 sm:pb-10 pt-6 sm:pt-10 border-t border-gray-100">
 
         {/* 3 Paragraph Section - Temiz & Renksiz 3 Kolon Düzeni */}
         <div className="grid grid-cols-3 gap-2 sm:gap-10">
@@ -45,19 +45,19 @@ export default function InfoSection() {
       </div>
 
       {/* About Section - Hibrit Tasarım (Mobil: Cam Kart, Masaüstü: Başlık Ortada, Split Screen) */}
-      <div className="w-full relative py-16 md:py-24 lg:py-10 lg:bg-gradient-to-br lg:from-indigo-100 lg:via-purple-50 lg:to-pink-100">
+      <div className="w-full relative py-8 sm:py-12 md:py-24 lg:py-10 border-t border-gray-100">
         <div className="max-w-[1400px] mx-auto px-4 sm:px-6">
           
           {/* MASAÜSTÜ İÇİN ORTALANMIŞ BAŞLIK */}
           <div className="hidden lg:flex flex-col items-center mb-8">
-            <h2 className="text-3xl md:text-4xl lg:text-5xl font-extrabold text-slate-800 mb-6 leading-tight text-center">
+            <h2 className="text-3xl md:text-4xl font-extrabold text-gray-900 mb-6 leading-tight text-center">
               About Omegletest App
             </h2>
             <div className="w-24 h-1.5 bg-gradient-to-r from-blue-500 to-purple-500 rounded-full"></div>
           </div>
 
           {/* MOBİL İÇİN KAPSAYICI */}
-          <div className="relative w-full rounded-xl lg:rounded-none lg:overflow-visible flex items-center lg:block bg-white lg:bg-transparent shadow-lg lg:shadow-none p-6 sm:p-10 lg:p-0">
+          <div className="relative w-full flex items-center lg:block p-6 sm:p-10 lg:p-0">
             
             {/* İÇERİK: Masaüstünde Split Screen, Mobilde düz metin */}
             <div className="relative z-10 flex flex-col lg:flex-row items-center gap-10 lg:gap-12 w-full">
@@ -67,7 +67,7 @@ export default function InfoSection() {
                 
                 {/* MOBİL İÇİN BAŞLIK (Masaüstünde yukarıda gösterildiği için burada gizli) */}
                 <div className="lg:hidden">
-                  <h2 className="text-2xl sm:text-3xl md:text-4xl font-extrabold text-slate-800 mb-6 leading-tight whitespace-nowrap">
+                  <h2 className="text-2xl sm:text-3xl md:text-4xl font-extrabold text-gray-900 mb-6 leading-tight whitespace-nowrap">
                     About Omegletest App
                   </h2>
                   <div className="w-16 h-1.5 bg-gradient-to-r from-pink-500 to-purple-500 rounded-full mb-6"></div>

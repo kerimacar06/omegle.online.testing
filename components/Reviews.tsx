@@ -147,15 +147,15 @@ export default function Reviews() {
   };
 
   return (
-    <div className="w-full max-w-6xl mx-auto mt-12 px-4 pb-16">
+    <div className="w-full max-w-6xl mx-auto px-4 py-8 sm:py-16">
 
       {/* Bölüm Başlığı */}
       <div className="flex flex-col items-center justify-center mb-10 gap-2">
         <div className="text-center">
-          <h2 className="text-3xl font-extrabold text-gray-900">
+          <h2 className="text-3xl md:text-4xl font-extrabold text-gray-900 mb-4">
             Omegle User Reviews
           </h2>
-          <p className="text-gray-500 mt-2 font-medium">Don't just take our word for it.</p>
+          <p className="text-gray-500 text-lg font-medium">Don't just take our word for it.</p>
         </div>
       </div>
 

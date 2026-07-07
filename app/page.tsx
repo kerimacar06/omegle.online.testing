@@ -78,42 +78,37 @@ export default async function Home() {
           dangerouslySetInnerHTML={{ __html: JSON.stringify(combinedJsonLd) }}
         />
       )}
-      <main className="relative min-h-screen bg-white flex flex-col">
+      <main className="relative min-h-screen flex flex-col ">
         {/* Navbar (Sadece bu sayfada sticky) */}
         <Navbar isSticky={true} />
 
-        {/* HERO BÖLÜMÜ: erkek/kız görselleri kendi aralarında her zaman eşit genişlikte (flex-1),
-            ortadaki kutu ise sabit/kendi oranında bir genişlikte (w-[clamp]) — dikey basık durmasın diye. */}
-        <div className="flex flex-row items-center justify-center gap-[clamp(4px,2vw,32px)] px-[clamp(6px,2vw,32px)] pt-6 sm:pt-10">
+        {/* HERO BÖLÜMÜ: yükseklik ortadaki sohbet kutusunun kendi içeriğine göre belirlenir;
+            görseller "absolute" konumlandığı için satırın yüksekliğine katkı yapmaz, bu sayede
+            kutunun yüksekliği neyse görseller de (object-contain ile) tam o yüksekliğe oturur. */}
+        <div className="flex flex-row items-stretch justify-center px-[clamp(6px,2vw,32px)] pt-6 sm:pt-10 pb-10">
 
           {/* === SOLDAKİ ERKEK GÖRSELİ === */}
-          <div className="flex-1 min-w-0">
-            <Image
+          <div className="relative flex-1 min-w-0">
+            <img
               src="/boy-Photoroom.png"
               alt="Boy"
-              width={765}
-              height={1024}
-              priority
-              className="w-full h-auto drop-shadow-2xl"
+              className="absolute bottom-0 left-1/2 -translate-x-1/2 h-full w-auto max-w-full md:object-contain object-cover"
             />
           </div>
           {/* === SOLDAKİ ERKEK GÖRSELİ BİTİŞİ === */}
 
           {/* === ORTADAKİ SOHBET KUTUSU === */}
-          <div className="w-[clamp(160px,30vw,520px)] shrink-0 flex justify-center">
+          <div className="w-[clamp(180px,38vw,640px)] shrink-0 flex justify-center">
             <ChatStarter />
           </div>
           {/* === ORTADAKİ SOHBET KUTUSU BİTİŞİ === */}
 
           {/* === SAĞDAKİ KIZ GÖRSELİ === */}
-          <div className="flex-1 min-w-0">
-            <Image
+          <div className="relative flex-1 min-w-0">
+            <img
               src="/girl-Photoroom.png"
               alt="Girl"
-              width={414}
-              height={559}
-              priority
-              className="w-full h-auto drop-shadow-2xl"
+              className="absolute bottom-0 left-1/2 -translate-x-1/2 h-full w-auto max-w-full md:object-contain object-cover"
             />
           </div>
           {/* === SAĞDAKİ KIZ GÖRSELİ BİTİŞİ === */}
@@ -124,7 +119,7 @@ export default async function Home() {
         <InfoSection />
 
         {/* 2. BÖLÜM: Orta Kısım */}
-        <section className="w-full">
+        <section className="w-full border-t border-gray-100">
           {/* Alternatif Uygulamalar Bölümü */}
           <Alternatives />
 
@@ -134,7 +129,7 @@ export default async function Home() {
         </section>
 
         {/* 3. BÖLÜM: Alt Kısım */}
-        <section className="w-full">
+        <section className="w-full border-t border-gray-100">
           {/* Kullanıcı Yorumları Bölümü */}
           <Reviews />
 

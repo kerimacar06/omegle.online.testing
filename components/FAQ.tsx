@@ -10,7 +10,7 @@ export default async function FAQ() {
   if (faqs.length === 0) return null;
 
   return (
-    <div className="w-full bg-gradient-to-br from-indigo-100 via-purple-50 to-pink-100 py-16">
+    <div className="w-full py-8 sm:py-16 border-t border-gray-100">
       <div className="w-full max-w-3xl mx-auto px-4">
         
         {/* Ortalanmış Başlık */}
@@ -18,7 +18,7 @@ export default async function FAQ() {
           <h2 className="text-3xl md:text-4xl font-extrabold text-gray-900 mb-4">
             Frequently Asked Questions
           </h2>
-          <p className="text-[16px] text-gray-500 max-w-2xl mx-auto font-medium">
+          <p className="text-gray-500 text-lg max-w-2xl mx-auto font-medium">
             Everything you need to know about our service.
           </p>
         </div>

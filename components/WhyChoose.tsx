@@ -39,11 +39,11 @@ const reasonsData = [
 
 export default function WhyChoose() {
   return (
-    <div className="w-full bg-gradient-to-br from-indigo-100 via-purple-50 to-pink-100 py-16">
+    <div className="w-full py-8 sm:py-16 border-t border-gray-100">
       <div className="w-full max-w-5xl mx-auto px-4 text-center md:text-center">
 
         {/* Bölüm Başlığı */}
-        <h2 className="text-2xl md:text-3xl font-bold text-gray-800 mb-8 md:mb-12">
+        <h2 className="text-3xl md:text-4xl font-extrabold text-gray-900 mb-8 md:mb-12">
           Why Choose Omegletest Online?
         </h2>
 
