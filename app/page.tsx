@@ -85,20 +85,20 @@ export default async function Home() {
         {/* HERO BÖLÜMÜ: yükseklik ortadaki sohbet kutusunun kendi içeriğine göre belirlenir;
             görseller "absolute" konumlandığı için satırın yüksekliğine katkı yapmaz, bu sayede
             kutunun yüksekliği neyse görseller de (object-contain ile) tam o yüksekliğe oturur. */}
-        <div className="flex flex-row items-stretch justify-center px-[clamp(6px,2vw,32px)] pt-6 sm:pt-10 pb-10">
+        <div className="flex flex-row items-stretch justify-center px-[clamp(6px,2vw,32px)] pt-6 sm:pt-10 pb-10 min-h-[clamp(240px,62vw,380px)] xl:min-h-0">
 
           {/* === SOLDAKİ ERKEK GÖRSELİ === */}
           <div className="relative flex-1 min-w-0">
             <img
               src="/boy-Photoroom.png"
               alt="Boy"
-              className="absolute bottom-0 left-1/2 -translate-x-1/2 h-full w-auto max-w-full md:object-contain object-cover"
+              className="absolute bottom-0 left-1/2 -translate-x-1/2 h-full w-auto max-w-full object-contain"
             />
           </div>
           {/* === SOLDAKİ ERKEK GÖRSELİ BİTİŞİ === */}
 
           {/* === ORTADAKİ SOHBET KUTUSU === */}
-          <div className="w-[clamp(180px,38vw,640px)] shrink-0 flex justify-center">
+          <div className="w-[clamp(180px,38vw,640px)] shrink-0 flex justify-center self-center">
             <ChatStarter />
           </div>
           {/* === ORTADAKİ SOHBET KUTUSU BİTİŞİ === */}
@@ -108,7 +108,7 @@ export default async function Home() {
             <img
               src="/girl-Photoroom.png"
               alt="Girl"
-              className="absolute bottom-0 left-1/2 -translate-x-1/2 h-full w-auto max-w-full md:object-contain object-cover"
+              className="absolute bottom-0 left-1/2 -translate-x-1/2 h-full w-auto max-w-full object-contain"
             />
           </div>
           {/* === SAĞDAKİ KIZ GÖRSELİ BİTİŞİ === */}
