@@ -82,55 +82,44 @@ export default async function Home() {
         {/* Navbar (Sadece bu sayfada sticky) */}
         <Navbar isSticky={true} />
 
-        {/* GÖRSELLERİ SARMALAYAN VE MOBİLDE TAŞMAYI ENGELLEYEN KUTU */}
-        <div className="absolute inset-0 overflow-x-hidden sm:overflow-visible pointer-events-none z-10">
+        {/* HERO BÖLÜMÜ: erkek/kız görselleri kendi aralarında her zaman eşit genişlikte (flex-1),
+            ortadaki kutu ise sabit/kendi oranında bir genişlikte (w-[clamp]) — dikey basık durmasın diye. */}
+        <div className="flex flex-row items-center justify-center gap-[clamp(4px,2vw,32px)] px-[clamp(6px,2vw,32px)] pt-6 sm:pt-10">
 
           {/* === SOLDAKİ ERKEK GÖRSELİ === */}
-          {/*
-            MANUEL MOBİL AYARI İÇİN: 
-            Aşağıdaki "className" içindeki İLK BAŞTA YAZAN (başında sm:, md: veya lg: OLMAYAN) değerleri değiştirin:
-            - top-[160px]  -> Yukarıdan ne kadar aşağıda olacağı. (Yukarı almak için top-[100px] yapabilirsiniz)
-            - -left-2      -> Soldan konum. (Daha sola kaydırmak için -left-6 veya içeri almak için left-4 yapabilirsiniz)
-            - w-[110px]    -> Görselin büyüklüğü/genişliği. (Büyütmek için w-[140px] deneyebilirsiniz)
-          */}
-          <div className="absolute top-[180px] -left-2 w-[110px] sm:top-[120px] sm:left-4 sm:w-[160px] md:z-0 md:top-[70px] md:left-[50px] md:w-[250px] lg:left-[150px] lg:w-[320px]">
+          <div className="flex-1 min-w-0">
             <Image
-              src="/selfie çeken erkek.png"
-              alt="Selfie Çeken Erkek"
-              width={320}
-              height={400}
+              src="/boy-Photoroom.png"
+              alt="Boy"
+              width={765}
+              height={1024}
               priority
               className="w-full h-auto drop-shadow-2xl"
             />
           </div>
           {/* === SOLDAKİ ERKEK GÖRSELİ BİTİŞİ === */}
 
+          {/* === ORTADAKİ SOHBET KUTUSU === */}
+          <div className="w-[clamp(160px,30vw,520px)] shrink-0 flex justify-center">
+            <ChatStarter />
+          </div>
+          {/* === ORTADAKİ SOHBET KUTUSU BİTİŞİ === */}
+
           {/* === SAĞDAKİ KIZ GÖRSELİ === */}
-          {/*
-            MANUEL MOBİL AYARI İÇİN:
-            - -right-10    -> Sağdan konum (Eksi değer sağa doğru dışarı iter. Daha çok kaydırmak için -right-14 vs yapabilirsiniz)
-            - w-[160px]    -> Boyutu ayarlar.
-          */}
-          <div className="absolute top-[182px] right-[-50px] w-[240px] sm:top-[100px] sm:right-4 sm:w-[220px] md:z-0 md:top-[70px] md:right-[-30px] md:w-[500px] lg:right-[-10px] lg:w-[700px]">
+          <div className="flex-1 min-w-0">
             <Image
-              src="/selfie çeken kız new-Photoroom.png"
-              alt="Selfie Çeken Kız"
-              width={700}
-              height={875}
+              src="/girl-Photoroom.png"
+              alt="Girl"
+              width={414}
+              height={559}
               priority
-              className="w-full h-auto drop-shadow-2xl overflow-hidden"
+              className="w-full h-auto drop-shadow-2xl"
             />
           </div>
           {/* === SAĞDAKİ KIZ GÖRSELİ BİTİŞİ === */}
 
         </div>
-        {/* SARMALAYICI BİTİŞİ */}
-
-        {/* 1. BÖLÜM: Üst Kısım */}
-        <section className="w-full pt-8 sm:pt-24 md:pt-8 pb-0 relative z-20">
-          {/* Sitenin ortasındaki giriş kartı */}
-          <ChatStarter />
-        </section>
+        {/* HERO BÖLÜMÜ BİTİŞİ */}
 
         <InfoSection />
 

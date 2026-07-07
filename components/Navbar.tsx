@@ -14,7 +14,7 @@ export default function Navbar({ isSticky = false }: NavbarProps) {
     <nav 
       className={`
         w-full border-b border-gray-100 shadow-sm shrink-0 transition-all duration-300 relative
-        ${isSticky ? 'sticky top-0 z-50 bg-white/80 backdrop-blur-md' : 'bg-white'}
+        ${isSticky ? 'sticky top-0 z-50 bg-white' : 'bg-white'}
       `}
     >
       {/* 
