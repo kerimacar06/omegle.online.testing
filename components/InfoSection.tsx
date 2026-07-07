@@ -46,7 +46,7 @@ export default function InfoSection() {
 
       {/* About Section - Hibrit Tasarım (Mobil: Cam Kart, Masaüstü: Başlık Ortada, Split Screen) */}
       <div className="w-full relative py-16 md:py-24 lg:bg-gradient-to-br lg:from-indigo-100 lg:via-purple-50 lg:to-pink-100">
-        <div className="max-w-6xl mx-auto px-4 sm:px-6">
+        <div className="max-w-[1400px] mx-auto px-4 sm:px-6">
           
           {/* MASAÜSTÜ İÇİN ORTALANMIŞ BAŞLIK */}
           <div className="hidden lg:flex flex-col items-center mb-16">
@@ -56,47 +56,38 @@ export default function InfoSection() {
             <div className="w-24 h-1.5 bg-gradient-to-r from-blue-500 to-purple-500 rounded-full"></div>
           </div>
 
-          {/* MOBİL İÇİN KAPSAYICI (Arkaplan Görseli ve Cam Kart efekti bu div'de) */}
-          <div className="relative w-full rounded-xl overflow-hidden shadow-2xl lg:shadow-none lg:rounded-none lg:overflow-visible min-h-[500px] lg:min-h-0 flex items-center lg:block">
+          {/* MOBİL İÇİN KAPSAYICI */}
+          <div className="relative w-full rounded-xl lg:rounded-none lg:overflow-visible flex items-center lg:block bg-white lg:bg-transparent shadow-lg lg:shadow-none p-6 sm:p-10 lg:p-0">
             
-            {/* MOBİL: Arka Plan Görseli */}
-            <div className="absolute inset-0 lg:hidden">
-              <Image 
-                src="/about_illustration.png" 
-                alt="Omegletest Online Global Connectivity" 
-                fill 
-                className="object-cover"
-              />
-              {/* Metnin rahat okunabilmesi için çok hafif bir karanlık katman */}
-              <div className="absolute inset-0 bg-slate-900/20"></div>
-            </div>
-
-            {/* İÇERİK: Mobilde cam kart, Masaüstünde Split Screen */}
-            <div className="relative z-10 flex flex-col lg:flex-row items-center gap-12 lg:gap-20 p-4 sm:p-10 lg:p-0 w-full">
+            {/* İÇERİK: Masaüstünde Split Screen, Mobilde düz metin */}
+            <div className="relative z-10 flex flex-col lg:flex-row items-center gap-10 lg:gap-12 w-full">
               
               {/* SOL TARAF (Metinler) */}
-              <div className="w-full lg:w-1/2 bg-white/80 lg:bg-transparent backdrop-blur-lg lg:backdrop-blur-none rounded-xl lg:rounded-none p-6 sm:p-10 lg:p-0 shadow-[0_8px_30px_rgb(0,0,0,0.12)] lg:shadow-none border border-white/60 lg:border-none flex flex-col justify-center">
+              <div className="w-full lg:w-[55%] flex flex-col justify-center">
                 
                 {/* MOBİL İÇİN BAŞLIK (Masaüstünde yukarıda gösterildiği için burada gizli) */}
                 <div className="lg:hidden">
-                  <h2 className="text-3xl md:text-4xl font-extrabold text-slate-800 mb-6 leading-tight">
+                  <h2 className="text-2xl sm:text-3xl md:text-4xl font-extrabold text-slate-800 mb-6 leading-tight whitespace-nowrap">
                     About Omegletest App
                   </h2>
                   <div className="w-16 h-1.5 bg-gradient-to-r from-pink-500 to-purple-500 rounded-full mb-6"></div>
                 </div>
                 
-                <div className="text-slate-800 lg:text-slate-600 text-base sm:text-lg lg:text-xl leading-relaxed space-y-5 lg:space-y-6">
+                <div className="text-justify text-slate-700 lg:text-slate-600 text-xs sm:text-base lg:text-lg leading-relaxed space-y-5 lg:space-y-6">
                   <p>
                     <strong className="text-slate-900 lg:text-slate-800 font-extrabold lg:font-bold">Omegletest</strong> is a premier free online chat platform designed to connect you with random strangers from all corners of the globe. Born out of the desire to keep the classic random chat spirit alive, our platform offers a seamless, instant connection without the hassle of registrations or hidden fees.
                   </p>
                   <p>
                     What sets us apart is our commitment to both <strong className="text-slate-900 lg:text-slate-800 font-extrabold lg:font-bold">freedom and safety</strong>. We understand that anonymity is the core of random chatting. We pair this freedom with state-of-the-art AI moderation and a dedicated reporting system, ensuring that while you enjoy the thrill of the unknown, you are fully protected.
                   </p>
+                  <p>
+                    Whether you are looking to make new friends, practice a new language, or simply have a fun conversation, our platform provides the perfect environment. Join our growing community today and experience the excitement of truly spontaneous interactions, all within a secure and user-friendly interface.
+                  </p>
                 </div>
               </div>
 
               {/* SAĞ TARAF (Masaüstü Görseli) */}
-              <div className="hidden lg:block lg:w-1/2">
+              <div className="hidden lg:block lg:w-[45%]">
                 <div className="relative w-full aspect-[4/3] rounded-xl overflow-hidden shadow-2xl transform transition-transform hover:-translate-y-2 duration-500 border-4 border-white/60">
                   <Image 
                     src="/about_illustration.png" 
