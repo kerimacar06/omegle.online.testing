@@ -43,7 +43,7 @@ export default function WhyChoose() {
       <div className="w-full max-w-5xl mx-auto px-4 text-center md:text-center">
 
         {/* Bölüm Başlığı */}
-        <h2 className="text-3xl md:text-4xl font-extrabold text-gray-900 mb-8 md:mb-12">
+        <h2 className="text-3xl md:text-4xl font-bold md:font-extrabold text-gray-900 mb-8 md:mb-12">
           Why Choose Omegletest Online?
         </h2>
 

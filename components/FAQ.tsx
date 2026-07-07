@@ -15,7 +15,7 @@ export default async function FAQ() {
         
         {/* Ortalanmış Başlık */}
         <div className="text-center mb-12">
-          <h2 className="text-3xl md:text-4xl font-extrabold text-gray-900 mb-2 leading-none">
+          <h2 className="text-3xl md:text-4xl font-bold md:font-extrabold text-gray-900 mb-2 leading-none">
             Frequently Asked Questions
           </h2>
           <p className="text-gray-500 text-lg font-medium leading-none">

@@ -50,7 +50,7 @@ export default function InfoSection() {
           
           {/* MASAÜSTÜ İÇİN ORTALANMIŞ BAŞLIK */}
           <div className="hidden lg:flex flex-col items-center mb-8">
-            <h2 className="text-3xl md:text-4xl font-extrabold text-gray-900 mb-6 leading-tight text-center">
+            <h2 className="text-3xl md:text-4xl font-bold md:font-extrabold text-gray-900 mb-6 leading-tight text-center">
               About Omegletest App
             </h2>
             <div className="w-24 h-1.5 bg-gradient-to-r from-blue-500 to-purple-500 rounded-full"></div>
@@ -67,7 +67,7 @@ export default function InfoSection() {
                 
                 {/* MOBİL İÇİN BAŞLIK (Masaüstünde yukarıda gösterildiği için burada gizli) */}
                 <div className="lg:hidden">
-                  <h2 className="text-2xl sm:text-3xl md:text-4xl font-extrabold text-gray-900 mb-6 leading-tight whitespace-nowrap">
+                  <h2 className="text-2xl sm:text-3xl md:text-4xl font-bold md:font-extrabold text-gray-900 mb-6 leading-tight whitespace-nowrap">
                     About Omegletest App
                   </h2>
                   <div className="w-16 h-1.5 bg-gradient-to-r from-pink-500 to-purple-500 rounded-full mb-6"></div>

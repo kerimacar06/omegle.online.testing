@@ -2,7 +2,7 @@ export default function BottomBanner() {
   return (
     <div className="w-full py-8 sm:py-14 md:py-20 border-t border-gray-100">
       <div className="max-w-2xl mx-auto px-4 flex flex-col items-center text-center">
-        <h2 className="text-3xl md:text-4xl font-extrabold text-gray-900 mb-2 leading-none">
+        <h2 className="text-3xl md:text-4xl font-bold md:font-extrabold text-gray-900 mb-2 leading-none">
           Ready to meet strangers worldwide?
         </h2>
         <p className="text-gray-500 text-lg font-medium leading-none mb-6 md:mb-8">
