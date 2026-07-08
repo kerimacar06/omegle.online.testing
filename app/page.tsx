@@ -125,11 +125,10 @@ export default async function Home() {
 
           {/* Neden Bizi Seçmelisiniz Bölümü */}
           <WhyChoose />
-
         </section>
 
         {/* 3. BÖLÜM: Alt Kısım */}
-        <section className="w-full border-t border-gray-100">
+        <section className="w-full bg-slate-100 border-t border-gray-100">
           {/* Kullanıcı Yorumları Bölümü */}
           <Reviews />
 

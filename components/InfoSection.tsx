@@ -45,7 +45,7 @@ export default function InfoSection() {
       </div>
 
       {/* About Section - Hibrit Tasarım (Mobil: Cam Kart, Masaüstü: Başlık Ortada, Split Screen) */}
-      <div className="w-full relative py-8 sm:py-12 md:py-24 lg:py-10 border-t border-gray-100">
+      <div className="w-full bg-slate-100 py-8 sm:py-12 md:py-24 lg:py-10 border-t border-gray-100">
         <div className="max-w-[1400px] mx-auto px-4 sm:px-6">
           
           {/* MASAÜSTÜ İÇİN ORTALANMIŞ BAŞLIK */}
