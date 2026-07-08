@@ -8,6 +8,7 @@ import Reviews from '@/components/Reviews';
 import FAQ from '@/components/FAQ';
 import BottomBanner from '@/components/BottomBanner';
 import Footer from '@/components/Footer';
+import ScrollToHash from '@/components/ScrollToHash';
 import { seoService } from '@/services/seoService';
 import { faqService } from '@/services/faqService';
 
@@ -78,6 +79,7 @@ export default async function Home() {
           dangerouslySetInnerHTML={{ __html: JSON.stringify(combinedJsonLd) }}
         />
       )}
+      <ScrollToHash />
       <main className="relative min-h-screen flex flex-col ">
         {/* Navbar (Sadece bu sayfada sticky) */}
         <Navbar isSticky={true} />

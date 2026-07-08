@@ -10,7 +10,7 @@ export default async function FAQ() {
   if (faqs.length === 0) return null;
 
   return (
-    <div className="w-full py-8 sm:py-16 border-t border-gray-100">
+    <div id="faq" className="w-full scroll-mt-24 py-8 sm:py-16 border-t border-gray-100">
       <div className="w-full max-w-3xl mx-auto px-4">
         
         {/* Ortalanmış Başlık */}
