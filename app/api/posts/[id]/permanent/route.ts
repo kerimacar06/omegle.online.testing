@@ -2,10 +2,14 @@ import { NextResponse } from "next/server";
 import { postService } from "@/services/postService";
 import { clearCache } from "@/lib/ramCache";
 import { revalidatePath } from "next/cache";
+import { requireAdmin } from "@/lib/auth";
 
 export const dynamic = 'force-dynamic';
 
 export async function DELETE(request: Request, context: any) {
+  const authError = await requireAdmin();
+  if (authError) return authError;
+
   try {
     const { id } = await context.params;
     

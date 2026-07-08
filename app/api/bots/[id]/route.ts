@@ -2,11 +2,15 @@ import { NextResponse } from "next/server";
 import { botService } from "@/services/botService";
 import { clearCache } from "@/lib/ramCache";
 import { revalidatePath } from "next/cache";
+import { requireAdmin } from "@/lib/auth";
 
 export const dynamic = 'force-dynamic';
 
 // GET: Sadece tek bir botun bilgilerini getir (Düzenleme formu için)
 export async function GET(request: Request, context: any) {
+  const authError = await requireAdmin();
+  if (authError) return authError;
+
   try {
     const { id } = await context.params;
     const bot = await botService.getBotById(id);
@@ -19,6 +23,9 @@ export async function GET(request: Request, context: any) {
 
 // PUT: Mevcut botu güncelle
 export async function PUT(request: Request, context: any) {
+  const authError = await requireAdmin();
+  if (authError) return authError;
+
   try {
     const { id } = await context.params;
     const body = await request.json();
@@ -33,6 +40,9 @@ export async function PUT(request: Request, context: any) {
 
 // DELETE: Botu veritabanından sil
 export async function DELETE(request: Request, context: any) {
+  const authError = await requireAdmin();
+  if (authError) return authError;
+
   try {
     const { id } = await context.params;
     await botService.deleteBot(id);

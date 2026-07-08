@@ -2,10 +2,14 @@ import { NextResponse } from "next/server";
 import { seoService } from "@/services/seoService";
 import { clearCache } from "@/lib/ramCache";
 import { revalidatePath } from "next/cache";
+import { requireAdmin } from "@/lib/auth";
 
 export const dynamic = 'force-dynamic';
 
 export async function GET(request: Request, context: any) {
+  const authError = await requireAdmin();
+  if (authError) return authError;
+
   try {
     const { id } = await context.params;
     const seo = await seoService.getSeoById(id);
@@ -17,6 +21,9 @@ export async function GET(request: Request, context: any) {
 }
 
 export async function PUT(request: Request, context: any) {
+  const authError = await requireAdmin();
+  if (authError) return authError;
+
   try {
     const { id } = await context.params;
     const body = await request.json();
@@ -30,6 +37,9 @@ export async function PUT(request: Request, context: any) {
 }
 
 export async function DELETE(request: Request, context: any) {
+  const authError = await requireAdmin();
+  if (authError) return authError;
+
   try {
     const { id } = await context.params;
     await seoService.deleteSeo(id);

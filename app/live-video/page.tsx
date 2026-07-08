@@ -14,6 +14,9 @@ export default function VideoChatPage() {
   const localVideoRef = useRef<HTMLVideoElement>(null);
   const timeoutRef = useRef<NodeJS.Timeout | null>(null);
   const chatSessionIdRef = useRef(0);
+  const streamRef = useRef<MediaStream | null>(null);
+  const isMountedRef = useRef(true);
+  const cameraStoppedRef = useRef(false);
   const [cameraError, setCameraError] = useState<string | null>(null);
 
   const scrollToBottom = () => {
@@ -24,6 +27,26 @@ export default function VideoChatPage() {
     scrollToBottom();
   }, [messages]);
 
+  const startCamera = async () => {
+    try {
+      const stream = await navigator.mediaDevices.getUserMedia({ video: true, audio: false });
+      if (!isMountedRef.current) {
+        stream.getTracks().forEach(track => track.stop());
+        return;
+      }
+      streamRef.current = stream;
+      if (localVideoRef.current) {
+        localVideoRef.current.srcObject = stream;
+      }
+      setCameraError(null);
+    } catch (err) {
+      if (isMountedRef.current) {
+        setCameraError("Camera access denied or no camera found.");
+        console.error("Kamera hatası:", err);
+      }
+    }
+  };
+
   const findStranger = async () => {
     const currentSessionId = ++chatSessionIdRef.current;
     setIsSearching(true);
@@ -33,7 +56,14 @@ export default function VideoChatPage() {
       { sender: 'System', text: 'Connecting to server...' },
       { sender: 'System', text: 'Looking for someone you can chat with...' }
     ]);
-    
+
+    // "Stop" ile kamera kapatıldıysa, "Next" ile tekrar aranmaya başlanınca kamerayı yeniden aç
+    // (ilk yüklemede kamerayı zaten ayrı bir effect başlatıyor, burada tekrar tetiklemiyoruz)
+    if (cameraStoppedRef.current) {
+      cameraStoppedRef.current = false;
+      startCamera();
+    }
+
     if (timeoutRef.current) clearTimeout(timeoutRef.current);
 
     try {
@@ -72,26 +102,17 @@ export default function VideoChatPage() {
   }, []);
 
   useEffect(() => {
-    async function startCamera() {
-      try {
-        const stream = await navigator.mediaDevices.getUserMedia({ video: true, audio: false });
-        if (localVideoRef.current) {
-          localVideoRef.current.srcObject = stream;
-        }
-      } catch (err) {
-        setCameraError("Camera access denied or no camera found.");
-        console.error("Kamera hatası:", err);
-      }
-    }
-
+    isMountedRef.current = true;
     startCamera();
 
+    // Kullanıcı kamera izni bekleyen anda sayfadan ayrılırsa (unmount), getUserMedia
+    // sonradan çözülebiliyordu ve stream hiç durdurulmadan açık kalıyordu.
+    // "isMountedRef" bu yarış durumunu (race condition) ele alıp, geç gelen
+    // stream'i de anında durduruyor.
     return () => {
-      if (localVideoRef.current && localVideoRef.current.srcObject) {
-        const stream = localVideoRef.current.srcObject as MediaStream;
-        const tracks = stream.getTracks();
-        tracks.forEach(track => track.stop());
-      }
+      isMountedRef.current = false;
+      streamRef.current?.getTracks().forEach(track => track.stop());
+      streamRef.current = null;
     };
   }, []);
 
@@ -109,6 +130,15 @@ export default function VideoChatPage() {
     chatSessionIdRef.current++; // Invalidate current session
     setMessages(prev => [...prev, { sender: 'System', text: 'You have disconnected.' }]);
     if (timeoutRef.current) clearTimeout(timeoutRef.current);
+
+    // Kamerayı gerçekten kapat — önceden "Stop" sadece görsel durumu değiştiriyordu,
+    // yerel kamera akışı sekme kapanana kadar arka planda açık kalıyordu.
+    cameraStoppedRef.current = true;
+    streamRef.current?.getTracks().forEach(track => track.stop());
+    streamRef.current = null;
+    if (localVideoRef.current) {
+      localVideoRef.current.srcObject = null;
+    }
   };
 
   return (

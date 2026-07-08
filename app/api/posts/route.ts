@@ -2,14 +2,18 @@ import { NextResponse } from "next/server";
 import { postService } from "@/services/postService";
 import { clearCache } from "@/lib/ramCache";
 import { revalidatePath } from "next/cache";
+import { requireAdmin } from "@/lib/auth";
 
 export const dynamic = 'force-dynamic';
 
 // Yeni Post Ekleme İşlemi (POST İsteği)
 export async function POST(request: Request) {
+  const authError = await requireAdmin();
+  if (authError) return authError;
+
   try {
     // Admin panelindeki formdan gönderilen veriyi alıyoruz
-    const body = await request.json(); 
+    const body = await request.json();
     
     // Veriyi Service katmanından kaydediyoruz
     const newPost = await postService.createPost(body);

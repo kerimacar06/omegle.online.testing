@@ -2,12 +2,16 @@ import { NextResponse } from "next/server";
 import { postService } from "@/services/postService";
 import { clearCache } from "@/lib/ramCache";
 import { revalidatePath } from "next/cache";
+import { requireAdmin } from "@/lib/auth";
 
 // Önbelleğe almayı kesinlikle kapatır (Her seferinde veritabanına gider)
 export const dynamic = 'force-dynamic';
 
 // GET: Mevcut postun bilgilerini getirme
 export async function GET(request: Request, context: any) {
+  const authError = await requireAdmin();
+  if (authError) return authError;
+
   try {
     // YENİ NEXT.JS SÜRÜMÜ İÇİN KRİTİK NOKTA: Params'ı await ile bekliyoruz
     const { id } = await context.params;
@@ -27,6 +31,9 @@ export async function GET(request: Request, context: any) {
 
 // PUT: Düzenlenen postu veritabanında güncelleme
 export async function PUT(request: Request, context: any) {
+  const authError = await requireAdmin();
+  if (authError) return authError;
+
   try {
     // YENİ NEXT.JS SÜRÜMÜ İÇİN KRİTİK NOKTA: Params'ı await ile bekliyoruz
     const { id } = await context.params;
@@ -47,6 +54,9 @@ export async function PUT(request: Request, context: any) {
 }
 // YENİ: Veritabanından postu kalıcı olarak silme (DELETE)
 export async function DELETE(request: Request, context: any) {
+  const authError = await requireAdmin();
+  if (authError) return authError;
+
   try {
     const { id } = await context.params;
     // YENİ: Artık kalıcı olarak silmiyoruz, sadece isDeleted bayrağını true yapıyoruz (Çöp Kutusu)

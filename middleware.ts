@@ -2,6 +2,16 @@ import { NextResponse } from 'next/server';
 import type { NextRequest } from 'next/server';
 import { jwtVerify } from 'jose';
 
+// Middleware kendi `request.cookies` nesnesini kullanıyor (lib/auth.ts ise route handler'lara
+// özel next/headers cookies() ile çalışıyor), o yüzden secret encode işlemi burada ayrıca yapılıyor.
+function getJwtSecretKey() {
+  const secret = process.env.JWT_SECRET;
+  if (!secret) {
+    throw new Error("Lütfen .env dosyasında JWT_SECRET değişkenini tanımlayın.");
+  }
+  return new TextEncoder().encode(secret);
+}
+
 export async function middleware(request: NextRequest) {
   const isLoginPage = request.nextUrl.pathname === '/admin/login';
   const token = request.cookies.get('admin_token')?.value;
@@ -14,8 +24,7 @@ export async function middleware(request: NextRequest) {
   if (isLoginPage) {
     if (token) {
         try {
-            const secret = new TextEncoder().encode(process.env.JWT_SECRET || 'default_secret');
-            await jwtVerify(token, secret);
+            await jwtVerify(token, getJwtSecretKey());
             return NextResponse.redirect(new URL('/admin/dashboard', request.url));
         } catch {}
     }
@@ -27,8 +36,7 @@ export async function middleware(request: NextRequest) {
       return NextResponse.redirect(new URL('/admin/login', request.url));
     }
     try {
-      const secret = new TextEncoder().encode(process.env.JWT_SECRET || 'default_secret');
-      await jwtVerify(token, secret);
+      await jwtVerify(token, getJwtSecretKey());
       return NextResponse.next();
     } catch {
       return NextResponse.redirect(new URL('/admin/login', request.url));

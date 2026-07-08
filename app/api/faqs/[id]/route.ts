@@ -2,8 +2,12 @@ import { NextResponse } from "next/server";
 import { faqService } from "@/services/faqService";
 import { clearCache } from "@/lib/ramCache";
 import { revalidatePath } from "next/cache";
+import { requireAdmin } from "@/lib/auth";
 
 export async function PUT(request: Request, context: any) {
+  const authError = await requireAdmin();
+  if (authError) return authError;
+
   try {
     const { id } = await context.params;
     const body = await request.json();
@@ -17,6 +21,9 @@ export async function PUT(request: Request, context: any) {
 }
 
 export async function DELETE(request: Request, context: any) {
+  const authError = await requireAdmin();
+  if (authError) return authError;
+
   try {
     const { id } = await context.params;
     await faqService.deleteFaq(id);

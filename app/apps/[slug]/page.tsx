@@ -6,6 +6,7 @@ import Link from 'next/link';
 import { postService } from '@/services/postService';
 import { seoService } from '@/services/seoService';
 import MobileVideoChatFab from '@/components/MobileVideoChatFab';
+import { sanitizePostHtml } from '@/lib/sanitizeHtml';
 
 export const dynamic = 'force-dynamic';
 
@@ -252,7 +253,7 @@ export default async function BlogPostPage(props: any) {
                       [&_th]:border [&_th]:border-gray-200 [&_th]:bg-gray-50 [&_th]:p-3 [&_th]:font-bold [&_th]:text-left
                       [&_td]:border [&_td]:border-gray-200 [&_td]:p-3
                       [&_.ql-align-center]:text-center [&_.ql-align-right]:text-right [&_.ql-align-justify]:text-justify"
-                      dangerouslySetInnerHTML={{ __html: post.content.replace(/target="_blank"/gi, 'target="_self"') }}
+                      dangerouslySetInnerHTML={{ __html: sanitizePostHtml(post.content) }}
                     />
                   </div>
                 )}
@@ -308,7 +309,7 @@ export default async function BlogPostPage(props: any) {
                       [&_th]:border [&_th]:border-gray-200 [&_th]:bg-gray-50 [&_th]:p-3 [&_th]:font-bold [&_th]:text-left
                       [&_td]:border [&_td]:border-gray-200 [&_td]:p-3
                       [&_.ql-align-center]:text-center [&_.ql-align-right]:text-right [&_.ql-align-justify]:text-justify"
-                      dangerouslySetInnerHTML={{ __html: post.alternativeAppsContent.replace(/target="_blank"/gi, 'target="_self"') }}
+                      dangerouslySetInnerHTML={{ __html: sanitizePostHtml(post.alternativeAppsContent) }}
                     />
                   </div>
                 )}

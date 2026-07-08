@@ -2,10 +2,14 @@ import { NextResponse } from "next/server";
 import { faqService } from "@/services/faqService";
 import { clearCache } from "@/lib/ramCache";
 import { revalidatePath } from "next/cache";
+import { requireAdmin } from "@/lib/auth";
 
 export const dynamic = 'force-dynamic';
 
 export async function GET() {
+  const authError = await requireAdmin();
+  if (authError) return authError;
+
   try {
     const faqs = await faqService.getAllFaqs();
     return NextResponse.json({ faqs }, { status: 200 });
@@ -15,6 +19,9 @@ export async function GET() {
 }
 
 export async function POST(request: Request) {
+  const authError = await requireAdmin();
+  if (authError) return authError;
+
   try {
     const body = await request.json();
     await faqService.createFaq(body);

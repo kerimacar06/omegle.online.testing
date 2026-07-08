@@ -1,8 +1,14 @@
 import { NextRequest, NextResponse } from "next/server";
 import { writeFile } from "fs/promises";
 import path from "path";
+import { requireAdmin } from "@/lib/auth";
+
+const MAX_FILE_SIZE_BYTES = 5 * 1024 * 1024; // 5 MB
 
 export async function POST(req: NextRequest) {
+  const authError = await requireAdmin();
+  if (authError) return authError;
+
   try {
     const data = await req.formData();
     const file: File | null = data.get("file") as unknown as File;
@@ -15,6 +21,10 @@ export async function POST(req: NextRequest) {
     const validMimeTypes = ['image/jpeg', 'image/png', 'image/webp', 'image/gif'];
     if (!validMimeTypes.includes(file.type)) {
       return NextResponse.json({ success: false, message: "Only image files (JPG, PNG, WEBP, GIF) are allowed" }, { status: 400 });
+    }
+
+    if (file.size > MAX_FILE_SIZE_BYTES) {
+      return NextResponse.json({ success: false, message: "File is too large (max 5MB)" }, { status: 400 });
     }
 
     const bytes = await file.arrayBuffer();

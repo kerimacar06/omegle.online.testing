@@ -1,7 +1,22 @@
 /* eslint-disable @typescript-eslint/no-require-imports */
 const mongoose = require('mongoose');
 
-const MONGODB_URI = "mongodb+srv://omegletest:REDACTED-ROTATED@cluster0.uvvzgg2.mongodb.net/omegle_admin?appName=Cluster0";
+// MONGODB_URI artık kod içine gömülü değil — .env.local dosyasından okunuyor.
+if (!process.env.MONGODB_URI) {
+  try {
+    const fs = require('fs');
+    const envFile = fs.readFileSync('.env.local', 'utf-8');
+    envFile.split('\n').forEach(line => {
+      const match = line.match(/^([^#=]+)=(.*)$/);
+      if (match) process.env[match[1].trim()] = match[2].trim();
+    });
+  } catch {}
+}
+
+const MONGODB_URI = process.env.MONGODB_URI;
+if (!MONGODB_URI) {
+  throw new Error('MONGODB_URI ortam değişkeni bulunamadı. .env.local dosyasını kontrol edin.');
+}
 
 const seoSchema = new mongoose.Schema(
   {

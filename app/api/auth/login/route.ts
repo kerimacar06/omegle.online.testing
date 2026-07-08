@@ -1,5 +1,6 @@
 import { NextResponse } from 'next/server';
 import { SignJWT } from 'jose';
+import { getJwtSecretKey } from '@/lib/auth';
 
 export async function POST(request: Request) {
   try {
@@ -12,8 +13,8 @@ export async function POST(request: Request) {
     // Bilgileri kontrol et
     if (username === correctUsername && password === correctPassword) {
       // Doğruysa JWT Token oluştur
-      const secret = new TextEncoder().encode(process.env.JWT_SECRET || 'default_secret');
-      
+      const secret = getJwtSecretKey();
+
       const alg = 'HS256';
       const token = await new SignJWT({ user: 'admin' })
         .setProtectedHeader({ alg })
