@@ -62,7 +62,7 @@ export default function AppsList({ posts }: { posts: Post[] }) {
 
               {/* İçerik */}
               <div className="p-2.5 sm:p-5 flex flex-col flex-grow">
-                <h2 className="text-xs sm:text-base font-bold text-gray-900 mb-1 sm:mb-2 group-hover:text-blue-600 transition-colors line-clamp-2 leading-tight">
+                <h2 className="text-xs sm:text-base font-bold text-gray-900 mb-1 sm:mb-2 group-hover:text-blue-600 transition-colors line-clamp-2 leading-tight min-h-[1.875rem] sm:min-h-[2.5rem]">
                   {post.title}
                 </h2>
 

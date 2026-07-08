@@ -77,7 +77,7 @@ export default async function AppsPage() {
         dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbJsonLd) }}
       />
 
-      <main className="min-h-screen bg-white flex flex-col">
+      <main className="min-h-screen bg-gradient-to-b from-white via-blue-50/60 to-purple-50/50 flex flex-col">
         <Navbar />
 
         {/* HEADER BÖLÜMÜ */}
@@ -113,7 +113,7 @@ export default async function AppsPage() {
         </div>
 
         {/* LİSTE BÖLÜMÜ */}
-        <div className="w-full bg-slate-100 border-t border-gray-100 flex-grow">
+        <div className="w-full flex-grow">
           <div className="w-full max-w-5xl mx-auto px-4 py-10 sm:py-16">
             <AppsList posts={serializedPosts} />
           </div>

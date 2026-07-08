@@ -42,8 +42,8 @@ export default function EditPost() {
             alternativeAppsContent: post.alternativeAppsContent || "",
             rating: post.rating || 5,
             voteCount: post.voteCount || 0,
-            pros: post.pros ? post.pros.join(", ") : "",
-            cons: post.cons ? post.cons.join(", ") : "",
+            pros: post.pros ? post.pros.join("\n") : "",
+            cons: post.cons ? post.cons.join("\n") : "",
             author: post.author || "Omegle Test", // YENİ: Yazar verisini çekiyoruz
             status: post.status || "Published",
             faqs: post.faqs || [] // YENİ: Veritabanındaki eski SSS'leri çekiyoruz
@@ -121,8 +121,8 @@ export default function EditPost() {
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
           ...formData,
-          pros: formData.pros.split(",").map(item => item.trim()).filter(Boolean),
-          cons: formData.cons.split(",").map(item => item.trim()).filter(Boolean),
+          pros: formData.pros.split("\n").map(item => item.trim()).filter(Boolean),
+          cons: formData.cons.split("\n").map(item => item.trim()).filter(Boolean),
           faqs: validFaqs // YENİ: SSS'leri veritabanına yolluyoruz
         }),
       });
@@ -274,12 +274,12 @@ export default function EditPost() {
             </div>
             <div className="md:w-2/3 space-y-5">
               <div>
-                <label className="block text-sm font-medium text-gray-700 mb-1">Pros (Comma separated)</label>
-                <input type="text" value={formData.pros} onChange={(e) => setFormData({...formData, pros: e.target.value})} className="w-full px-4 py-2 border border-gray-300 rounded-md outline-none focus:border-green-500" placeholder="Fast interface, Free to use, No registration..." />
+                <label className="block text-sm font-medium text-gray-700 mb-1">Pros (one per line)</label>
+                <textarea rows={4} value={formData.pros} onChange={(e) => setFormData({...formData, pros: e.target.value})} className="w-full px-4 py-2 border border-gray-300 rounded-md outline-none focus:border-green-500 resize-y" placeholder={"Fast interface\nFree to use, no registration needed\nActive global community"} />
               </div>
               <div>
-                <label className="block text-sm font-medium text-gray-700 mb-1">Cons (Comma separated)</label>
-                <input type="text" value={formData.cons} onChange={(e) => setFormData({...formData, cons: e.target.value})} className="w-full px-4 py-2 border border-gray-300 rounded-md outline-none focus:border-red-500" placeholder="Many ads, Connection drops..." />
+                <label className="block text-sm font-medium text-gray-700 mb-1">Cons (one per line)</label>
+                <textarea rows={4} value={formData.cons} onChange={(e) => setFormData({...formData, cons: e.target.value})} className="w-full px-4 py-2 border border-gray-300 rounded-md outline-none focus:border-red-500 resize-y" placeholder={"Many ads on the free tier\nConnection drops during peak hours"} />
               </div>
               <div className="flex gap-4">
                 <div className="flex-1">
