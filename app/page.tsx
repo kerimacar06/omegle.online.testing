@@ -47,9 +47,12 @@ async function getFaqJsonLd() {
 export default async function Home() {
   const jsonLdString = await getSeoJsonLd();
   const faqJsonLd = await getFaqJsonLd();
+  const seoData = await seoService.getSeoData('home');
+
+  const breadcrumbName = seoData?.breadcrumb && seoData.breadcrumb.trim() !== "" ? seoData.breadcrumb : 'Omegle Test Online';
 
   const breadcrumbJsonLd = seoService.generateBreadcrumbJsonLd([
-    { name: 'Omegle Test Online', url: 'https://omegletest.online' }
+    { name: breadcrumbName, url: 'https://omegletest.online' }
   ]);
 
   let combinedJsonLd: any[] = [breadcrumbJsonLd];

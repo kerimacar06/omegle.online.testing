@@ -40,6 +40,11 @@ export default async function BlogPostPage(props: any) {
     notFound();
   }
 
+  // Apps listeleme sayfasının admin panelindeki breadcrumb değeri — "Apps" adımının
+  // hem JSON-LD hem görünen breadcrumb'da aynı, tek bir kaynaktan gelmesi için
+  const appsSeoData = await seoService.getSeoData('apps');
+  const appsBreadcrumbName = appsSeoData?.breadcrumb && appsSeoData.breadcrumb.trim() !== "" ? appsSeoData.breadcrumb : 'Omegle Alternatives';
+
   // Pros ve Cons dizilerinin en uzun olanını bulup tablo satır sayısını belirliyoruz
   const prosLength = post.pros ? post.pros.length : 0;
   const consLength = post.cons ? post.cons.length : 0;
@@ -95,12 +100,16 @@ export default async function BlogPostPage(props: any) {
   } : null;
 
   // YENİ: Otomatik Breadcrumb JSON-LD (Sayfa kaynağı için)
-  // Eğer admin panelinden breadcrumb girildiyse onu kullan, girilmediyse slug'daki tireleri boşluk yapıp kullan
-  const breadcrumbName = post.breadcrumb && post.breadcrumb.trim() !== "" ? post.breadcrumb : post.slug.replace(/-/g, ' ');
+  // Eğer admin panelinden breadcrumb girildiyse onu kullan, girilmediyse slug'daki tireleri boşluk yapıp
+  // her kelimenin ilk harfini büyütüyoruz (CSS "capitalize" yerine burada yapıyoruz ki JSON-LD ve görünen
+  // breadcrumb birebir aynı metni içersin — CSS sadece görünümü değiştirir, JSON-LD'yi etkilemez)
+  const breadcrumbName = post.breadcrumb && post.breadcrumb.trim() !== ""
+    ? post.breadcrumb
+    : post.slug.replace(/-/g, ' ').replace(/\b\w/g, (c: string) => c.toUpperCase());
 
   const breadcrumbJsonLd = seoService.generateBreadcrumbJsonLd([
     { name: 'Omegle Test Online', url: 'https://omegletest.online' },
-    { name: 'Omegle Alternatives', url: 'https://omegletest.online/apps' },
+    { name: appsBreadcrumbName, url: 'https://omegletest.online/apps' },
     { name: breadcrumbName, url: `https://omegletest.online/apps/${post.slug}` }
   ]);
 
@@ -134,9 +143,9 @@ export default async function BlogPostPage(props: any) {
         <div className="flex items-center gap-2 text-sm text-gray-500 mb-8 font-medium">
           <Link href="/" className="hover:text-blue-500 transition-colors">Home</Link>
           <span>›</span>
-          <Link href="/apps" className="hover:text-blue-500 transition-colors">Apps</Link>
+          <Link href="/apps" className="hover:text-blue-500 transition-colors">{appsBreadcrumbName}</Link>
           <span>›</span>
-          <span className="text-gray-900 capitalize">{breadcrumbName}</span>
+          <span className="text-gray-900">{breadcrumbName}</span>
         </div>
 
         {/* YENİ: Video Chat Yönlendirme Banner'ı */}

@@ -16,7 +16,10 @@ export async function generateMetadata() {
       robots: seoData.robots,
     };
   }
-  return { title: 'Text Chat | omegletest.online' };
+  return {
+    title: 'Text Chat | omegletest.online',
+    description: 'Start a free, anonymous live text chat with strangers worldwide on omegletest.online.',
+  };
 }
 
 function ChatTextScreen() {

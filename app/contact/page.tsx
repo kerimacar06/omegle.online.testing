@@ -102,7 +102,7 @@ export default async function ContactPage() {
                 {/* Get In Touch */}
                 <div className="bg-white p-5 sm:p-8 rounded-md border border-gray-200 shadow-sm">
                   <h2 className="text-lg sm:text-2xl font-bold text-gray-900 mb-4 sm:mb-6">Get In Touch</h2>
-                  <p className="text-gray-500 mb-6 sm:mb-8 text-sm leading-relaxed">
+                  <p className="text-gray-500 mb-6 sm:mb-8 text-sm sm:text-base leading-relaxed">
                     Have questions, feedback, or need support? Reach out to our team using the details below.
                   </p>
 
@@ -140,7 +140,7 @@ export default async function ContactPage() {
                       </div>
                       <div>
                         <h4 className="font-bold text-gray-800 text-sm sm:text-base">Response Time</h4>
-                        <p className="text-sm text-gray-500">We typically reply within 24 hours on business days.</p>
+                        <p className="text-sm sm:text-base text-gray-500">We typically reply within 24 hours on business days.</p>
                       </div>
                     </li>
                     <li className="flex items-start gap-3">
@@ -149,7 +149,7 @@ export default async function ContactPage() {
                       </div>
                       <div>
                         <h4 className="font-bold text-gray-800 text-sm sm:text-base">Quick Answers</h4>
-                        <p className="text-sm text-gray-500">
+                        <p className="text-sm sm:text-base text-gray-500">
                           Check our <Link href="/#faq" className="text-blue-600 font-semibold hover:underline">FAQ section</Link> — most common questions are already covered there.
                         </p>
                       </div>
@@ -160,7 +160,7 @@ export default async function ContactPage() {
                       </div>
                       <div>
                         <h4 className="font-bold text-gray-800 text-sm sm:text-base">Report a Safety Issue</h4>
-                        <p className="text-sm text-gray-500">Ran into abusive or inappropriate behavior? Email us above and our moderation team will act on it.</p>
+                        <p className="text-sm sm:text-base text-gray-500">Ran into abusive or inappropriate behavior? Email us above and our moderation team will act on it.</p>
                       </div>
                     </li>
                   </ul>

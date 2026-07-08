@@ -16,7 +16,10 @@ export async function generateMetadata() {
       robots: seoData.robots,
     };
   }
-  return { title: 'Video Chat | omegletest.online' };
+  return {
+    title: 'Video Chat | omegletest.online',
+    description: 'Start a free, anonymous live video chat with strangers worldwide on omegletest.online.',
+  };
 }
 
 function ChatVideoScreen() {
