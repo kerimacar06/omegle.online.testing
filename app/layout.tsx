@@ -15,6 +15,7 @@ const geistMono = Geist_Mono({
 import ScrollToTop from "@/components/ScrollToTop";
 
 export const metadata: Metadata = {
+  metadataBase: new URL("https://omegletest.online"),
   title: "Omegle Test - talk to strangers",
   description: "Connect with strangers worldwide in real-time video chat with omegletest.online",
 };

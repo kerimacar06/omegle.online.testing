@@ -2,10 +2,10 @@ export default function BottomBanner() {
   return (
     <div className="w-full py-8 sm:py-14 md:py-20 border-t border-gray-100">
       <div className="max-w-2xl mx-auto px-4 flex flex-col items-center text-center">
-        <h2 className="text-3xl md:text-4xl font-bold md:font-extrabold text-gray-900 mb-2 leading-none">
+        <h2 className="text-2xl sm:text-3xl md:text-4xl font-bold md:font-extrabold text-gray-900 mb-2 leading-none">
           Ready to meet strangers worldwide?
         </h2>
-        <p className="text-gray-500 text-lg font-medium leading-none mb-6 md:mb-8">
+        <p className="text-gray-500 text-xs sm:text-lg font-medium leading-none mb-6 md:mb-8">
           Omegletest Online is the best free video chat platform for anonymous conversations. No sign-up required. Start chatting now!
         </p>
         <a href="https://chathub.cam/" target="_blank" rel="noopener noreferrer" className="w-auto bg-red-500 hover:bg-red-600 text-white font-bold py-2 md:py-4 px-6 md:px-12 rounded-full text-sm md:text-xl shadow-lg hover:shadow-xl transition-all flex items-center justify-center gap-2 md:gap-3 animate-soft-bounce">

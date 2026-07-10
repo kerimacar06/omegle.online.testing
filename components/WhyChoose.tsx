@@ -43,7 +43,7 @@ export default function WhyChoose() {
       <div className="w-full max-w-5xl mx-auto px-4 text-center md:text-center">
 
         {/* Bölüm Başlığı */}
-        <h2 className="text-3xl md:text-4xl font-bold md:font-extrabold text-gray-900 mb-8 md:mb-12">
+        <h2 className="text-2xl sm:text-3xl md:text-4xl font-bold md:font-extrabold text-gray-900 mb-8 md:mb-12">
           Why Choose Omegletest Online?
         </h2>
 
@@ -61,10 +61,10 @@ export default function WhyChoose() {
 
               {/* Metin İçeriği (Her Ekranda Ortalanmış) */}
               <div className="flex flex-col text-center w-full">
-                <h3 className="text-[10px] sm:text-sm md:text-lg font-bold text-gray-800 mb-1 md:mb-3 leading-tight">
+                <h3 className="text-xs sm:text-sm md:text-lg font-bold text-gray-800 mb-1 md:mb-3 leading-tight">
                   {reason.title}
                 </h3>
-                <p className="text-[9px] sm:text-xs md:text-sm text-gray-500 leading-tight md:leading-relaxed md:max-w-xs md:mx-auto text-center md:text-justify">
+                <p className="text-xs sm:text-xs md:text-sm text-gray-500 leading-tight md:leading-relaxed md:max-w-xs md:mx-auto text-center md:text-justify">
                   {reason.description}
                 </p>
               </div>

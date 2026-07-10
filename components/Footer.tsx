@@ -10,7 +10,7 @@ export default function Footer() {
           <div className="flex flex-col md:flex-row items-center gap-6">
             <span className="text-xl font-bold text-white tracking-wide">Omegle<span className="text-red-500">test</span></span>
             <div className="hidden md:block w-px h-4 bg-slate-700"></div>
-            <div className="flex flex-nowrap justify-center gap-x-2.5 gap-y-2 md:gap-x-6 text-[11px] md:text-sm font-medium whitespace-nowrap">
+            <div className="flex flex-nowrap justify-center gap-x-2.5 gap-y-2 md:gap-x-6 text-xs md:text-sm font-medium whitespace-nowrap">
               <Link href="/" className="hover:text-white transition-colors">Home</Link>
               <Link href="/apps" className="hover:text-white transition-colors">Apps</Link>
               <Link href="/live-video" className="hover:text-white transition-colors">Video Chat</Link>

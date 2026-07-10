@@ -74,7 +74,7 @@ export default async function AdminPostsPage() {
                     {/* YENİ: Kırmızı Silme Butonumuz */}
                     <DeleteButton id={post._id.toString()} />
 
-                    <Link href={`/apps/${post.slug}`} target="_blank" className="px-4 py-2 text-sm font-medium text-gray-700 bg-white border border-gray-200 rounded-md hover:bg-gray-50 transition">
+                    <Link href={`/${post.slug}`} target="_blank" className="px-4 py-2 text-sm font-medium text-gray-700 bg-white border border-gray-200 rounded-md hover:bg-gray-50 transition">
                       View
                     </Link>
                   </div>

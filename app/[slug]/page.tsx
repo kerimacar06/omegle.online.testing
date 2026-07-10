@@ -7,6 +7,7 @@ import { postService } from '@/services/postService';
 import { seoService } from '@/services/seoService';
 import MobileVideoChatFab from '@/components/MobileVideoChatFab';
 import { sanitizePostHtml } from '@/lib/sanitizeHtml';
+import { resolveCanonical } from '@/lib/canonical';
 
 export const dynamic = 'force-dynamic';
 
@@ -20,6 +21,9 @@ export async function generateMetadata(props: any): Promise<Metadata> {
   return {
     title: post.title,
     description: post.description,
+    alternates: {
+      canonical: resolveCanonical(`/${post.slug}`),
+    },
     openGraph: {
       title: post.title,
       description: post.description,
@@ -111,7 +115,7 @@ export default async function BlogPostPage(props: any) {
   const breadcrumbJsonLd = seoService.generateBreadcrumbJsonLd([
     { name: 'Omegle Test Online', url: 'https://omegletest.online' },
     { name: appsBreadcrumbName, url: 'https://omegletest.online/apps' },
-    { name: breadcrumbName, url: `https://omegletest.online/apps/${post.slug}` }
+    { name: breadcrumbName, url: `https://omegletest.online/${post.slug}` }
   ]);
 
   const createdAt = new Date(post.createdAt || Date.now());
@@ -192,19 +196,60 @@ export default async function BlogPostPage(props: any) {
               {/* SAĞ KOLON (mobilde üstte): Hızlı Bilgi Kartı */}
               <aside className="order-1 lg:order-2 lg:col-span-1">
                 <div className="lg:sticky lg:top-8 bg-white rounded-md border border-gray-200 shadow-sm p-4 sm:p-6">
-                  {/* Rating */}
-                  <div className="flex items-center gap-1 mb-1">
-                    {[...Array(5)].map((_, i) => (
-                      <svg key={i} className={`w-5 h-5 ${i < Math.round(rating) ? 'text-amber-400' : 'text-gray-200'}`} fill="currentColor" viewBox="0 0 20 20">
-                        <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z" />
-                      </svg>
-                    ))}
-                    <span className="text-gray-900 font-bold ml-1">{rating.toFixed(1)}</span>
-                  </div>
-                  <p className="text-sm text-gray-500 mb-5">{voteCount.toLocaleString('en-US')} votes</p>
 
-                  {/* Tarih */}
-                  <div className="flex items-center gap-3 pt-5 border-t border-gray-100">
+                  {/* Yazar (+ mobilde sağda kompakt yıldız/oy) */}
+                  <div className="flex items-center justify-between gap-3 pb-2 mb-2 border-b border-gray-100">
+                    <div className="flex items-center gap-3 min-w-0">
+                      <div className="w-11 h-11 rounded-full overflow-hidden shrink-0 border border-gray-200 bg-gray-100">
+                        {post.authorImage ? (
+                          <img
+                            src={post.authorImage}
+                            alt={post.author || 'Omegle Test'}
+                            className="w-full h-full object-cover"
+                          />
+                        ) : (
+                          <div className="w-full h-full flex items-center justify-center bg-gray-100 text-gray-400">
+                            <svg className="w-6 h-6" fill="currentColor" viewBox="0 0 24 24">
+                              <path d="M12 12c2.761 0 5-2.686 5-6s-2.239-6-5-6-5 2.686-5 6 2.239 6 5 6zm0 2c-4.418 0-9 2.239-9 5v3h18v-3c0-2.761-4.582-5-9-5z" />
+                            </svg>
+                          </div>
+                        )}
+                      </div>
+                      <div className="min-w-0">
+                        <p className="text-xs text-gray-500 font-medium">Written by</p>
+                        <p className="text-gray-900 font-bold text-sm truncate">{post.author || 'Omegle Test'}</p>
+                      </div>
+                    </div>
+
+                    {/* Mobilde: kompakt yıldız + oy sayısı (masaüstünde gizli, aşağıdaki tam versiyon gösteriliyor) */}
+                    <div className="text-right shrink-0 sm:hidden">
+                      <div className="flex items-center justify-end gap-0.5">
+                        {[...Array(5)].map((_, i) => (
+                          <svg key={i} className={`w-3.5 h-3.5 ${i < Math.round(rating) ? 'text-amber-400' : 'text-gray-200'}`} fill="currentColor" viewBox="0 0 20 20">
+                            <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z" />
+                          </svg>
+                        ))}
+                        <span className="text-gray-900 font-bold text-sm ml-1">{rating.toFixed(1)}</span>
+                      </div>
+                      <p className="text-xs text-gray-500">{voteCount.toLocaleString('en-US')} votes</p>
+                    </div>
+                  </div>
+
+                  {/* Rating (masaüstü; mobilde yukarıdaki kompakt versiyon gösterildiği için gizli) */}
+                  <div className="hidden sm:block">
+                    <div className="flex items-center gap-1 mb-1">
+                      {[...Array(5)].map((_, i) => (
+                        <svg key={i} className={`w-5 h-5 ${i < Math.round(rating) ? 'text-amber-400' : 'text-gray-200'}`} fill="currentColor" viewBox="0 0 20 20">
+                          <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z" />
+                        </svg>
+                      ))}
+                      <span className="text-gray-900 font-bold ml-1">{rating.toFixed(1)}</span>
+                    </div>
+                    <p className="text-sm text-gray-500 mb-2">{voteCount.toLocaleString('en-US')} votes</p>
+                  </div>
+
+                  {/* Tarih — masaüstü (ikonlu, iki satır) */}
+                  <div className="hidden sm:flex items-center gap-3 pt-2 border-t border-gray-100">
                     <div className="w-10 h-10 bg-gray-100 text-gray-600 rounded-md flex items-center justify-center shrink-0">
                       <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                         <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" />
@@ -218,11 +263,16 @@ export default async function BlogPostPage(props: any) {
                     </div>
                   </div>
 
+                  {/* Tarih — mobil (tek satır, ortalanmış) */}
+                  <p className="sm:hidden text-center text-xs text-gray-500 font-medium pt-2 border-t border-gray-100">
+                    {dateLabel}: <span className="text-gray-900 font-bold">{displayDate.toLocaleDateString('en-GB', { day: 'numeric', month: 'numeric', year: 'numeric' })}</span>
+                  </p>
+
                   {/* CTA */}
                   <Link
                     id="hero-video-cta"
                     href="/live-video"
-                    className="mt-6 w-full inline-flex items-center justify-center gap-2 bg-blue-600 hover:bg-blue-700 text-white font-bold py-3 px-4 rounded-md transition-colors duration-300 shadow-md hover:shadow-lg border border-blue-700/20"
+                    className="mt-3 w-full inline-flex items-center justify-center gap-2 bg-blue-600 hover:bg-blue-700 text-white font-bold py-3 px-4 rounded-md transition-colors duration-300 shadow-md hover:shadow-lg border border-blue-700/20"
                   >
                     <svg className="w-5 h-5 shrink-0" fill="currentColor" viewBox="0 0 24 24">
                       <path d="M17 10.5V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-3.5l4 4v-11l-4 4z" />

@@ -17,6 +17,11 @@ const nextConfig: NextConfig = {
         destination: "/live-text",
         permanent: true,
       },
+      {
+        source: "/apps/:slug",
+        destination: "/:slug",
+        permanent: true,
+      },
     ];
   },
 };

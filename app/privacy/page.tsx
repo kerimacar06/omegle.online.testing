@@ -2,27 +2,31 @@ import Navbar from '@/components/Navbar';
 import Footer from '@/components/Footer';
 import Link from 'next/link';
 import { seoService } from '@/services/seoService';
+import { resolveCanonical } from '@/lib/canonical';
 
 export const dynamic = 'force-dynamic';
 
 export async function generateMetadata() {
   const seoData = await seoService.getSeoData('privacy');
-  
+
   if (seoData) {
     return {
       title: seoData.title,
       description: seoData.description,
       keywords: seoData.keywords,
       alternates: {
-        canonical: seoData.canonicalUrl,
+        canonical: resolveCanonical('/privacy', seoData.canonicalUrl),
       },
       robots: seoData.robots,
     };
   }
-  
+
   return {
     title: 'Privacy Policy - Omegle Test',
     description: 'Read the privacy policy for using Omegletest.online.',
+    alternates: {
+      canonical: resolveCanonical('/privacy'),
+    },
   };
 }
 

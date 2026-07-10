@@ -21,7 +21,15 @@ const gradients = [
   'from-emerald-400 to-green-500'
 ];
 
-export default function AppsList({ posts }: { posts: Post[] }) {
+export default function AppsList({
+  posts,
+  currentPage = 1,
+  totalPages = 1,
+}: {
+  posts: Post[];
+  currentPage?: number;
+  totalPages?: number;
+}) {
   if (posts.length === 0) {
     return (
       <div className="text-center py-20 bg-white rounded-md shadow-sm border border-gray-100">
@@ -31,6 +39,7 @@ export default function AppsList({ posts }: { posts: Post[] }) {
   }
 
   return (
+    <>
     <div className="grid grid-cols-2 lg:grid-cols-3 gap-3 sm:gap-6">
       {posts.map((post, index) => {
         const color = gradients[index % gradients.length];
@@ -38,7 +47,7 @@ export default function AppsList({ posts }: { posts: Post[] }) {
         const rating = post.rating || 5;
 
         return (
-          <Link key={post._id} href={`/apps/${post.slug}`} className="group block h-full">
+          <Link key={post._id} href={`/${post.slug}`} className="group block h-full">
             <div className="bg-white rounded sm:rounded-md border border-gray-200 shadow-sm flex flex-col h-full overflow-hidden group-hover:border-blue-400 group-hover:shadow-lg transition-all duration-300">
 
               {/* Kapak Görseli: object-cover ile tüm fotoğraflar çerçeveyi eşit doldurur */}
@@ -94,5 +103,48 @@ export default function AppsList({ posts }: { posts: Post[] }) {
         );
       })}
     </div>
+
+    {totalPages > 1 && (
+      <div className="flex items-center justify-center gap-1.5 sm:gap-2 mt-8 sm:mt-12">
+        <Link
+          href={currentPage > 1 ? `/apps?page=${currentPage - 1}` : '#'}
+          aria-disabled={currentPage <= 1}
+          className={`px-3 py-2 rounded-md border text-sm font-medium transition ${
+            currentPage <= 1
+              ? 'border-gray-200 text-gray-300 pointer-events-none'
+              : 'border-gray-200 text-gray-600 bg-white hover:bg-gray-50'
+          }`}
+        >
+          Prev
+        </Link>
+
+        {Array.from({ length: totalPages }, (_, i) => i + 1).map((page) => (
+          <Link
+            key={page}
+            href={`/apps?page=${page}`}
+            className={`w-9 h-9 flex items-center justify-center rounded-md border text-sm font-bold transition ${
+              page === currentPage
+                ? 'bg-blue-600 border-blue-600 text-white'
+                : 'border-gray-200 text-gray-600 bg-white hover:bg-gray-50'
+            }`}
+          >
+            {page}
+          </Link>
+        ))}
+
+        <Link
+          href={currentPage < totalPages ? `/apps?page=${currentPage + 1}` : '#'}
+          aria-disabled={currentPage >= totalPages}
+          className={`px-3 py-2 rounded-md border text-sm font-medium transition ${
+            currentPage >= totalPages
+              ? 'border-gray-200 text-gray-300 pointer-events-none'
+              : 'border-gray-200 text-gray-600 bg-white hover:bg-gray-50'
+          }`}
+        >
+          Next
+        </Link>
+      </div>
+    )}
+    </>
   );
 }

@@ -2,27 +2,31 @@ import Navbar from '@/components/Navbar';
 import Footer from '@/components/Footer';
 import Link from 'next/link';
 import { seoService } from '@/services/seoService';
+import { resolveCanonical } from '@/lib/canonical';
 
 export const dynamic = 'force-dynamic';
 
 export async function generateMetadata() {
   const seoData = await seoService.getSeoData('terms');
-  
+
   if (seoData) {
     return {
       title: seoData.title,
       description: seoData.description,
       keywords: seoData.keywords,
       alternates: {
-        canonical: seoData.canonicalUrl,
+        canonical: resolveCanonical('/terms', seoData.canonicalUrl),
       },
       robots: seoData.robots,
     };
   }
-  
+
   return {
     title: 'Terms and Conditions - Omegle Test',
     description: 'Read the terms and conditions for using Omegletest.online.',
+    alternates: {
+      canonical: resolveCanonical('/terms'),
+    },
   };
 }
 

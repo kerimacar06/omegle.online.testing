@@ -28,8 +28,8 @@ export default async function Alternatives() {
         
         {/* Bölüm Başlığı */}
         <div className="text-center mb-10">
-          <h2 className="text-3xl md:text-4xl font-bold md:font-extrabold text-gray-900 mb-2 leading-none">Top Omegle Alternatives</h2>
-          <p className="text-gray-500 text-lg font-medium leading-none">Check out the best random video chat platforms.</p>
+          <h2 className="text-2xl sm:text-3xl md:text-4xl font-bold md:font-extrabold text-gray-900 mb-2 leading-none">Top Omegle Alternatives</h2>
+          <p className="text-gray-500 text-xs sm:text-lg font-medium leading-none">Check out the best random video chat platforms.</p>
         </div>
 
         {/* Dinamik Kartlar: solda foto, sağda üstten alta isim / yıldız / oy sayısı */}
@@ -41,7 +41,7 @@ export default async function Alternatives() {
             const ratingValue = Number(post.rating) || 5;
 
             return (
-              <Link key={post._id.toString()} href={`/apps/${post.slug}`} className="group block h-full">
+              <Link key={post._id.toString()} href={`/${post.slug}`} className="group block h-full">
                 <div className="bg-white p-2.5 sm:p-3 rounded-md border border-gray-200 shadow-sm flex items-center gap-2.5 sm:gap-3 group-hover:border-blue-400 group-hover:shadow-lg transition-all duration-300 h-full">
 
                   {/* Sol: Resim/İkon */}
@@ -71,12 +71,12 @@ export default async function Alternatives() {
                           <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z" />
                         </svg>
                       ))}
-                      <span className="text-gray-600 font-semibold text-[10px] sm:text-[11px] leading-none ml-0.5">
+                      <span className="text-gray-600 font-semibold text-xs sm:text-[11px] leading-none ml-0.5">
                         {ratingValue.toFixed(1)}
                       </span>
                     </div>
 
-                    <div className="text-gray-400 text-[10px] sm:text-[11px] font-medium leading-none">
+                    <div className="text-gray-400 text-xs sm:text-[11px] font-medium leading-none">
                       {voteCount} votes
                     </div>
                   </div>

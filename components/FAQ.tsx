@@ -15,10 +15,10 @@ export default async function FAQ() {
         
         {/* Ortalanmış Başlık */}
         <div className="text-center mb-12">
-          <h2 className="text-3xl md:text-4xl font-bold md:font-extrabold text-gray-900 mb-2 leading-none">
+          <h2 className="text-2xl sm:text-3xl md:text-4xl font-bold md:font-extrabold text-gray-900 mb-2 leading-none">
             Frequently Asked Questions
           </h2>
-          <p className="text-gray-500 text-lg font-medium leading-none">
+          <p className="text-gray-500 text-xs sm:text-lg font-medium leading-none">
             Everything you need to know about our service.
           </p>
         </div>
@@ -32,7 +32,7 @@ export default async function FAQ() {
             >
               {/* Soru (Mesaj Balonu) */}
               <summary className="flex cursor-pointer items-center justify-between px-8 py-2 focus:outline-none">
-                <span className="font-bold text-gray-800 text-[16px] pr-4">{faq.question}</span>
+                <span className="font-bold text-gray-800 text-xs sm:text-[16px] pr-4">{faq.question}</span>
 
                 {/* Yumuşak Ok İkonu */}
                 <span className="shrink-0 w-8 h-8 rounded-full bg-indigo-50 text-indigo-600 flex items-center justify-center transition-transform duration-300 group-open:-rotate-180">
@@ -43,7 +43,7 @@ export default async function FAQ() {
               </summary>
 
               {/* Cevap */}
-              <div className="px-8 pb-5 pt-0 text-gray-600 text-[15px] leading-relaxed font-medium whitespace-pre-wrap border-t border-gray-100/50">
+              <div className="px-8 pb-5 pt-0 text-gray-600 text-xs sm:text-[15px] leading-relaxed font-medium whitespace-pre-wrap border-t border-gray-100/50">
                 {faq.answer}
               </div>
             </details>

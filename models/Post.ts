@@ -14,6 +14,7 @@ const postSchema = new mongoose.Schema(
     pros: { type: [String], default: [] },
     cons: { type: [String], default: [] },
     author: { type: String, default: "Omegle Test" }, // YENİ: Yazar alanı
+    authorImage: { type: String, default: "" }, // YENİ: Yazar profil fotoğrafı
     // YENİ: SSS (Sıkça Sorulan Sorular) Alanı
     faqs: [
       {

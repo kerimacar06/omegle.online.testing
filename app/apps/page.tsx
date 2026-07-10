@@ -4,29 +4,37 @@ import Link from 'next/link';
 import { seoService } from '@/services/seoService';
 import { postService } from '@/services/postService';
 import AppsList from '@/components/AppsList';
+import { resolveCanonical } from '@/lib/canonical';
 
 export const dynamic = 'force-dynamic';
 
 // 1. YENİ: SEO (Meta Tag) Üretici Fonksiyon
 // Bu fonksiyon sayfa yüklenmeden önce çalışır ve sekmeye adını (Title) verir.
-export async function generateMetadata() {
+export async function generateMetadata(props: any) {
+  const searchParams = await props.searchParams;
+  const page = parseInt(searchParams?.page, 10);
+  const canonicalPath = page && page > 1 ? `/apps?page=${page}` : '/apps';
+
   const seoData = await seoService.getSeoData('apps');
-  
+
   if (seoData) {
     return {
       title: seoData.title,
       description: seoData.description,
       keywords: seoData.keywords,
       alternates: {
-        canonical: seoData.canonicalUrl,
+        canonical: resolveCanonical(canonicalPath, page && page > 1 ? null : seoData.canonicalUrl),
       },
       robots: seoData.robots,
     };
   }
-  
+
   return {
     title: 'Omegle Alternatives & Reviews',
     description: 'Expert reviews for the best random chat platforms.',
+    alternates: {
+      canonical: resolveCanonical(canonicalPath),
+    },
   };
 }
 
@@ -37,7 +45,10 @@ async function getPosts() {
   return await postService.getPublishedPosts();
 }
 
-export default async function AppsPage() {
+const POSTS_PER_PAGE = 12;
+
+export default async function AppsPage(props: any) {
+  const searchParams = await props.searchParams;
   const posts = await getPosts();
   const seoData = await seoService.getSeoData('apps');
   const jsonLd = seoData?.jsonLd || null;
@@ -60,6 +71,14 @@ export default async function AppsPage() {
     voteCount: post.voteCount,
     createdAt: post.createdAt ? post.createdAt.toString() : undefined,
   }));
+
+  const totalPages = Math.max(1, Math.ceil(serializedPosts.length / POSTS_PER_PAGE));
+  const requestedPage = parseInt(searchParams?.page, 10);
+  const currentPage = Math.min(Math.max(requestedPage || 1, 1), totalPages);
+  const paginatedPosts = serializedPosts.slice(
+    (currentPage - 1) * POSTS_PER_PAGE,
+    currentPage * POSTS_PER_PAGE
+  );
 
   return (
     <>
@@ -107,7 +126,7 @@ export default async function AppsPage() {
           </div>
 
           {/* Başlık: Kutunun dışında, altında, ortalanmış */}
-          <h1 className="text-3xl md:text-4xl font-bold md:font-extrabold text-gray-900 text-center mt-10 leading-tight">
+          <h1 className="text-2xl sm:text-3xl md:text-4xl font-bold md:font-extrabold text-gray-900 text-center mt-10 leading-tight">
             Discover the Best Omegle Alternatives
           </h1>
         </div>
@@ -115,7 +134,7 @@ export default async function AppsPage() {
         {/* LİSTE BÖLÜMÜ */}
         <div className="w-full flex-grow">
           <div className="w-full max-w-5xl mx-auto px-4 py-10 sm:py-16">
-            <AppsList posts={serializedPosts} />
+            <AppsList posts={paginatedPosts} currentPage={currentPage} totalPages={totalPages} />
           </div>
         </div>
 

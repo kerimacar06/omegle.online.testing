@@ -2,27 +2,31 @@ import Navbar from '@/components/Navbar';
 import Footer from '@/components/Footer';
 import Link from 'next/link';
 import { seoService } from '@/services/seoService';
+import { resolveCanonical } from '@/lib/canonical';
 
 export const dynamic = 'force-dynamic';
 
 export async function generateMetadata() {
   const seoData = await seoService.getSeoData('contact');
-  
+
   if (seoData) {
     return {
       title: seoData.title,
       description: seoData.description,
       keywords: seoData.keywords,
       alternates: {
-        canonical: seoData.canonicalUrl,
+        canonical: resolveCanonical('/contact', seoData.canonicalUrl),
       },
       robots: seoData.robots,
     };
   }
-  
+
   return {
     title: 'Contact - Omegle Test',
     description: 'Contact us for any questions regarding Omegletest.online.',
+    alternates: {
+      canonical: resolveCanonical('/contact'),
+    },
   };
 }
 

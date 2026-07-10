@@ -11,6 +11,7 @@ import Footer from '@/components/Footer';
 import ScrollToHash from '@/components/ScrollToHash';
 import { seoService } from '@/services/seoService';
 import { faqService } from '@/services/faqService';
+import { resolveCanonical } from '@/lib/canonical';
 
 // Sayfanın her istendiğinde yeniden oluşturulmasını (önbellekten gelmemesini) sağlar.
 export const dynamic = 'force-dynamic';
@@ -24,7 +25,7 @@ export async function generateMetadata() {
       description: seoData.description,
       keywords: seoData.keywords,
       alternates: {
-        canonical: seoData.canonicalUrl,
+        canonical: resolveCanonical('/', seoData.canonicalUrl),
       },
       robots: seoData.robots,
     };
@@ -33,6 +34,9 @@ export async function generateMetadata() {
   return {
     title: 'Omegle Test - talk to strangers',
     description: 'Connect with strangers worldwide in real-time video chat with omegletest.online',
+    alternates: {
+      canonical: resolveCanonical('/'),
+    },
   };
 }
 
@@ -90,7 +94,7 @@ export default async function Home() {
         {/* HERO BÖLÜMÜ: yükseklik ortadaki sohbet kutusunun kendi içeriğine göre belirlenir;
             görseller "absolute" konumlandığı için satırın yüksekliğine katkı yapmaz, bu sayede
             kutunun yüksekliği neyse görseller de (object-contain ile) tam o yüksekliğe oturur. */}
-        <div className="flex flex-row items-stretch justify-center px-[clamp(6px,2vw,32px)] pt-6 sm:pt-10 pb-10 min-h-[clamp(240px,62vw,380px)] xl:min-h-0">
+        <div className="flex flex-row items-stretch justify-center px-[clamp(6px,2vw,32px)] pt-6 sm:pt-10 pb-3 sm:pb-10 min-h-[clamp(240px,62vw,380px)] xl:min-h-0">
 
           {/* === SOLDAKİ ERKEK GÖRSELİ === */}
           <div className="relative flex-1 min-w-0">
