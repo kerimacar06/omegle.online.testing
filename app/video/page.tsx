@@ -28,7 +28,7 @@ function ChatVideoScreen() {
   return (
     <div className="flex-grow flex flex-col items-center justify-center bg-gray-900 text-white p-6 text-center">
       <div className="max-w-xl space-y-4">
-        <h1 className="text-3xl md:text-4xl font-extrabold tracking-tight">
+        <h1 className="text-2xl sm:text-3xl md:text-4xl font-extrabold tracking-tight">
           Live Video Chat
         </h1>
         <p className="text-gray-400 text-lg">

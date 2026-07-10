@@ -69,7 +69,7 @@ export default async function TermsPage() {
 
         {/* Sayfa Başlığı */}
         <div className="text-center">
-          <h1 className="text-3xl md:text-4xl font-bold md:font-extrabold text-gray-900 mb-3 leading-tight">
+          <h1 className="text-2xl sm:text-3xl md:text-4xl font-bold md:font-extrabold text-gray-900 mb-3 leading-tight">
             Terms and Conditions
           </h1>
           <p className="text-gray-500 text-base sm:text-lg font-medium">

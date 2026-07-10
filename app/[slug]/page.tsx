@@ -156,7 +156,7 @@ export default async function BlogPostPage(props: any) {
             <span className="text-gray-900">{breadcrumbName}</span>
           </div>
 
-          <h1 className="text-3xl md:text-4xl font-bold md:font-extrabold text-gray-900 leading-tight">
+          <h1 className="text-2xl sm:text-3xl md:text-4xl font-bold md:font-extrabold text-gray-900 leading-tight">
             {post.title}
           </h1>
           {post.description && (

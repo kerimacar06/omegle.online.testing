@@ -1,5 +1,4 @@
 import Link from "next/link";
-import LogoutButton from "@/components/LogoutButton";
 import { dashboardService } from "@/services/dashboardService";
 
 export const dynamic = 'force-dynamic';
@@ -19,26 +18,6 @@ export default async function Dashboard() {
 
   return (
     <div className="min-h-screen bg-gray-50 font-sans">
-      
-      {/* Üst Menü (Navbar) */}
-      <nav className="bg-white border-b border-gray-200 px-6 py-4 flex items-center justify-between">
-        <div className="flex items-center space-x-8">
-          <Link href="/admin/dashboard" className="text-blue-600 font-bold text-xl tracking-tight hover:text-blue-700 transition">Omegle Online Admin</Link>
-          
-          {/* Linkler - İhtiyaca göre güncellendi */}
-          <div className="hidden md:flex space-x-6 text-sm font-medium text-gray-600 mt-1">
-            <Link href="/admin/dashboard" className="text-blue-600 border-b-2 border-blue-600 pb-5">Dashboard</Link>
-            <Link href="/admin/posts" className="hover:text-blue-600 transition pb-5">Posts</Link>
-            <Link href="/admin/bots" className="hover:text-blue-600 transition pb-5">Bots</Link>
-            <Link href="/admin/faqs" className="hover:text-blue-600 transition pb-5">FAQs</Link>
-            <Link href="/admin/seo" className="hover:text-blue-600 transition pb-5">Page SEO</Link>
-          </div>
-        </div>
-        
-        <div className="text-sm font-medium text-gray-500">
-          <LogoutButton />
-        </div>
-      </nav>
 
       {/* Ana İçerik Alanı */}
       <main className="p-8 max-w-6xl mx-auto">
