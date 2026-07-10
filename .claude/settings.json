@@ -9,7 +9,9 @@
       "Bash(curl -s http://localhost:3000/ometv)",
       "Bash(curl -s -o /dev/null -w \"status: %{http_code}\\\\n\" http://localhost:3000/shagle)",
       "Bash(curl -s http://localhost:3000/shagle)",
-      "Bash(grep -o 'text-center\\\\\\\\\">.\\\\{0,50\\\\}')"
+      "Bash(grep -o 'text-center\\\\\\\\\">.\\\\{0,50\\\\}')",
+      "Bash(curl -s http://localhost:3000/bazoocam)",
+      "Bash(curl -s -o /dev/null -w \"status: %{http_code}\\\\n\" http://localhost:3000/)"
     ]
   }
 }
