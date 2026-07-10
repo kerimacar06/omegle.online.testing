@@ -2,7 +2,6 @@
   "permissions": {
     "allow": [
       "Bash(curl -s http://localhost:3000/admin/login)",
-      "Bash(curl -s -c /tmp/cookies3.txt -X POST http://localhost:3000/api/auth/login -H \"Content-Type: application/json\" -d '{\"username\":\"kerim\",\"password\":\"REDACTED\"}')",
       "Bash(curl -s http://localhost:3000/apps -b /tmp/cookies3.txt)",
       "Bash(grep -v \"apps\\\\|contact\\\\|privacy\\\\|terms\\\\|live-video\\\\|^\\\\\"/\\\\\"$\")",
       "Bash(curl -s -o /dev/null -w \"status: %{http_code}\\\\n\" http://localhost:3000/ometv)",
@@ -11,7 +10,14 @@
       "Bash(curl -s http://localhost:3000/shagle)",
       "Bash(grep -o 'text-center\\\\\\\\\">.\\\\{0,50\\\\}')",
       "Bash(curl -s http://localhost:3000/bazoocam)",
-      "Bash(curl -s -o /dev/null -w \"status: %{http_code}\\\\n\" http://localhost:3000/)"
+      "Bash(curl -s -o /dev/null -w \"status: %{http_code}\\\\n\" http://localhost:3000/)",
+      "Bash(gh repo *)",
+      "Bash(git filter-repo *)",
+      "Bash(pip install *)",
+      "Bash(mkdir -p \"C:/Users/kerim/Desktop/omegletest-backup\")",
+      "Bash(git bundle *)",
+      "Bash(git add *)",
+      "Bash(git commit -m ' *)"
     ]
   }
 }
