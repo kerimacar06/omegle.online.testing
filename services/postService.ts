@@ -66,17 +66,19 @@ export const postService = {
 
   /**
    * Yayında olan (Draft veya Deleted olmayan) postları getirir (Apps sayfası için)
+   * "En iyi alternatifler" mantığına uygun olarak puana göre azalan sırada listelenir,
+   * eşit puanlarda en yeni eklenen post önce gelir.
    */
   async getPublishedPosts() {
     try {
       const cacheKey = 'all_apps_posts';
       let posts = getFromCache(cacheKey);
-      
+
       if (!posts) {
         await connectMongoDB();
         // Sadece yayında olanları (Draft veya Deleted olmayanları) buluruz.
         posts = await Post.find({ status: { $ne: 'Draft' }, isDeleted: { $ne: true } })
-          .sort({ createdAt: -1 })
+          .sort({ rating: -1, createdAt: -1 })
           .lean();
         if (posts) setInCache(cacheKey, posts, 300);
       }
@@ -88,7 +90,8 @@ export const postService = {
   },
 
   /**
-   * Ana sayfa için en son 6 postu getirir
+   * Ana sayfa "Top Omegle Alternatives" bölümü için en yüksek puanlı postları getirir
+   * (eşit puanlarda en yeni eklenen post önce gelir).
    */
   async getLatestPosts(limit: number = 6) {
     const cacheKey = `home_alternatives_${limit}`;
@@ -99,7 +102,7 @@ export const postService = {
       await connectMongoDB();
       const query = { status: { $ne: 'Draft' }, isDeleted: { $ne: true } };
       const totalCount = await Post.countDocuments(query);
-      const posts = await Post.find(query).sort({ createdAt: -1 }).limit(limit).lean();
+      const posts = await Post.find(query).sort({ rating: -1, createdAt: -1 }).limit(limit).lean();
       
       const result = { posts, totalCount };
       setInCache(cacheKey, result, 300);

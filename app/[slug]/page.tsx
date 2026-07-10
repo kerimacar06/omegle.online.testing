@@ -146,7 +146,7 @@ export default async function BlogPostPage(props: any) {
         <Navbar />
 
         {/* HEADER BÖLÜMÜ */}
-        <div className="w-full max-w-5xl mx-auto px-4 pt-6 sm:pt-8 pb-6 sm:pb-8">
+        <div className="w-full max-w-5xl mx-auto px-4 pt-6 sm:pt-8 pb-1 sm:pb-2">
           {/* Breadcrumb */}
           <div className="flex items-center gap-2 text-sm text-gray-500 mb-4 sm:mb-6 font-medium">
             <Link href="/" className="hover:text-blue-600 transition-colors">Home</Link>
@@ -156,19 +156,21 @@ export default async function BlogPostPage(props: any) {
             <span className="text-gray-900">{breadcrumbName}</span>
           </div>
 
-          <h1 className="text-2xl sm:text-3xl md:text-4xl font-bold md:font-extrabold text-gray-900 leading-tight">
-            {post.title}
-          </h1>
-          {post.description && (
-            <p className="text-gray-500 text-base sm:text-lg font-medium mt-3 max-w-3xl leading-relaxed">
-              {post.description}
-            </p>
-          )}
+          <div className="text-center">
+            <h1 className="text-2xl sm:text-3xl md:text-4xl font-bold md:font-extrabold text-gray-900 leading-tight">
+              {post.title}
+            </h1>
+            {post.description && (
+              <p className="text-gray-500 text-base sm:text-lg font-medium mt-3 max-w-3xl mx-auto leading-relaxed">
+                {post.description}
+              </p>
+            )}
+          </div>
         </div>
 
         {/* İÇERİK BÖLÜMÜ */}
         <div className="w-full flex-grow">
-          <div className="w-full max-w-5xl mx-auto px-4 pt-6 sm:pt-8 pb-10 sm:pb-16">
+          <div className="w-full max-w-5xl mx-auto px-4 pt-1 sm:pt-2 pb-10 sm:pb-16">
 
             {/* Kapak Fotoğrafı */}
             {post.coverImage ? (
@@ -313,24 +315,24 @@ export default async function BlogPostPage(props: any) {
                   <div className="bg-white p-4 sm:p-10 rounded-md border border-gray-200 shadow-sm">
                     <h3 className="text-lg sm:text-2xl font-bold text-gray-900 mb-4 sm:mb-6">Pros & Cons</h3>
                     <div className="rounded-md border border-gray-200 overflow-hidden">
-                      <table className="w-full text-left border-collapse">
+                      <table className="w-full text-left border-collapse table-fixed">
                         <thead>
                           <tr className="bg-gray-50 border-b border-gray-200">
-                            <th className="py-2 px-3 sm:py-3 sm:px-6 text-xs sm:text-sm font-bold text-emerald-600 uppercase tracking-wide w-1/2 border-r border-gray-200">Pros</th>
-                            <th className="py-2 px-3 sm:py-3 sm:px-6 text-xs sm:text-sm font-bold text-rose-600 uppercase tracking-wide w-1/2">Cons</th>
+                            <th className="py-1.5 px-2.5 sm:py-2 sm:px-4 text-xs sm:text-sm font-bold text-emerald-600 uppercase tracking-wide w-1/2 border-r border-gray-200">Pros</th>
+                            <th className="py-1.5 px-2.5 sm:py-2 sm:px-4 text-xs sm:text-sm font-bold text-rose-600 uppercase tracking-wide w-1/2">Cons</th>
                           </tr>
                         </thead>
                         <tbody>
                           {Array.from({ length: maxRows }).map((_, index) => (
                             <tr key={index} className="border-b border-gray-100 last:border-0">
-                              <td className="py-2 px-3 sm:py-3 sm:px-6 align-top border-r border-gray-200">
+                              <td className="py-[5px] px-2.5 sm:py-[7px] sm:px-4 align-top border-r border-gray-200">
                                 {pros[index] && (
-                                  <span className="block text-gray-700 text-sm sm:text-base leading-relaxed sm:text-justify">{pros[index]}</span>
+                                  <span className="block text-gray-700 text-sm sm:text-base leading-normal sm:text-justify">{pros[index]}</span>
                                 )}
                               </td>
-                              <td className="py-2 px-3 sm:py-3 sm:px-6 align-top">
+                              <td className="py-[5px] px-2.5 sm:py-[7px] sm:px-4 align-top">
                                 {cons[index] && (
-                                  <span className="block text-gray-700 text-sm sm:text-base leading-relaxed sm:text-justify">{cons[index]}</span>
+                                  <span className="block text-gray-700 text-sm sm:text-base leading-normal sm:text-justify">{cons[index]}</span>
                                 )}
                               </td>
                             </tr>
