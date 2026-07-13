@@ -34,7 +34,7 @@ export async function generateMetadata() {
 
 export default async function TermsPage() {
   const seoData = await seoService.getSeoData('terms');
-  const jsonLd = seoData?.jsonLd || null;
+  const jsonLd = await seoService.getSeoJsonLd('terms');
 
   const breadcrumbName = seoData?.breadcrumb && seoData.breadcrumb.trim() !== "" ? seoData.breadcrumb : 'Terms of Service';
 

@@ -34,7 +34,7 @@ export async function generateMetadata() {
 
 export default async function PrivacyPage() {
   const seoData = await seoService.getSeoData('privacy');
-  const jsonLd = seoData?.jsonLd || null;
+  const jsonLd = await seoService.getSeoJsonLd('privacy');
 
   const breadcrumbName = seoData?.breadcrumb && seoData.breadcrumb.trim() !== "" ? seoData.breadcrumb : 'Privacy Policy';
 

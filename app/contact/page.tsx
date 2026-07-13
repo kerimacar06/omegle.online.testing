@@ -34,7 +34,7 @@ export async function generateMetadata() {
 
 export default async function ContactPage() {
   const seoData = await seoService.getSeoData('contact');
-  const jsonLd = seoData?.jsonLd || null;
+  const jsonLd = await seoService.getSeoJsonLd('contact');
 
   const breadcrumbName = seoData?.breadcrumb && seoData.breadcrumb.trim() !== "" ? seoData.breadcrumb : 'Contact';
 

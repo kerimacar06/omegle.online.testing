@@ -63,7 +63,7 @@ export default async function AppsPage(props: AppsPageProps) {
   const searchParams = await props.searchParams;
   const posts = await getPosts();
   const seoData = await seoService.getSeoData('apps');
-  const jsonLd = seoData?.jsonLd || null;
+  const jsonLd = await seoService.getSeoJsonLd('apps');
 
   const breadcrumbName = seoData?.breadcrumb && seoData.breadcrumb.trim() !== "" ? seoData.breadcrumb : 'Omegle Alternatives';
 

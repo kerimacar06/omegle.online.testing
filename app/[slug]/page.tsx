@@ -312,7 +312,7 @@ export default async function BlogPostPage(props: PageProps<'/[slug]'>) {
 
                 {/* Asıl Blog İçeriği */}
                 {post.content && (
-                  <div className="relative bg-white p-4 sm:p-10 rounded-md border border-gray-200 shadow-sm w-full overflow-hidden">
+                  <div className="relative bg-white p-4 sm:p-6 rounded-md border border-gray-200 shadow-sm w-full overflow-hidden">
                     <div className="pointer-events-none absolute -top-16 -right-16 w-56 h-56 bg-blue-300/10 rounded-full blur-3xl"></div>
                     <div
                       className="relative text-sm sm:text-base text-gray-700 leading-relaxed break-words
@@ -335,7 +335,7 @@ export default async function BlogPostPage(props: PageProps<'/[slug]'>) {
 
                 {/* Artılar ve Eksiler — tablo (kutu kutu) */}
                 {(pros.length > 0 || cons.length > 0) && (
-                  <div className="bg-white p-4 sm:p-10 rounded-md border border-gray-200 shadow-sm">
+                  <div className="bg-white p-4 sm:p-6 rounded-md border border-gray-200 shadow-sm">
                     <h3 className="text-lg sm:text-2xl font-bold text-gray-900 mb-4 sm:mb-6">Pros & Cons</h3>
                     <div className="rounded-md border border-gray-200 overflow-hidden">
                       <table className="w-full text-left border-collapse table-fixed">
@@ -368,7 +368,7 @@ export default async function BlogPostPage(props: PageProps<'/[slug]'>) {
 
                 {/* Alternative Apps Bölümü */}
                 {post.alternativeAppsContent && (
-                  <div className="bg-white p-4 sm:p-10 rounded-md border border-gray-200 shadow-sm">
+                  <div className="bg-white p-4 sm:p-6 rounded-md border border-gray-200 shadow-sm">
                     <h3 className="text-lg sm:text-2xl font-bold text-gray-900 mb-4 sm:mb-6">Alternative Applications</h3>
                     <div
                       className="text-sm sm:text-base text-gray-700 leading-relaxed break-words
@@ -391,7 +391,7 @@ export default async function BlogPostPage(props: PageProps<'/[slug]'>) {
 
                 {/* SSS (FAQs) BÖLÜMÜ — anasayfadaki FAQ ile aynı görsel dil */}
                 {post.faqs && post.faqs.length > 0 && (
-                  <div className="bg-white p-4 sm:p-10 rounded-md border border-gray-200 shadow-sm">
+                  <div className="bg-white p-4 sm:p-6 rounded-md border border-gray-200 shadow-sm">
                     <h3 className="text-lg sm:text-2xl font-bold text-gray-900 mb-4 sm:mb-6">Frequently Asked Questions</h3>
 
                     <div className="space-y-3 sm:space-y-4">

@@ -65,6 +65,25 @@ export default function EditSeoPage() {
     fetchSeo();
   }, [seoId]);
 
+  const handleRegenerateJsonLd = () => {
+    if (formData.jsonLd.trim() !== "" && !confirm("Mevcut JSON-LD içeriğinin üzerine yazılacak. Devam edilsin mi?")) return;
+
+    const webPageJsonLd: Record<string, unknown> = {
+      "@context": "https://schema.org",
+      "@type": "WebPage",
+      name: formData.title || formData.pageName,
+      description: formData.description,
+      publisher: {
+        "@type": "Organization",
+        name: "Omegle Test",
+        url: "https://omegletest.online",
+      },
+    };
+    if (formData.canonicalUrl) webPageJsonLd.url = formData.canonicalUrl;
+
+    setFormData({ ...formData, jsonLd: JSON.stringify(webPageJsonLd, null, 2) });
+  };
+
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setIsLoading(true);
@@ -183,7 +202,12 @@ export default function EditSeoPage() {
               </div>
 
               <div>
-                <label className="block text-sm font-medium text-gray-700 mb-1">JSON-LD Structured Data</label>
+                <div className="flex items-center justify-between mb-1">
+                  <label className="block text-sm font-medium text-gray-700">JSON-LD Structured Data</label>
+                  <button type="button" onClick={handleRegenerateJsonLd} className="text-xs font-medium text-blue-600 hover:text-blue-800">
+                    Title/Description/URL&apos;den yeniden oluştur
+                  </button>
+                </div>
                 <textarea value={formData.jsonLd} onChange={(e) => setFormData({...formData, jsonLd: e.target.value})} rows={8} className="w-full px-4 py-2 border border-gray-300 rounded-md outline-none focus:border-blue-500 font-mono text-sm bg-gray-50" />
                 <p className="text-xs text-gray-500 mt-1">Sadece geçerli JSON formatında olmalıdır. Google zengin arama sonuçları için kullanılır.</p>
               </div>

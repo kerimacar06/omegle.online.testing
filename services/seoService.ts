@@ -40,11 +40,18 @@ export const seoService = {
   },
 
   /**
-   * JSON-LD şemasını direkt döndürür
+   * JSON-LD şemasını direkt döndürür. Admin panelinde nasıl biçimlendirilmiş
+   * (girintili/düz) olursa olsun, sayfa kaynağında tüm sitede tutarlı olsun
+   * diye tek satıra sıkıştırılmış (minified) olarak döner.
    */
   async getSeoJsonLd(pageKey: string) {
     const seoData = await this.getSeoData(pageKey);
-    return seoData?.jsonLd || null;
+    if (!seoData?.jsonLd) return null;
+    try {
+      return JSON.stringify(JSON.parse(seoData.jsonLd));
+    } catch {
+      return seoData.jsonLd;
+    }
   },
 
   /**
