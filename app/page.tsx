@@ -1,5 +1,4 @@
 import Navbar from '@/components/Navbar';
-import Image from 'next/image';
 import ChatStarter from '@/components/ChatStarter';
 import InfoSection from '@/components/InfoSection';
 import Alternatives from '@/components/Alternatives';
@@ -59,7 +58,7 @@ export default async function Home() {
     { name: breadcrumbName, url: 'https://omegletest.online' }
   ]);
 
-  let combinedJsonLd: any[] = [breadcrumbJsonLd];
+  const combinedJsonLd: Record<string, unknown>[] = [breadcrumbJsonLd];
 
   if (jsonLdString) {
     try {

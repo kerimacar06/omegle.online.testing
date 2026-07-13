@@ -2,13 +2,23 @@ import { connectMongoDB } from '@/lib/mongodb';
 import Faq from '@/models/Faq';
 import { getFromCache, setInCache } from '@/lib/ramCache';
 
+interface FaqDoc {
+  _id: string;
+  question: string;
+  answer: string;
+  order: number;
+  isActive: boolean;
+  createdAt?: Date;
+  updatedAt?: Date;
+}
+
 export const faqService = {
   /**
    * Aktif olan FAQ (Sık Sorulan Sorular) kayıtlarını çeker
    */
   async getActiveFaqs() {
     try {
-      let faqs = getFromCache('all_faqs_active');
+      let faqs = getFromCache<FaqDoc[]>('all_faqs_active');
       
       if (!faqs) {
         await connectMongoDB();
@@ -48,7 +58,7 @@ export const faqService = {
    */
   async getAllFaqs() {
     const cacheKey = 'all_admin_faqs';
-    let faqs = getFromCache(cacheKey);
+    let faqs = getFromCache<FaqDoc[]>(cacheKey);
     
     if (!faqs) {
       await connectMongoDB();
@@ -63,7 +73,7 @@ export const faqService = {
    */
   async getFaqById(id: string) {
     const cacheKey = `faq_id_${id}`;
-    let faq = getFromCache(cacheKey);
+    let faq = getFromCache<FaqDoc>(cacheKey);
     
     if (!faq) {
       await connectMongoDB();

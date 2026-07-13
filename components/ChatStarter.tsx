@@ -7,8 +7,11 @@ export default function ChatStarter() {
   const [onlineUsers, setOnlineUsers] = useState<number | null>(null);
 
   useEffect(() => {
-    // Sayfa yüklendiğinde daha gerçekçi olması için 1.200 ile 3.500 arası rastgele bir sayı oluşturur
+    // Sayfa yüklendiğinde daha gerçekçi olması için 1.200 ile 3.500 arası rastgele bir sayı oluşturur.
+    // Bilerek effect içinde: sunucu ve istemci farklı rastgele değerler üretirse hydration mismatch
+    // olur, bu yüzden ilk render null kalıp gerçek değer sadece istemcide (mount sonrası) atanıyor.
     const randomUsers = Math.floor(Math.random() * (3500 - 1200 + 1)) + 1200;
+    // eslint-disable-next-line react-hooks/set-state-in-effect
     setOnlineUsers(randomUsers);
   }, []);
 

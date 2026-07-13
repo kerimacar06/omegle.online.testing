@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect, useRef } from "react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 
@@ -18,6 +18,11 @@ export default function NewBotPage() {
 
   const [isLoading, setIsLoading] = useState(false);
   const [message, setMessage] = useState("");
+  const redirectTimeoutRef = useRef<ReturnType<typeof setTimeout> | null>(null);
+
+  useEffect(() => () => {
+    if (redirectTimeoutRef.current) clearTimeout(redirectTimeoutRef.current);
+  }, []);
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -33,7 +38,7 @@ export default function NewBotPage() {
 
       if (res.ok) {
         setMessage("✅ Bot başarıyla eklendi! Yönlendiriliyorsunuz...");
-        setTimeout(() => router.push("/admin/bots"), 1500);
+        redirectTimeoutRef.current = setTimeout(() => router.push("/admin/bots"), 1500);
       } else {
         setMessage("❌ Kayıt sırasında bir hata oluştu.");
       }

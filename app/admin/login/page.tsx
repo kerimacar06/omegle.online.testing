@@ -23,14 +23,13 @@ export default function AdminLogin() {
       });
 
       if (res.ok) {
-        // Başarılı giriş, dashboarda yönlendir
         router.push("/admin/dashboard");
         router.refresh();
       } else {
         const data = await res.json();
         setError(data.error || "Giriş başarısız.");
       }
-    } catch (err) {
+    } catch {
       setError("Bir hata oluştu. Lütfen tekrar deneyin.");
     } finally {
       setLoading(false);

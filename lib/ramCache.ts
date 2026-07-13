@@ -1,4 +1,4 @@
-type CacheItem<T = any> = {
+type CacheItem<T = unknown> = {
   data: T;
   expiry: number;
 };
@@ -14,8 +14,10 @@ if (process.env.NODE_ENV !== 'production') globalForCache.ramCache = cache;
 
 const globalForGC = globalThis as unknown as { gcStarted: boolean };
 
-// YENİ: Otomatik Çöp Toplayıcı (Garbage Collector) - Bellek Sızıntısını (Memory Leak) Önler
-// Her 15 dakikada bir çalışır ve süresi dolmuş tüm verileri RAM'den temizler
+// Süresi dolmuş kayıtları periyodik olarak temizler; aksi halde hiç okunmayan
+// anahtarlar Map'te sonsuza kadar birikip bellek sızıntısına yol açar.
+// `gcStarted` bayrağı, dev modundaki hot-reload'larda interval'in birden
+// fazla kez kurulmasını (ve eski interval'lerin sızmasını) önler.
 if (!globalForGC.gcStarted) {
   globalForGC.gcStarted = true;
   setInterval(() => {
@@ -33,7 +35,7 @@ if (!globalForGC.gcStarted) {
   }, 15 * 60 * 1000);
 }
 
-export const getFromCache = <T = any>(key: string): T | null => {
+export const getFromCache = <T = unknown>(key: string): T | null => {
   const item = cache.get(key);
   if (!item) return null;
   
@@ -48,7 +50,7 @@ export const getFromCache = <T = any>(key: string): T | null => {
 };
 
 // Varsayılan olarak 5 dakika (300 saniye) RAM'de tut
-export const setInCache = <T = any>(key: string, data: T, ttlSeconds: number = 300) => {
+export const setInCache = <T = unknown>(key: string, data: T, ttlSeconds: number = 300) => {
   console.log(`[RAM CACHE] Veri RAM'e kaydedildi ve veritabanı yükü azaltıldı: ${key}`);
   cache.set(key, {
     data,

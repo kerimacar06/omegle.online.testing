@@ -89,11 +89,11 @@ export default async function PrivacyPage() {
               1. Introduction
             </h2>
             <p className="leading-relaxed mb-8">
-              Omegletest Online connects you with strangers for anonymous chat — no account, no profile, no strings attached. That same principle guides how we handle your data: we collect as little as possible, and we don't sell or trade what we do collect.
+              Omegletest Online connects you with strangers for anonymous chat — no account, no profile, no strings attached. That same principle guides how we handle your data: we collect as little as possible, and we don&apos;t sell or trade what we do collect.
             </p>
 
             <h2 className="text-xl sm:text-2xl font-bold text-gray-900 mb-4">
-              2. What We Don't Collect
+              2. What We Don&apos;t Collect
             </h2>
             <ul className="list-disc pl-5 space-y-2 mb-8 leading-relaxed">
               <li>No sign-up, so we never see your name, email, or phone number.</li>
@@ -112,7 +112,7 @@ export default async function PrivacyPage() {
               4. Safety & AI Moderation
             </h2>
             <p className="leading-relaxed mb-8">
-              Automated AI moderation scans live video and text in real time to catch harmful or illegal content. These checks aren't recorded or reviewed by a human unless something is flagged for a serious violation of our Terms.
+              Automated AI moderation scans live video and text in real time to catch harmful or illegal content. These checks aren&apos;t recorded or reviewed by a human unless something is flagged for a serious violation of our Terms.
             </p>
 
             <h2 className="text-xl sm:text-2xl font-bold text-gray-900 mb-4">

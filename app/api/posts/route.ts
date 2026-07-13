@@ -6,22 +6,16 @@ import { requireAdmin } from "@/lib/auth";
 
 export const dynamic = 'force-dynamic';
 
-// Yeni Post Ekleme İşlemi (POST İsteği)
 export async function POST(request: Request) {
   const authError = await requireAdmin();
   if (authError) return authError;
 
   try {
-    // Admin panelindeki formdan gönderilen veriyi alıyoruz
     const body = await request.json();
-    
-    // Veriyi Service katmanından kaydediyoruz
     const newPost = await postService.createPost(body);
 
-    // YENİ: RAM Cache'i temizliyoruz ki yeni eklenen post anında görünsün
+    // RAM cache DB ile otomatik senkronize olmadığı için, yeni post anında görünsün diye elle temizliyoruz
     clearCache();
-    
-    // YENİ: Next.js'in kendi önbelleğini (Data/Route Cache) temizliyoruz
     revalidatePath('/', 'layout');
 
     return NextResponse.json({ message: "Post başarıyla oluşturuldu!", post: newPost }, { status: 201 });

@@ -3,8 +3,17 @@
 import { useState, useEffect } from "react";
 import Link from "next/link";
 
+interface Seo {
+  _id: string;
+  pageName: string;
+  pageKey: string;
+  title: string;
+  description?: string;
+  jsonLd?: string;
+}
+
 export default function AdminSeoPage() {
-  const [seos, setSeos] = useState<any[]>([]);
+  const [seos, setSeos] = useState<Seo[]>([]);
   const [isLoading, setIsLoading] = useState(true);
 
   const fetchSeos = async () => {
@@ -20,6 +29,10 @@ export default function AdminSeoPage() {
   };
 
   useEffect(() => {
+    // Mount'ta bir kerelik veri çekme deseni; React'in yeni "set-state-in-effect" kuralı
+    // bunu işaretliyor ama mimariyi (ör. Server Component'e taşımayı) değiştirmeden
+    // düzeltilemiyor, o yüzden bilinçli olarak susturuluyor.
+    // eslint-disable-next-line react-hooks/set-state-in-effect
     fetchSeos();
   }, []);
 

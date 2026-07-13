@@ -1,5 +1,11 @@
 import { faqService } from "@/services/faqService";
 
+interface FaqItem {
+  _id: { toString(): string };
+  question: string;
+  answer: string;
+}
+
 async function getFaqs() {
   return await faqService.getActiveFaqs();
 }
@@ -25,7 +31,7 @@ export default async function FAQ() {
 
         {/* Chat Balonu Tarzı SSS Listesi */}
         <div className="space-y-4">
-          {faqs.map((faq: any) => (
+          {faqs.map((faq: FaqItem) => (
             <details 
               key={faq._id.toString()} 
               className="group bg-white rounded-md shadow-sm hover:shadow-md transition-all duration-300 [&_summary::-webkit-details-marker]:hidden border border-white/50"

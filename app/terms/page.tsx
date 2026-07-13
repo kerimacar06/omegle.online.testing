@@ -89,7 +89,7 @@ export default async function TermsPage() {
               1. Acceptance of Terms
             </h2>
             <p className="leading-relaxed mb-8">
-              By using Omegletest Online, you agree to these Terms and Conditions. If you don't agree, please don't use the service — it's that simple.
+              By using Omegletest Online, you agree to these Terms and Conditions. If you don&apos;t agree, please don&apos;t use the service — it&apos;s that simple.
             </p>
 
             <h2 className="text-xl sm:text-2xl font-bold text-gray-900 mb-4">

@@ -3,11 +3,20 @@
 import { useState, useEffect } from "react";
 import Link from "next/link";
 
+interface Bot {
+  _id: string;
+  name: string;
+  gender: string;
+  country: string;
+  character: string;
+  status: string;
+  timing: number;
+}
+
 export default function AdminBotsPage() {
-  const [bots, setBots] = useState<any[]>([]);
+  const [bots, setBots] = useState<Bot[]>([]);
   const [isLoading, setIsLoading] = useState(true);
 
-  // Veritabanından botları çekme
   const fetchBots = async () => {
     try {
       const res = await fetch("/api/bots", { cache: "no-store" });
@@ -21,15 +30,18 @@ export default function AdminBotsPage() {
   };
 
   useEffect(() => {
+    // Mount'ta bir kerelik veri çekme deseni; React'in yeni "set-state-in-effect" kuralı
+    // bunu işaretliyor ama mimariyi (ör. Server Component'e taşımayı) değiştirmeden
+    // düzeltilemiyor, o yüzden bilinçli olarak susturuluyor.
+    // eslint-disable-next-line react-hooks/set-state-in-effect
     fetchBots();
   }, []);
 
-  // Bot Silme İşlemi
   const handleDelete = async (id: string) => {
     if (!confirm("Bu botu kalıcı olarak silmek istediğinize emin misiniz?")) return;
     try {
       const res = await fetch(`/api/bots/${id}`, { method: "DELETE" });
-      if (res.ok) fetchBots(); // Silme başarılıysa tabloyu yenile
+      if (res.ok) fetchBots();
     } catch (error) {
       console.error("Hata:", error);
     }
@@ -54,7 +66,7 @@ export default function AdminBotsPage() {
             {isLoading ? (
               <div className="p-8 text-center text-gray-500">Yükleniyor...</div>
             ) : bots.length === 0 ? (
-              <div className="p-8 text-center text-gray-500">Henüz hiç bot eklenmemiş. "+ Add New Bot" butonuna tıklayarak ilk botunuzu oluşturun.</div>
+              <div className="p-8 text-center text-gray-500">Henüz hiç bot eklenmemiş. &quot;+ Add New Bot&quot; butonuna tıklayarak ilk botunuzu oluşturun.</div>
             ) : (
               bots.map((bot) => (
                 <div key={bot._id} className="p-6 flex items-center justify-between hover:bg-gray-50 transition">

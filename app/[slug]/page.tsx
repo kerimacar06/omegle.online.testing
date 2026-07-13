@@ -11,8 +11,13 @@ import { resolveCanonical } from '@/lib/canonical';
 
 export const dynamic = 'force-dynamic';
 
+interface PostFaq {
+  question: string;
+  answer: string;
+}
+
 // SEO için dinamik sayfa başlığı ve açıklaması oluşturma
-export async function generateMetadata(props: any): Promise<Metadata> {
+export async function generateMetadata(props: PageProps<'/[slug]'>): Promise<Metadata> {
   const params = await props.params;
   const post = await postService.getPostBySlug(params.slug);
 
@@ -37,8 +42,7 @@ export async function generateMetadata(props: any): Promise<Metadata> {
   };
 }
 
-// Ana sayfa bileşeni
-export default async function BlogPostPage(props: any) {
+export default async function BlogPostPage(props: PageProps<'/[slug]'>) {
   const params = await props.params;
   const post = await postService.getPostBySlug(params.slug);
 
@@ -56,7 +60,24 @@ export default async function BlogPostPage(props: any) {
   const maxRows = Math.max(pros.length, cons.length);
 
   // Otomatik Article JSON-LD
-  const articleJsonLd: any = {
+  const articleJsonLd: {
+    '@context': string;
+    '@type': string;
+    headline: string;
+    description?: string;
+    image: string;
+    author: { '@type': string; name: string; url: string };
+    publisher: { '@type': string; name: string; logo: { '@type': string; url: string } };
+    datePublished: string;
+    dateModified: string;
+    aggregateRating?: {
+      '@type': string;
+      ratingValue: string;
+      bestRating: string;
+      worstRating: string;
+      ratingCount: string;
+    };
+  } = {
     '@context': 'https://schema.org',
     '@type': 'Article',
     headline: post.title,
@@ -75,8 +96,10 @@ export default async function BlogPostPage(props: any) {
         url: 'https://omegletest.online/img/logo.png'
       }
     },
-    datePublished: post.createdAt || new Date().toISOString(),
-    dateModified: post.updatedAt || new Date().toISOString(),
+    // Mongoose { timestamps: true } bu alanları her zaman dolduruyor; boşsa (çok eski/bozuk kayıt)
+    // render sırasında "şimdi"yi kullanmak yerine sabit bir epoch değeri kullanıyoruz (impure Date() render'da çağrılmasın diye)
+    datePublished: post.createdAt || new Date(0).toISOString(),
+    dateModified: post.updatedAt || new Date(0).toISOString(),
   };
 
   // Dinamik Oylama Sistemi JSON-LD
@@ -94,7 +117,7 @@ export default async function BlogPostPage(props: any) {
   const faqJsonLd = post.faqs && post.faqs.length > 0 ? {
     '@context': 'https://schema.org',
     '@type': 'FAQPage',
-    mainEntity: post.faqs.map((faq: any) => ({
+    mainEntity: post.faqs.map((faq: PostFaq) => ({
       '@type': 'Question',
       name: faq.question,
       acceptedAnswer: {
@@ -118,7 +141,7 @@ export default async function BlogPostPage(props: any) {
     { name: breadcrumbName, url: `https://omegletest.online/${post.slug}` }
   ]);
 
-  const createdAt = new Date(post.createdAt || Date.now());
+  const createdAt = new Date(post.createdAt || 0);
   const updatedAt = post.updatedAt ? new Date(post.updatedAt) : createdAt;
   const isUpdated = updatedAt.getTime() > createdAt.getTime() + 60000; // 1 dakika fark varsa güncellenmiş say
   const displayDate = isUpdated ? updatedAt : createdAt;
@@ -372,7 +395,7 @@ export default async function BlogPostPage(props: any) {
                     <h3 className="text-lg sm:text-2xl font-bold text-gray-900 mb-4 sm:mb-6">Frequently Asked Questions</h3>
 
                     <div className="space-y-3 sm:space-y-4">
-                      {post.faqs.map((faq: any, index: number) => (
+                      {post.faqs.map((faq: PostFaq, index: number) => (
                         <details
                           key={index}
                           className="group bg-white rounded-md shadow-sm hover:shadow-md transition-all duration-300 [&_summary::-webkit-details-marker]:hidden border border-gray-200"

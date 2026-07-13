@@ -17,7 +17,7 @@ export async function POST(req: NextRequest) {
       return NextResponse.json({ success: false, message: "No file uploaded" }, { status: 400 });
     }
 
-    // YENİ: Sadece resim dosyalarına izin ver (Güvenlik kontrolü)
+    // MIME tipini kısıtlıyoruz ki disk'e keyfi dosya (ör. .html/.php) yazılamasın
     const validMimeTypes = ['image/jpeg', 'image/png', 'image/webp', 'image/gif'];
     if (!validMimeTypes.includes(file.type)) {
       return NextResponse.json({ success: false, message: "Only image files (JPG, PNG, WEBP, GIF) are allowed" }, { status: 400 });
@@ -30,9 +30,9 @@ export async function POST(req: NextRequest) {
     const bytes = await file.arrayBuffer();
     const buffer = Buffer.from(bytes);
 
-    // Create a unique filename
     const uniqueSuffix = `${Date.now()}-${Math.round(Math.random() * 1e9)}`;
-    const originalName = file.name.replace(/[^a-zA-Z0-9.\-_]/g, ""); // sanitize name
+    // Path traversal ve dosya sistemi için geçersiz karakterleri temizle (ör. "../", boşluk)
+    const originalName = file.name.replace(/[^a-zA-Z0-9.\-_]/g, "");
     const filename = `${uniqueSuffix}-${originalName}`;
     
     const filepath = path.join(process.cwd(), "public", "uploads", filename);

@@ -2,6 +2,21 @@ import { connectMongoDB } from '@/lib/mongodb';
 import Seo from '@/models/Seo';
 import { getFromCache, setInCache } from '@/lib/ramCache';
 
+interface SeoDoc {
+  _id: string;
+  pageName: string;
+  pageKey: string;
+  title: string;
+  breadcrumb?: string;
+  description?: string;
+  keywords?: string;
+  canonicalUrl?: string;
+  robots: string;
+  jsonLd?: string;
+  createdAt?: Date;
+  updatedAt?: Date;
+}
+
 export const seoService = {
   /**
    * Belirli bir sayfanın SEO ayarlarını getirir
@@ -10,7 +25,7 @@ export const seoService = {
   async getSeoData(pageKey: string) {
     try {
       const cacheKey = `seo_${pageKey}`;
-      let seoData = getFromCache(cacheKey);
+      let seoData = getFromCache<SeoDoc>(cacheKey);
       
       if (!seoData) {
         await connectMongoDB();
@@ -54,7 +69,7 @@ export const seoService = {
    */
   async getAllSeo() {
     const cacheKey = 'all_admin_seo';
-    let seos = getFromCache(cacheKey);
+    let seos = getFromCache<SeoDoc[]>(cacheKey);
     
     if (!seos) {
       await connectMongoDB();
@@ -77,7 +92,7 @@ export const seoService = {
    */
   async getSeoById(id: string) {
     const cacheKey = `seo_id_${id}`;
-    let seo = getFromCache(cacheKey);
+    let seo = getFromCache<SeoDoc>(cacheKey);
     
     if (!seo) {
       await connectMongoDB();

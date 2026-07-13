@@ -1,8 +1,16 @@
 import Link from "next/link";
+import { Types } from "mongoose";
 import { postService } from "@/services/postService";
-import DeleteButton from "@/components/DeleteButton"; // YENİ: Silme butonumuzu çağırdık
+import DeleteButton from "@/components/DeleteButton";
 
 export const dynamic = 'force-dynamic';
+
+interface AdminPost {
+  _id: Types.ObjectId | string;
+  title: string;
+  slug: string;
+  updatedAt: string;
+}
 
 async function getPosts() {
   try {
@@ -40,10 +48,10 @@ export default async function AdminPostsPage() {
           <div className="divide-y divide-gray-100">
             {posts.length === 0 ? (
               <div className="p-8 text-center text-gray-500">
-                Henüz hiç post eklenmemiş. "Add New Post" butonuna tıklayarak ilk içeriğinizi oluşturun.
+                Henüz hiç post eklenmemiş. &quot;Add New Post&quot; butonuna tıklayarak ilk içeriğinizi oluşturun.
               </div>
             ) : (
-              posts.map((post: any) => (
+              posts.map((post: AdminPost) => (
                 <div key={post._id.toString()} className="p-6 flex items-center justify-between border-b border-gray-100 last:border-0 hover:bg-gray-50/50 transition">
                   <div>
                     <h3 className="text-lg font-medium text-gray-900 mb-1">{post.title}</h3>
@@ -58,7 +66,6 @@ export default async function AdminPostsPage() {
                       Edit
                     </Link>
                     
-                    {/* YENİ: Kırmızı Silme Butonumuz */}
                     <DeleteButton id={post._id.toString()} />
 
                     <Link href={`/${post.slug}`} target="_blank" className="px-4 py-2 text-sm font-medium text-gray-700 bg-white border border-gray-200 rounded-md hover:bg-gray-50 transition">

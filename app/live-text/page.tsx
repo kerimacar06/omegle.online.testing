@@ -7,7 +7,6 @@ export default function TextChatPage() {
   const [messages, setMessages] = useState<{ sender: 'You' | 'Stranger' | 'System', text: string, senderName?: string }[]>([]);
   const [inputValue, setInputValue] = useState('');
   const [isSearching, setIsSearching] = useState(true);
-  const [currentBot, setCurrentBot] = useState<any>(null);
   const [isDisconnected, setIsDisconnected] = useState(false);
   
   const messagesEndRef = useRef<HTMLDivElement>(null);
@@ -27,12 +26,11 @@ export default function TextChatPage() {
     const currentSessionId = ++chatSessionIdRef.current;
     setIsSearching(true);
     setIsDisconnected(false);
-    setCurrentBot(null);
     setMessages([
       { sender: 'System', text: 'Connecting to server...' },
       { sender: 'System', text: 'Looking for someone you can chat with...' }
     ]);
-    
+
     // Varsa önceki botun mesaj gönderme süresini iptal et
     if (timeoutRef.current) clearTimeout(timeoutRef.current);
 
@@ -42,7 +40,6 @@ export default function TextChatPage() {
 
       if (res.ok) {
         const bot = await res.json();
-        setCurrentBot(bot);
         setIsSearching(false);
         
         setMessages(prev => [
@@ -64,15 +61,17 @@ export default function TextChatPage() {
         setIsSearching(false);
         setMessages(prev => [...prev, { sender: 'System', text: 'No active strangers found right now.' }]);
       }
-    } catch (error) {
+    } catch {
       if (currentSessionId !== chatSessionIdRef.current) return;
       setIsSearching(false);
       setMessages(prev => [...prev, { sender: 'System', text: 'Connection failed.' }]);
     }
   };
 
-  // Sayfa yüklendiğinde bir bot bul
+  // Sayfa yüklendiğinde bir bot bul. React'in yeni "set-state-in-effect" kuralı bunu
+  // işaretliyor ama mimariyi değiştirmeden düzeltilemiyor, o yüzden bilinçli olarak susturuluyor.
   useEffect(() => {
+    // eslint-disable-next-line react-hooks/set-state-in-effect
     findStranger();
     return () => {
       if (timeoutRef.current) clearTimeout(timeoutRef.current);
@@ -86,8 +85,7 @@ export default function TextChatPage() {
     setMessages((prev) => [...prev, { sender: 'You', text: inputValue }]);
     setInputValue('');
 
-    // Sahte rastgele bot cevabı (Demo amaçlı ek olarak tutulabilir, ancak ilk mesaj veritabanından geliyor)
-    // Şimdilik ikinci cevap atmayacak, gerçekçi olması için ileride yapay zeka bağlanabilir.
+    // Bot yalnızca bağlanınca otomatik karşılama mesajı gönderir; kullanıcı mesajına yanıt vermez.
   };
 
   const handleStop = () => {

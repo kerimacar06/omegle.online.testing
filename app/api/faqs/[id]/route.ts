@@ -4,7 +4,7 @@ import { clearCache } from "@/lib/ramCache";
 import { revalidatePath } from "next/cache";
 import { requireAdmin } from "@/lib/auth";
 
-export async function PUT(request: Request, context: any) {
+export async function PUT(request: Request, context: { params: Promise<{ id: string }> }) {
   const authError = await requireAdmin();
   if (authError) return authError;
 
@@ -15,12 +15,12 @@ export async function PUT(request: Request, context: any) {
     clearCache();
     revalidatePath("/", "layout");
     return NextResponse.json({ message: "Güncellendi" }, { status: 200 });
-  } catch (error) {
+  } catch {
     return NextResponse.json({ message: "Hata" }, { status: 500 });
   }
 }
 
-export async function DELETE(request: Request, context: any) {
+export async function DELETE(request: Request, context: { params: Promise<{ id: string }> }) {
   const authError = await requireAdmin();
   if (authError) return authError;
 
@@ -30,7 +30,7 @@ export async function DELETE(request: Request, context: any) {
     clearCache();
     revalidatePath("/", "layout");
     return NextResponse.json({ message: "Silindi" }, { status: 200 });
-  } catch (error) {
+  } catch {
     return NextResponse.json({ message: "Hata" }, { status: 500 });
   }
 }

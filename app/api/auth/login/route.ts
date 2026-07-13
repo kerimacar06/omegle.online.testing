@@ -6,13 +6,10 @@ export async function POST(request: Request) {
   try {
     const { username, password } = await request.json();
 
-    // Çevresel değişkenlerden (env) doğru bilgileri al
     const correctUsername = process.env.ADMIN_USERNAME;
     const correctPassword = process.env.ADMIN_PASSWORD;
 
-    // Bilgileri kontrol et
     if (username === correctUsername && password === correctPassword) {
-      // Doğruysa JWT Token oluştur
       const secret = getJwtSecretKey();
 
       const alg = 'HS256';
@@ -24,12 +21,13 @@ export async function POST(request: Request) {
 
       const response = NextResponse.json({ success: true }, { status: 200 });
 
-      // Token'i güvenli (HttpOnly) bir çerez olarak tarayıcıya ekle
+      // httpOnly: JS ile okunamaz (XSS'e karşı); secure sadece production'da
+      // zorlanır çünkü local'de HTTPS olmayabilir
       response.cookies.set('admin_token', token, {
         httpOnly: true,
         secure: process.env.NODE_ENV === 'production',
         sameSite: 'strict',
-        maxAge: 60 * 60 * 24, // 1 gün (saniye cinsinden)
+        maxAge: 60 * 60 * 24, // 1 gün (saniye)
         path: '/',
       });
 
@@ -37,7 +35,7 @@ export async function POST(request: Request) {
     } else {
       return NextResponse.json({ error: 'Kullanıcı adı veya şifre hatalı' }, { status: 401 });
     }
-  } catch (error) {
+  } catch {
     return NextResponse.json({ error: 'Sunucu hatası' }, { status: 500 });
   }
 }

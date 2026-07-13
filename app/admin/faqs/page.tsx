@@ -2,13 +2,20 @@
 
 import { useState, useEffect } from "react";
 
+interface Faq {
+  _id: string;
+  question: string;
+  answer: string;
+  order: number;
+  isActive: boolean;
+}
+
 export default function AdminFaqsPage() {
-  const [faqs, setFaqs] = useState<any[]>([]);
+  const [faqs, setFaqs] = useState<Faq[]>([]);
   const [formData, setFormData] = useState({ question: "", answer: "", order: 0, isActive: true });
   const [editId, setEditId] = useState<string | null>(null);
   const [isLoading, setIsLoading] = useState(false);
 
-  // Verileri getir
   const fetchFaqs = async () => {
     try {
       const res = await fetch("/api/faqs", { cache: "no-store" });
@@ -20,10 +27,13 @@ export default function AdminFaqsPage() {
   };
 
   useEffect(() => {
+    // Mount'ta bir kerelik veri çekme deseni; React'in yeni "set-state-in-effect" kuralı
+    // bunu işaretliyor ama mimariyi (ör. Server Component'e taşımayı) değiştirmeden
+    // düzeltilemiyor, o yüzden bilinçli olarak susturuluyor.
+    // eslint-disable-next-line react-hooks/set-state-in-effect
     fetchFaqs();
   }, []);
 
-  // Ekle veya Güncelle
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setIsLoading(true);
@@ -41,7 +51,7 @@ export default function AdminFaqsPage() {
       if (res.ok) {
         setFormData({ question: "", answer: "", order: 0, isActive: true });
         setEditId(null);
-        fetchFaqs(); // Tabloyu yenile
+        fetchFaqs();
       }
     } catch (error) {
       console.error("Hata:", error);
@@ -50,7 +60,6 @@ export default function AdminFaqsPage() {
     }
   };
 
-  // Sil
   const handleDelete = async (id: string) => {
     if (!confirm("Bu soruyu silmek istediğinize emin misiniz?")) return;
     try {
@@ -61,8 +70,7 @@ export default function AdminFaqsPage() {
     }
   };
 
-  // Düzenleme moduna geç
-  const handleEdit = (faq: any) => {
+  const handleEdit = (faq: Faq) => {
     setEditId(faq._id);
     setFormData({ question: faq.question, answer: faq.answer, order: faq.order, isActive: faq.isActive });
     window.scrollTo({ top: 0, behavior: "smooth" });
@@ -73,7 +81,6 @@ export default function AdminFaqsPage() {
       <main className="p-8 max-w-5xl mx-auto mt-4">
         <h1 className="text-3xl font-bold text-gray-900 mb-8">Manage Homepage FAQs</h1>
 
-        {/* EKLE / DÜZENLE FORMU */}
         <div className="bg-white border border-gray-200 rounded-xl shadow-sm p-6 mb-8">
           <h2 className="text-lg font-bold text-gray-900 mb-4">{editId ? "Edit FAQ" : "Add New FAQ"}</h2>
           <form onSubmit={handleSubmit} className="space-y-4">
@@ -108,7 +115,6 @@ export default function AdminFaqsPage() {
           </form>
         </div>
 
-        {/* MEVCUT SSS LİSTESİ */}
         <div className="space-y-4">
           {faqs.length === 0 ? (
             <p className="text-center text-gray-500 py-8 bg-white border border-gray-200 rounded-xl">No FAQs found. Add one above.</p>

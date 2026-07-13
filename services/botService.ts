@@ -2,13 +2,26 @@ import { connectMongoDB } from '@/lib/mongodb';
 import Bot from '@/models/Bot';
 import { getFromCache, setInCache } from '@/lib/ramCache';
 
+interface BotDoc {
+  _id: string;
+  name: string;
+  country: string;
+  gender: string;
+  character: string;
+  status: string;
+  autoMessage?: string;
+  timing: number;
+  createdAt?: Date;
+  updatedAt?: Date;
+}
+
 export const botService = {
   /**
    * Admin paneli için tüm bot kayıtlarını çeker
    */
   async getAllBots() {
     const cacheKey = 'all_admin_bots';
-    let bots = getFromCache(cacheKey);
+    let bots = getFromCache<BotDoc[]>(cacheKey);
     
     if (!bots) {
       await connectMongoDB();
@@ -31,7 +44,7 @@ export const botService = {
    */
   async getBotById(id: string) {
     const cacheKey = `bot_id_${id}`;
-    let bot = getFromCache(cacheKey);
+    let bot = getFromCache<BotDoc>(cacheKey);
     
     if (!bot) {
       await connectMongoDB();
@@ -58,25 +71,25 @@ export const botService = {
   },
 
   /**
-   * Rastgele aktif bot getirir (Tamamen RAM'den!)
+   * Rastgele aktif bot getirir. Bu endpoint auth gerektirmeden sık çağrıldığından,
+   * tüm aktif bot listesini RAM'de tutup seçimi bellekte yapıyoruz — her istekte
+   * Mongo'ya gitmek yerine sadece cache süresi dolduğunda tek bir sorgu atılır.
    */
   async getRandomActiveBot() {
     const cacheKey = 'all_active_bots';
-    let activeBots = getFromCache(cacheKey);
-    
-    // Eğer RAM'de aktif botlar yoksa, Mongo'dan çek ve RAM'e kaydet
+    let activeBots = getFromCache<BotDoc[]>(cacheKey);
+
     if (!activeBots) {
       await connectMongoDB();
       activeBots = await Bot.find({ status: "Active" }).lean();
       if (activeBots) setInCache(cacheKey, activeBots, 300);
     }
-    
-    // RAM'deki listeden rastgele 1 tanesini seç
+
     if (activeBots && activeBots.length > 0) {
       const randomIndex = Math.floor(Math.random() * activeBots.length);
       return activeBots[randomIndex];
     }
-    
+
     return null;
   }
 };

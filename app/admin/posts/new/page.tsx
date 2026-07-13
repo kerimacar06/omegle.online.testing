@@ -3,43 +3,41 @@
 import { useState } from "react";
 import Link from "next/link";
 import Editor from "@/components/Editor";
+import FileSelectButton from "@/components/FileSelectButton";
 
 export default function CreateNewPost() {
   const [formData, setFormData] = useState({
     title: "",
     slug: "",
-    breadcrumb: "", // YENİ: Breadcrumb alanı
+    breadcrumb: "",
     description: "",
     coverImage: "",
     content: "",
     alternativeAppsContent: "",
     rating: 5,
     voteCount: 0,
-    pros: "", 
+    pros: "",
     cons: "",
-    author: "Omegle Test", // YENİ: Yazar alanı
-    authorImage: "", // YENİ: Yazar profil fotoğrafı
+    author: "Omegle Test",
+    authorImage: "",
     status: "Published",
-    faqs: [] as { question: string, answer: string }[] // YENİ: SSS için boş dizi
+    faqs: [] as { question: string, answer: string }[]
   });
 
   const [isLoading, setIsLoading] = useState(false);
-  const [isUploadingImage, setIsUploadingImage] = useState(false); // YENİ: Resim yükleme durumu
-  const [isUploadingAuthorImage, setIsUploadingAuthorImage] = useState(false); // YENİ: Yazar fotoğrafı yükleme durumu
+  const [isUploadingImage, setIsUploadingImage] = useState(false);
+  const [isUploadingAuthorImage, setIsUploadingAuthorImage] = useState(false);
   const [message, setMessage] = useState("");
 
-  // YENİ: Dinamik SSS Ekleme Fonksiyonu
   const handleAddFaq = () => {
     setFormData({ ...formData, faqs: [...formData.faqs, { question: "", answer: "" }] });
   };
 
-  // YENİ: SSS Silme Fonksiyonu
   const handleRemoveFaq = (index: number) => {
     const newFaqs = formData.faqs.filter((_, i) => i !== index);
     setFormData({ ...formData, faqs: newFaqs });
   };
 
-  // YENİ: SSS İçeriğini Güncelleme Fonksiyonu
   const handleFaqChange = (index: number, field: "question" | "answer", value: string) => {
     const newFaqs = [...formData.faqs];
     newFaqs[index][field] = value;
@@ -157,7 +155,6 @@ export default function CreateNewPost() {
 
         <form onSubmit={handleSubmit} className="space-y-6">
           
-          {/* TEMEL BİLGİLER */}
           <div className="bg-white p-8 rounded-xl shadow-sm border border-gray-100 flex flex-col md:flex-row gap-8">
             <div className="md:w-1/3">
               <h2 className="text-lg font-bold text-gray-900">Basic Information</h2>
@@ -206,12 +203,7 @@ export default function CreateNewPost() {
                     <img src={formData.authorImage} alt="Author preview" className="w-11 h-11 rounded-full object-cover border border-gray-200 shrink-0" />
                   )}
                   <div className="flex-1 flex flex-col gap-2">
-                    <input
-                      type="file"
-                      accept="image/*"
-                      onChange={handleAuthorImageUpload}
-                      className="w-full text-sm text-gray-500 file:mr-4 file:py-2 file:px-4 file:rounded-md file:border-0 file:text-sm file:font-semibold file:bg-blue-50 file:text-blue-700 hover:file:bg-blue-100 outline-none"
-                    />
+                    <FileSelectButton onChange={handleAuthorImageUpload} />
                     {isUploadingAuthorImage && <p className="text-sm text-blue-500">Uploading...</p>}
                     <input type="text" value={formData.authorImage} onChange={(e) => setFormData({...formData, authorImage: e.target.value})} className="w-full px-4 py-2 border border-gray-300 rounded-md outline-none focus:border-blue-500" placeholder="Or paste image URL" />
                   </div>
@@ -221,12 +213,7 @@ export default function CreateNewPost() {
               <div>
                 <label className="block text-sm font-medium text-gray-700 mb-1">Featured Image</label>
                 <div className="flex flex-col gap-2">
-                  <input
-                    type="file"
-                    accept="image/*"
-                    onChange={handleImageUpload}
-                    className="w-full text-sm text-gray-500 file:mr-4 file:py-2 file:px-4 file:rounded-md file:border-0 file:text-sm file:font-semibold file:bg-blue-50 file:text-blue-700 hover:file:bg-blue-100 outline-none"
-                  />
+                  <FileSelectButton onChange={handleImageUpload} />
                   {isUploadingImage && <p className="text-sm text-blue-500">Uploading...</p>}
                   {formData.coverImage && (
                     <div className="w-full max-w-sm rounded-lg overflow-hidden border border-gray-200 mt-2 mb-2">
@@ -247,10 +234,10 @@ export default function CreateNewPost() {
             </div>
           </div>
 
-          {/* İÇERİK (EDİTÖR) */}
           <div className="bg-white p-8 rounded-xl shadow-sm border border-gray-100">
             <h2 className="text-lg font-bold text-gray-900 mb-4">Content</h2>
             <div className="h-[400px] mb-12">
+              {/* Aynı değeri tekrar set etmek react-quill'de imleç konumunu sıfırlar, bu yüzden değişiklik yoksa güncellemiyoruz */}
               <Editor value={formData.content} onChange={(value) => {
                 if (formData.content !== value) {
                   setFormData({...formData, content: value});
@@ -259,7 +246,6 @@ export default function CreateNewPost() {
             </div>
           </div>
 
-          {/* İNCELEME DETAYLARI (PROS & CONS) */}
           <div className="bg-white p-8 rounded-xl shadow-sm border border-gray-100 flex flex-col md:flex-row gap-8">
             <div className="md:w-1/3">
               <h2 className="text-lg font-bold text-gray-900">Review Details</h2>
@@ -287,7 +273,6 @@ export default function CreateNewPost() {
             </div>
           </div>
 
-          {/* ALTERNATIVE APPS BÖLÜMÜ */}
           <div className="bg-white p-8 rounded-xl shadow-sm border border-gray-100">
             <h2 className="text-lg font-bold text-gray-900 mb-2">Alternative Apps</h2>
             <p className="text-sm text-gray-500 mb-4">Add alternative apps section here. You can use the editor to bold app names and link them.</p>
@@ -300,7 +285,6 @@ export default function CreateNewPost() {
             </div>
           </div>
 
-          {/* YENİ: SSS (FAQS) BÖLÜMÜ */}
           <div className="bg-white p-8 rounded-xl shadow-sm border border-gray-100">
             <div className="flex justify-between items-center mb-6">
               <div>
@@ -333,7 +317,7 @@ export default function CreateNewPost() {
               
               {formData.faqs.length === 0 && (
                 <div className="text-center py-8 border-2 border-dashed border-gray-200 rounded-xl">
-                  <p className="text-gray-500">No FAQs added yet. Click the "+ Add New FAQ" button above to start.</p>
+                  <p className="text-gray-500">No FAQs added yet. Click the &quot;+ Add New FAQ&quot; button above to start.</p>
                 </div>
               )}
             </div>

@@ -6,8 +6,8 @@ import { requireAdmin } from "@/lib/auth";
 
 export const dynamic = 'force-dynamic';
 
-// GET: Sadece tek bir botun bilgilerini getir (Düzenleme formu için)
-export async function GET(request: Request, context: any) {
+// Düzenleme formunu doldurmak için tek bir botun bilgilerini getirir
+export async function GET(request: Request, context: { params: Promise<{ id: string }> }) {
   const authError = await requireAdmin();
   if (authError) return authError;
 
@@ -16,13 +16,12 @@ export async function GET(request: Request, context: any) {
     const bot = await botService.getBotById(id);
     if (!bot) return NextResponse.json({ message: "Bot bulunamadı" }, { status: 404 });
     return NextResponse.json({ bot }, { status: 200 });
-  } catch (error) {
+  } catch {
     return NextResponse.json({ message: "Sunucu hatası" }, { status: 500 });
   }
 }
 
-// PUT: Mevcut botu güncelle
-export async function PUT(request: Request, context: any) {
+export async function PUT(request: Request, context: { params: Promise<{ id: string }> }) {
   const authError = await requireAdmin();
   if (authError) return authError;
 
@@ -33,13 +32,12 @@ export async function PUT(request: Request, context: any) {
     clearCache();
     revalidatePath("/", "layout");
     return NextResponse.json({ message: "Bot başarıyla güncellendi!" }, { status: 200 });
-  } catch (error) {
+  } catch {
     return NextResponse.json({ message: "Güncelleme hatası" }, { status: 500 });
   }
 }
 
-// DELETE: Botu veritabanından sil
-export async function DELETE(request: Request, context: any) {
+export async function DELETE(request: Request, context: { params: Promise<{ id: string }> }) {
   const authError = await requireAdmin();
   if (authError) return authError;
 
@@ -49,7 +47,7 @@ export async function DELETE(request: Request, context: any) {
     clearCache();
     revalidatePath("/", "layout");
     return NextResponse.json({ message: "Bot başarıyla silindi!" }, { status: 200 });
-  } catch (error) {
+  } catch {
     return NextResponse.json({ message: "Silme hatası" }, { status: 500 });
   }
 }

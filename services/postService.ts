@@ -2,6 +2,28 @@ import { connectMongoDB } from '@/lib/mongodb';
 import Post from '@/models/Post';
 import { getFromCache, setInCache } from '@/lib/ramCache';
 
+interface PostDoc {
+  _id: string;
+  title: string;
+  slug: string;
+  breadcrumb?: string;
+  description?: string;
+  coverImage?: string;
+  content?: string;
+  alternativeAppsContent?: string;
+  rating: number;
+  voteCount: number;
+  pros: string[];
+  cons: string[];
+  author: string;
+  authorImage: string;
+  faqs: { question?: string; answer?: string }[];
+  status: 'Published' | 'Draft';
+  isDeleted: boolean;
+  createdAt: string;
+  updatedAt: string;
+}
+
 export const postService = {
   /**
    * Admin paneli veya API için tüm postları getirir
@@ -9,7 +31,7 @@ export const postService = {
   async getAllPosts() {
     try {
       const cacheKey = 'all_admin_posts';
-      let posts = getFromCache(cacheKey);
+      let posts = getFromCache<PostDoc[]>(cacheKey);
       
       if (!posts) {
         await connectMongoDB();
@@ -29,7 +51,7 @@ export const postService = {
   async getActivePosts() {
     try {
       const cacheKey = 'admin_active_posts';
-      let posts = getFromCache(cacheKey);
+      let posts = getFromCache<PostDoc[]>(cacheKey);
       
       if (!posts) {
         await connectMongoDB();
@@ -49,7 +71,7 @@ export const postService = {
   async getDeletedPosts() {
     try {
       const cacheKey = 'admin_deleted_posts';
-      let posts = getFromCache(cacheKey);
+      let posts = getFromCache<PostDoc[]>(cacheKey);
       
       if (!posts) {
         await connectMongoDB();
@@ -72,7 +94,7 @@ export const postService = {
   async getPublishedPosts() {
     try {
       const cacheKey = 'all_apps_posts';
-      let posts = getFromCache(cacheKey);
+      let posts = getFromCache<PostDoc[]>(cacheKey);
 
       if (!posts) {
         await connectMongoDB();
@@ -95,7 +117,7 @@ export const postService = {
    */
   async getLatestPosts(limit: number = 6) {
     const cacheKey = `home_alternatives_${limit}`;
-    const cached = getFromCache(cacheKey);
+    const cached = getFromCache<{ posts: PostDoc[]; totalCount: number }>(cacheKey);
     if (cached) return cached;
 
     try {
@@ -118,7 +140,7 @@ export const postService = {
    */
   async getPostBySlug(slug: string) {
     const cacheKey = `post_detail_${slug}`;
-    const cached = getFromCache(cacheKey);
+    const cached = getFromCache<PostDoc>(cacheKey);
     if (cached) return cached;
 
     try {
@@ -145,7 +167,7 @@ export const postService = {
    */
   async getPostById(id: string) {
     const cacheKey = `post_id_${id}`;
-    let post = getFromCache(cacheKey);
+    let post = getFromCache<PostDoc>(cacheKey);
     
     if (!post) {
       await connectMongoDB();

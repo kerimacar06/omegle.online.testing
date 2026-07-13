@@ -6,20 +6,16 @@ import { requireAdmin } from "@/lib/auth";
 
 export const dynamic = 'force-dynamic';
 
-export async function PUT(request: Request, context: any) {
+export async function PUT(request: Request, context: { params: Promise<{ id: string }> }) {
   const authError = await requireAdmin();
   if (authError) return authError;
 
   try {
     const { id } = await context.params;
-    
-    // isDeleted bayrağını false yaparak geri yüklüyoruz
+
+    // Çöp kutusundan geri alır: isDeleted bayrağını false'a çevirir, veri kalıcı olarak yeniden silinmedikçe kaybolmaz
     await postService.restorePost(id);
-    
-    // RAM Cache'i temizliyoruz ki geri yüklenen veri hemen listelensin
     clearCache();
-    
-    // Next.js'in kendi önbelleğini (Data/Route Cache) temizliyoruz
     revalidatePath('/', 'layout');
     
     return NextResponse.json({ message: "Post başarıyla geri yüklendi!" }, { status: 200 });

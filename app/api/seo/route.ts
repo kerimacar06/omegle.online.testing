@@ -6,7 +6,6 @@ import { requireAdmin } from "@/lib/auth";
 
 export const dynamic = 'force-dynamic';
 
-// GET: Tüm sayfa SEO ayarlarını listele
 export async function GET() {
   const authError = await requireAdmin();
   if (authError) return authError;
@@ -14,12 +13,11 @@ export async function GET() {
   try {
     const seos = await seoService.getAllSeo();
     return NextResponse.json({ seos }, { status: 200 });
-  } catch (error) {
+  } catch {
     return NextResponse.json({ message: "Veriler getirilirken hata oluştu" }, { status: 500 });
   }
 }
 
-// POST: Yeni sayfa SEO ayarı ekle
 export async function POST(request: Request) {
   const authError = await requireAdmin();
   if (authError) return authError;
@@ -30,7 +28,7 @@ export async function POST(request: Request) {
     clearCache();
     revalidatePath("/", "layout");
     return NextResponse.json({ message: "SEO ayarı başarıyla oluşturuldu!" }, { status: 201 });
-  } catch (error) {
+  } catch {
     return NextResponse.json({ message: "Kayıt sırasında hata oluştu" }, { status: 500 });
   }
 }

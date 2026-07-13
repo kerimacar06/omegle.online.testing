@@ -1,5 +1,5 @@
-import { connectMongoDB } from "./lib/mongodb";
-import Post from "./models/Post";
+import { connectMongoDB } from "../lib/mongodb";
+import Post from "../models/Post";
 
 const posts = [
   {

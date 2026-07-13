@@ -4,7 +4,7 @@ const postSchema = new mongoose.Schema(
   {
     title: { type: String, required: true },
     slug: { type: String, required: true, unique: true },
-    breadcrumb: { type: String }, // YENİ: Breadcrumb alanı
+    breadcrumb: { type: String },
     description: { type: String },
     coverImage: { type: String },
     content: { type: String },
@@ -13,9 +13,8 @@ const postSchema = new mongoose.Schema(
     voteCount: { type: Number, default: 0 },
     pros: { type: [String], default: [] },
     cons: { type: [String], default: [] },
-    author: { type: String, default: "Omegle Test" }, // YENİ: Yazar alanı
-    authorImage: { type: String, default: "" }, // YENİ: Yazar profil fotoğrafı
-    // YENİ: SSS (Sıkça Sorulan Sorular) Alanı
+    author: { type: String, default: "Omegle Test" },
+    authorImage: { type: String, default: "" },
     faqs: [
       {
         question: { type: String },
@@ -23,7 +22,8 @@ const postSchema = new mongoose.Schema(
       }
     ],
     status: { type: String, enum: ['Published', 'Draft'], default: 'Published' },
-    isDeleted: { type: Boolean, default: false } // YENİ: Çöp kutusu özelliği için soft delete flag'i
+    // Gerçek silme yerine soft delete: çöp kutusu özelliği geri yükleme yapabilsin diye
+    isDeleted: { type: Boolean, default: false }
   },
   { timestamps: true }
 );

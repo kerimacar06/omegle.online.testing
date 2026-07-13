@@ -4,6 +4,12 @@ import Faq from '@/models/Faq';
 import Bot from '@/models/Bot';
 import { getFromCache, setInCache } from '@/lib/ramCache';
 
+interface DashboardStats {
+  posts: { total: number; published: number; draft: number; deleted: number };
+  faqs: { total: number; active: number };
+  bots: { total: number; active: number };
+}
+
 export const dashboardService = {
   /**
    * Admin dashboard için genel istatistikleri çeker
@@ -11,7 +17,7 @@ export const dashboardService = {
   async getDashboardStats() {
     try {
       const cacheKey = 'dashboard_stats';
-      let stats = getFromCache(cacheKey);
+      let stats = getFromCache<DashboardStats>(cacheKey);
 
       if (!stats) {
         await connectMongoDB();
@@ -33,7 +39,8 @@ export const dashboardService = {
           Faq.countDocuments(),
           Faq.countDocuments({ isActive: true }),
           Bot.countDocuments(),
-          Bot.countDocuments({ isActive: true })
+          // Bot şemasında "isActive" değil "status" alanı var (bkz. models/Bot.ts) — botService.getRandomActiveBot ile aynı filtre
+          Bot.countDocuments({ status: 'Active' })
         ]);
 
         stats = {

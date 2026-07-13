@@ -19,14 +19,12 @@ export default async function Dashboard() {
   return (
     <div className="min-h-screen bg-gray-50 font-sans">
 
-      {/* Ana İçerik Alanı */}
       <main className="p-8 max-w-6xl mx-auto">
         <div className="mb-8">
           <h1 className="text-3xl font-bold text-gray-900">Dashboard</h1>
           <p className="text-gray-500 mt-1">Welcome to your admin panel</p>
         </div>
 
-        {/* İstatistik Kartları */}
         <div className="grid grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
           <div className="bg-white p-6 rounded-xl shadow-sm border border-gray-100">
             <h3 className="text-gray-900 font-semibold mb-3">Active Users</h3>
@@ -53,7 +51,6 @@ export default async function Dashboard() {
           </div>
         </div>
 
-        {/* Hızlı İşlemler (Quick Actions) */}
         <div className="bg-white p-6 rounded-xl shadow-sm border border-gray-100">
           <h2 className="text-xl font-bold text-gray-900 mb-6">Quick Actions</h2>
           <div className="flex flex-wrap gap-4">

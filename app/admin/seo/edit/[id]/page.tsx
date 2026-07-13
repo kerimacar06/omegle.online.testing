@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import Link from "next/link";
 import { useRouter, useParams } from "next/navigation";
 
@@ -24,8 +24,12 @@ export default function EditSeoPage() {
   const [isLoading, setIsLoading] = useState(false);
   const [isFetching, setIsFetching] = useState(true);
   const [message, setMessage] = useState("");
+  const redirectTimeoutRef = useRef<ReturnType<typeof setTimeout> | null>(null);
 
-  // Sayfa yüklendiğinde eski bilgileri getir
+  useEffect(() => () => {
+    if (redirectTimeoutRef.current) clearTimeout(redirectTimeoutRef.current);
+  }, []);
+
   useEffect(() => {
     if (!seoId) return;
 
@@ -61,7 +65,6 @@ export default function EditSeoPage() {
     fetchSeo();
   }, [seoId]);
 
-  // Güncelleme isteği gönder
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setIsLoading(true);
@@ -76,7 +79,7 @@ export default function EditSeoPage() {
 
       if (response.ok) {
         setMessage("✅ SEO ayarı başarıyla güncellendi! Yönlendiriliyorsunuz...");
-        setTimeout(() => router.push("/admin/seo"), 1500);
+        redirectTimeoutRef.current = setTimeout(() => router.push("/admin/seo"), 1500);
       } else {
         setMessage("❌ Güncelleme sırasında bir hata oluştu.");
       }
@@ -118,7 +121,6 @@ export default function EditSeoPage() {
 
         <form onSubmit={handleSubmit} className="space-y-8">
           
-          {/* TEMEL BİLGİLER */}
           <div className="bg-white p-8 rounded-xl shadow-sm border border-gray-200">
             <h2 className="text-lg font-bold text-gray-900 mb-6">Temel Bilgiler</h2>
             
@@ -150,7 +152,6 @@ export default function EditSeoPage() {
             </div>
           </div>
 
-          {/* İÇERİK (Sadece İngilizce) */}
           <div className="bg-white p-8 rounded-xl shadow-sm border border-gray-200">
             <h2 className="text-lg font-bold text-gray-900 mb-6">İçerik (EN - English)</h2>
             

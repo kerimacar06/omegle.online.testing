@@ -1,9 +1,10 @@
 "use client";
 
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import Link from "next/link";
 import { useRouter, useParams } from "next/navigation";
-import Editor from "@/components/Editor"; 
+import Editor from "@/components/Editor";
+import FileSelectButton from "@/components/FileSelectButton";
 
 export default function EditPost() {
   const router = useRouter();
@@ -13,16 +14,21 @@ export default function EditPost() {
   const [formData, setFormData] = useState({
     title: "", slug: "", breadcrumb: "", description: "", coverImage: "", content: "", alternativeAppsContent: "", rating: 5, voteCount: 0, pros: "", cons: "",
     status: "Published",
-    author: "Omegle Test", // YENİ: Yazar alanı eklendi
-    authorImage: "", // YENİ: Yazar profil fotoğrafı
-    faqs: [] as { question: string, answer: string }[] // YENİ: SSS Alanı eklendi
+    author: "Omegle Test",
+    authorImage: "",
+    faqs: [] as { question: string, answer: string }[]
   });
 
   const [isLoading, setIsLoading] = useState(false);
-  const [isUploadingImage, setIsUploadingImage] = useState(false); // YENİ: Resim yükleme durumu
-  const [isUploadingAuthorImage, setIsUploadingAuthorImage] = useState(false); // YENİ: Yazar fotoğrafı yükleme durumu
+  const [isUploadingImage, setIsUploadingImage] = useState(false);
+  const [isUploadingAuthorImage, setIsUploadingAuthorImage] = useState(false);
   const [isFetching, setIsFetching] = useState(true);
   const [message, setMessage] = useState("");
+  const redirectTimeoutRef = useRef<ReturnType<typeof setTimeout> | null>(null);
+
+  useEffect(() => () => {
+    if (redirectTimeoutRef.current) clearTimeout(redirectTimeoutRef.current);
+  }, []);
 
   useEffect(() => {
     if (!postId) return;
@@ -46,10 +52,10 @@ export default function EditPost() {
             voteCount: post.voteCount || 0,
             pros: post.pros ? post.pros.join("\n") : "",
             cons: post.cons ? post.cons.join("\n") : "",
-            author: post.author || "Omegle Test", // YENİ: Yazar verisini çekiyoruz
+            author: post.author || "Omegle Test",
             authorImage: post.authorImage || "",
             status: post.status || "Published",
-            faqs: post.faqs || [] // YENİ: Veritabanındaki eski SSS'leri çekiyoruz
+            faqs: post.faqs || [] // Eski postlarda bu alan bulunmayabilir
           });
         } else {
           setMessage(`❌ Veri yüklenemedi: ${data.message || 'Bilinmeyen hata'}`);
@@ -65,7 +71,6 @@ export default function EditPost() {
     fetchPost();
   }, [postId]);
 
-  // Dinamik SSS Ekleme Fonksiyonu
   const handleAddFaq = () => {
     setFormData({ ...formData, faqs: [...formData.faqs, { question: "", answer: "" }] });
   };
@@ -124,13 +129,11 @@ export default function EditPost() {
     }
   };
 
-  // SSS Silme Fonksiyonu
   const handleRemoveFaq = (index: number) => {
     const newFaqs = formData.faqs.filter((_, i) => i !== index);
     setFormData({ ...formData, faqs: newFaqs });
   };
 
-  // SSS İçeriğini Güncelleme Fonksiyonu
   const handleFaqChange = (index: number, field: "question" | "answer", value: string) => {
     const newFaqs = [...formData.faqs];
     newFaqs[index][field] = value;
@@ -153,17 +156,17 @@ export default function EditPost() {
           ...formData,
           pros: formData.pros.split("\n").map(item => item.trim()).filter(Boolean),
           cons: formData.cons.split("\n").map(item => item.trim()).filter(Boolean),
-          faqs: validFaqs // YENİ: SSS'leri veritabanına yolluyoruz
+          faqs: validFaqs
         }),
       });
 
       if (response.ok) {
         setMessage("✅ Post başarıyla güncellendi! Yönlendiriliyorsunuz...");
-        setTimeout(() => router.push("/admin/posts"), 2000);
+        redirectTimeoutRef.current = setTimeout(() => router.push("/admin/posts"), 2000);
       } else {
         setMessage("❌ Güncelleme sırasında bir hata oluştu.");
       }
-    } catch (error) {
+    } catch {
       setMessage("❌ Sunucuya bağlanılamadı.");
     } finally {
       setIsLoading(false);
@@ -252,12 +255,7 @@ export default function EditPost() {
                     <img src={formData.authorImage} alt="Author preview" className="w-11 h-11 rounded-full object-cover border border-gray-200 shrink-0" />
                   )}
                   <div className="flex-1 flex flex-col gap-2">
-                    <input
-                      type="file"
-                      accept="image/*"
-                      onChange={handleAuthorImageUpload}
-                      className="w-full text-sm text-gray-500 file:mr-4 file:py-2 file:px-4 file:rounded-md file:border-0 file:text-sm file:font-semibold file:bg-blue-50 file:text-blue-700 hover:file:bg-blue-100 outline-none"
-                    />
+                    <FileSelectButton onChange={handleAuthorImageUpload} />
                     {isUploadingAuthorImage && <p className="text-sm text-blue-500">Uploading...</p>}
                     <input type="text" value={formData.authorImage} onChange={(e) => setFormData({...formData, authorImage: e.target.value})} className="w-full px-4 py-2 border border-gray-300 rounded-md outline-none focus:border-blue-500" placeholder="Or paste image URL" />
                   </div>
@@ -267,12 +265,7 @@ export default function EditPost() {
               <div>
                 <label className="block text-sm font-medium text-gray-700 mb-1">Featured Image</label>
                 <div className="flex flex-col gap-2">
-                  <input
-                    type="file"
-                    accept="image/*"
-                    onChange={handleImageUpload}
-                    className="w-full text-sm text-gray-500 file:mr-4 file:py-2 file:px-4 file:rounded-md file:border-0 file:text-sm file:font-semibold file:bg-blue-50 file:text-blue-700 hover:file:bg-blue-100 outline-none"
-                  />
+                  <FileSelectButton onChange={handleImageUpload} />
                   {isUploadingImage && <p className="text-sm text-blue-500">Uploading...</p>}
                   {formData.coverImage && (
                     <div className="w-full max-w-sm rounded-lg overflow-hidden border border-gray-200 mt-2 mb-2">
@@ -296,6 +289,7 @@ export default function EditPost() {
           <div className="bg-white p-8 rounded-xl shadow-sm border border-gray-100">
             <h2 className="text-lg font-bold text-gray-900 mb-4">Content</h2>
             <div className="h-[400px] mb-12">
+              {/* Aynı değeri tekrar set etmek react-quill'de imleç konumunu sıfırlar, bu yüzden değişiklik yoksa güncellemiyoruz */}
               <Editor value={formData.content} onChange={(value) => {
                 if (formData.content !== value) {
                   setFormData({...formData, content: value});
@@ -343,7 +337,6 @@ export default function EditPost() {
             </div>
           </div>
 
-          {/* YENİ EKLENEN SSS (FAQS) BÖLÜMÜ */}
           <div className="bg-white p-8 rounded-xl shadow-sm border border-gray-100">
             <div className="flex justify-between items-center mb-6">
               <div>
@@ -376,7 +369,7 @@ export default function EditPost() {
               
               {formData.faqs.length === 0 && (
                 <div className="text-center py-8 border-2 border-dashed border-gray-200 rounded-xl">
-                  <p className="text-gray-500">No FAQs added yet. Click the "+ Add New FAQ" button above to start.</p>
+                  <p className="text-gray-500">No FAQs added yet. Click the &quot;+ Add New FAQ&quot; button above to start.</p>
                 </div>
               )}
             </div>

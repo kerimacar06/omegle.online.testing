@@ -8,11 +8,24 @@ import { resolveCanonical } from '@/lib/canonical';
 
 export const dynamic = 'force-dynamic';
 
-// 1. YENİ: SEO (Meta Tag) Üretici Fonksiyon
-// Bu fonksiyon sayfa yüklenmeden önce çalışır ve sekmeye adını (Title) verir.
-export async function generateMetadata(props: any) {
+type AppsPageProps = {
+  searchParams: Promise<{ page?: string }>;
+};
+
+interface AppsPost {
+  _id: { toString(): string };
+  slug: string;
+  title: string;
+  description?: string;
+  coverImage?: string;
+  rating?: number;
+  voteCount?: number;
+  createdAt?: { toString(): string } | string;
+}
+
+export async function generateMetadata(props: AppsPageProps) {
   const searchParams = await props.searchParams;
-  const page = parseInt(searchParams?.page, 10);
+  const page = parseInt(searchParams?.page || '', 10);
   const canonicalPath = page && page > 1 ? `/apps?page=${page}` : '/apps';
 
   const seoData = await seoService.getSeoData('apps');
@@ -40,14 +53,13 @@ export async function generateMetadata(props: any) {
 
 
 
-// Veritabanından postları çeken fonksiyon
 async function getPosts() {
   return await postService.getPublishedPosts();
 }
 
 const POSTS_PER_PAGE = 12;
 
-export default async function AppsPage(props: any) {
+export default async function AppsPage(props: AppsPageProps) {
   const searchParams = await props.searchParams;
   const posts = await getPosts();
   const seoData = await seoService.getSeoData('apps');
@@ -61,7 +73,7 @@ export default async function AppsPage(props: any) {
     { name: breadcrumbName, url: 'https://omegletest.online/apps' }
   ]);
 
-  const serializedPosts = posts.map((post: any) => ({
+  const serializedPosts = posts.map((post: AppsPost) => ({
     _id: post._id.toString(),
     slug: post.slug,
     title: post.title,
@@ -73,7 +85,7 @@ export default async function AppsPage(props: any) {
   }));
 
   const totalPages = Math.max(1, Math.ceil(serializedPosts.length / POSTS_PER_PAGE));
-  const requestedPage = parseInt(searchParams?.page, 10);
+  const requestedPage = parseInt(searchParams?.page || '', 10);
   const currentPage = Math.min(Math.max(requestedPage || 1, 1), totalPages);
   const paginatedPosts = serializedPosts.slice(
     (currentPage - 1) * POSTS_PER_PAGE,
@@ -82,8 +94,7 @@ export default async function AppsPage(props: any) {
 
   return (
     <>
-      {/* YENİ: JSON-LD Entegrasyonu */}
-      {/* Eğer admin panelinden JSON kod yapıştırdıysan, bu kod onu Google botlarına okutur */}
+      {/* Admin panelinden yapıştırılan JSON-LD kodu varsa arama motorlarına sun */}
       {jsonLd && (
         <script
           type="application/ld+json"

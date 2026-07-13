@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect, useRef } from "react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 
@@ -20,6 +20,11 @@ export default function NewSeoPage() {
 
   const [isLoading, setIsLoading] = useState(false);
   const [message, setMessage] = useState("");
+  const redirectTimeoutRef = useRef<ReturnType<typeof setTimeout> | null>(null);
+
+  useEffect(() => () => {
+    if (redirectTimeoutRef.current) clearTimeout(redirectTimeoutRef.current);
+  }, []);
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -35,7 +40,7 @@ export default function NewSeoPage() {
 
       if (res.ok) {
         setMessage("✅ SEO ayarı başarıyla eklendi! Yönlendiriliyorsunuz...");
-        setTimeout(() => router.push("/admin/seo"), 1500);
+        redirectTimeoutRef.current = setTimeout(() => router.push("/admin/seo"), 1500);
       } else {
         setMessage("❌ Kayıt sırasında bir hata oluştu.");
       }
@@ -65,7 +70,6 @@ export default function NewSeoPage() {
 
         <form onSubmit={handleSubmit} className="space-y-8">
           
-          {/* TEMEL BİLGİLER */}
           <div className="bg-white p-8 rounded-xl shadow-sm border border-gray-200">
             <h2 className="text-lg font-bold text-gray-900 mb-6">Temel Bilgiler</h2>
             
@@ -97,7 +101,6 @@ export default function NewSeoPage() {
             </div>
           </div>
 
-          {/* İÇERİK (Sadece İngilizce) */}
           <div className="bg-white p-8 rounded-xl shadow-sm border border-gray-200">
             <h2 className="text-lg font-bold text-gray-900 mb-6">İçerik (EN - English)</h2>
             

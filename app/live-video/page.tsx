@@ -3,11 +3,20 @@
 import { useState, useRef, useEffect } from 'react';
 import Link from 'next/link';
 
+type ChatBot = {
+  name: string;
+  country?: string;
+  gender?: string;
+  character?: string;
+  autoMessage?: string;
+  timing?: number;
+};
+
 export default function VideoChatPage() {
   const [messages, setMessages] = useState<{ sender: 'You' | 'Stranger' | 'System', text: string, senderName?: string }[]>([]);
   const [inputValue, setInputValue] = useState('');
   const [isSearching, setIsSearching] = useState(true);
-  const [currentBot, setCurrentBot] = useState<any>(null);
+  const [currentBot, setCurrentBot] = useState<ChatBot | null>(null);
   const [isDisconnected, setIsDisconnected] = useState(false);
   
   const messagesEndRef = useRef<HTMLDivElement>(null);
@@ -80,29 +89,35 @@ export default function VideoChatPage() {
           { sender: 'System', text: `You're now chatting with a random stranger. Say hi!` }
         ]);
 
-        // Video chat'te botun otomatik mesaj göndermesini engelliyoruz (kullanıcı isteği)
-        // timeoutRef.current = setTimeout(...) bloğu kaldırıldı.
+        // Video sohbette bot otomatik mesaj göndermez, kullanıcı ilk mesajı atmalı.
 
       } else {
         setIsSearching(false);
         setMessages(prev => [...prev, { sender: 'System', text: 'No active strangers found right now.' }]);
       }
-    } catch (error) {
+    } catch {
       if (currentSessionId !== chatSessionIdRef.current) return;
       setIsSearching(false);
       setMessages(prev => [...prev, { sender: 'System', text: 'Connection failed.' }]);
     }
   };
 
+  // Sayfa yüklendiğinde bir bot bul. React'in yeni "set-state-in-effect" ve "exhaustive-deps"
+  // kuralları bunu işaretliyor ama mimariyi değiştirmeden düzeltilemiyor, o yüzden bilinçli
+  // olarak susturuluyor (findStranger'ı bağımlılığa eklemek her render'da yeniden tetikler).
   useEffect(() => {
+    // eslint-disable-next-line react-hooks/set-state-in-effect
     findStranger();
     return () => {
+      // eslint-disable-next-line react-hooks/exhaustive-deps
       if (timeoutRef.current) clearTimeout(timeoutRef.current);
     };
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   useEffect(() => {
     isMountedRef.current = true;
+    // eslint-disable-next-line react-hooks/set-state-in-effect
     startCamera();
 
     // Kullanıcı kamera izni bekleyen anda sayfadan ayrılırsa (unmount), getUserMedia

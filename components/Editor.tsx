@@ -2,11 +2,10 @@
 
 import { useEffect } from "react";
 import dynamic from "next/dynamic";
-// Artık yeni paketimizin CSS dosyasını çağırıyoruz
 import "react-quill-new/dist/quill.snow.css";
 
-// React Quill'in React 18 uyumlu yeni versiyonunu SSR kapalı şekilde çağırıyoruz
-const ReactQuill = dynamic(() => import("react-quill-new"), { 
+// Quill tarayıcı DOM'una doğrudan erişir, bu yüzden SSR kapalı yüklenmeli
+const ReactQuill = dynamic(() => import("react-quill-new"), {
   ssr: false,
   loading: () => <p className="p-4 text-gray-500 font-medium">Editör yükleniyor...</p>
 });
@@ -33,7 +32,6 @@ const modules = {
 export default function Editor({ value, onChange }: EditorProps) {
   
   useEffect(() => {
-    // Editör butonlarına Türkçe açıklama (tooltip) ekleme işlemi
     const addTooltips = () => {
       const tooltips: Record<string, string> = {
         '.ql-bold': 'Kalın',

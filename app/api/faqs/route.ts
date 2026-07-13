@@ -13,7 +13,7 @@ export async function GET() {
   try {
     const faqs = await faqService.getAllFaqs();
     return NextResponse.json({ faqs }, { status: 200 });
-  } catch (error) {
+  } catch {
     return NextResponse.json({ message: "Hata" }, { status: 500 });
   }
 }
@@ -28,7 +28,7 @@ export async function POST(request: Request) {
     clearCache();
     revalidatePath("/", "layout");
     return NextResponse.json({ message: "Başarıyla eklendi" }, { status: 201 });
-  } catch (error) {
+  } catch {
     return NextResponse.json({ message: "Hata" }, { status: 500 });
   }
 }

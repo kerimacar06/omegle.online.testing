@@ -155,7 +155,7 @@ export default function Reviews() {
           <h2 className="text-2xl sm:text-3xl md:text-4xl font-bold md:font-extrabold text-gray-900 mb-2 leading-none">
             Omegle User Reviews
           </h2>
-          <p className="text-gray-500 text-xs sm:text-lg font-medium leading-none">Don't just take our word for it.</p>
+          <p className="text-gray-500 text-xs sm:text-lg font-medium leading-none">Don&apos;t just take our word for it.</p>
         </div>
       </div>
 
@@ -202,7 +202,7 @@ export default function Reviews() {
 
                   {/* Yorum İçeriği */}
                   <p className="text-gray-800 text-xs md:text-[16px] leading-relaxed mt-2 font-medium md:text-justify line-clamp-5 min-h-[76px] md:min-h-[130px]">
-                    "{review.text}"
+                    &quot;{review.text}&quot;
                   </p>
 
                   {/* Alt Kısım: Yıldızlar */}

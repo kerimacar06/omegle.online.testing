@@ -17,7 +17,18 @@
       "Bash(mkdir -p \"C:/Users/kerim/Desktop/omegletest-backup\")",
       "Bash(git bundle *)",
       "Bash(git add *)",
-      "Bash(git commit -m ' *)"
+      "Bash(git commit -m ' *)",
+      "Bash(git log *)",
+      "Bash(git remote *)",
+      "Bash(git push *)",
+      "Bash(git ls-remote *)",
+      "Bash(git fetch *)",
+      "Bash(grep -v \"^\\\\./\\\\.git\")",
+      "Bash(node _dump_content_tmp.js)",
+      "Bash(node -e ' *)",
+      "Bash(node -e \"const p=require\\('./dump_posts.json'\\); console.log\\(p.map\\(x=>x.slug\\)\\)\")",
+      "Bash(node _fix_content_tmp.js)",
+      "Bash(node _db_stats_tmp.js)"
     ]
   }
 }

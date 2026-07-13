@@ -2,7 +2,15 @@ import Link from 'next/link';
 import Image from 'next/image';
 import { postService } from '@/services/postService';
 
-// Veritabanından postları çeken fonksiyon
+interface AlternativePost {
+  _id: { toString(): string };
+  slug: string;
+  title?: string;
+  coverImage?: string;
+  rating?: number;
+  voteCount?: number;
+}
+
 async function getLatestPosts() {
   return await postService.getLatestPosts(6);
 }
@@ -19,7 +27,6 @@ export default async function Alternatives() {
     'from-emerald-400 to-green-500'
   ];
 
-  // Eğer veritabanında hiç post yoksa bu bölümü ana sayfada hiç gösterme
   if (posts.length === 0) return null;
 
   return (
@@ -34,9 +41,8 @@ export default async function Alternatives() {
 
         {/* Dinamik Kartlar: solda foto, sağda üstten alta isim / yıldız / oy sayısı */}
         <div className="grid grid-cols-2 lg:grid-cols-3 gap-2.5 md:gap-3">
-          {posts.map((post: any, index: number) => {
+          {posts.map((post: AlternativePost, index: number) => {
             const color = gradients[index % gradients.length];
-            // Veritabanından gelen voteCount değerini kullan (yoksa 0)
             const voteCount = (post.voteCount || 0).toLocaleString('en-US');
             const ratingValue = Number(post.rating) || 5;
 

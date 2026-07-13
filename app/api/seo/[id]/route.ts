@@ -6,7 +6,7 @@ import { requireAdmin } from "@/lib/auth";
 
 export const dynamic = 'force-dynamic';
 
-export async function GET(request: Request, context: any) {
+export async function GET(request: Request, context: { params: Promise<{ id: string }> }) {
   const authError = await requireAdmin();
   if (authError) return authError;
 
@@ -15,12 +15,12 @@ export async function GET(request: Request, context: any) {
     const seo = await seoService.getSeoById(id);
     if (!seo) return NextResponse.json({ message: "Bulunamadı" }, { status: 404 });
     return NextResponse.json({ seo }, { status: 200 });
-  } catch (error) {
+  } catch {
     return NextResponse.json({ message: "Hata" }, { status: 500 });
   }
 }
 
-export async function PUT(request: Request, context: any) {
+export async function PUT(request: Request, context: { params: Promise<{ id: string }> }) {
   const authError = await requireAdmin();
   if (authError) return authError;
 
@@ -31,12 +31,12 @@ export async function PUT(request: Request, context: any) {
     clearCache();
     revalidatePath("/", "layout");
     return NextResponse.json({ message: "Başarıyla güncellendi" }, { status: 200 });
-  } catch (error) {
+  } catch {
     return NextResponse.json({ message: "Hata" }, { status: 500 });
   }
 }
 
-export async function DELETE(request: Request, context: any) {
+export async function DELETE(request: Request, context: { params: Promise<{ id: string }> }) {
   const authError = await requireAdmin();
   if (authError) return authError;
 
@@ -46,7 +46,7 @@ export async function DELETE(request: Request, context: any) {
     clearCache();
     revalidatePath("/", "layout");
     return NextResponse.json({ message: "Başarıyla silindi" }, { status: 200 });
-  } catch (error) {
+  } catch {
     return NextResponse.json({ message: "Hata" }, { status: 500 });
   }
 }

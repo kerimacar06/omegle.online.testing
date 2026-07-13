@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import Link from "next/link";
 import { useRouter, useParams } from "next/navigation";
 
@@ -11,7 +11,7 @@ export default function EditBotPage() {
 
   const [formData, setFormData] = useState({
     name: "",
-    country: "United States", // Varsayılan ülke
+    country: "United States",
     gender: "Female",
     character: "Normal",
     status: "Active",
@@ -22,6 +22,11 @@ export default function EditBotPage() {
   const [isLoading, setIsLoading] = useState(false);
   const [isFetching, setIsFetching] = useState(true);
   const [message, setMessage] = useState("");
+  const redirectTimeoutRef = useRef<ReturnType<typeof setTimeout> | null>(null);
+
+  useEffect(() => () => {
+    if (redirectTimeoutRef.current) clearTimeout(redirectTimeoutRef.current);
+  }, []);
 
   useEffect(() => {
     if (!botId) return;
@@ -35,7 +40,7 @@ export default function EditBotPage() {
           const bot = data.bot;
           setFormData({
             name: bot.name || "",
-            country: bot.country || "United States", // Veritabanında boşsa varsayılan
+            country: bot.country || "United States",
             gender: bot.gender || "Female",
             character: bot.character || "Normal",
             status: bot.status || "Active",
@@ -70,7 +75,7 @@ export default function EditBotPage() {
 
       if (response.ok) {
         setMessage("✅ Bot başarıyla güncellendi! Yönlendiriliyorsunuz...");
-        setTimeout(() => router.push("/admin/bots"), 1500);
+        redirectTimeoutRef.current = setTimeout(() => router.push("/admin/bots"), 1500);
       } else {
         setMessage("❌ Güncelleme sırasında bir hata oluştu.");
       }
@@ -125,7 +130,6 @@ export default function EditBotPage() {
                 <input required type="text" value={formData.name} onChange={(e) => setFormData({...formData, name: e.target.value})} className="w-full px-4 py-2 border border-gray-300 rounded-md outline-none focus:border-blue-500" />
               </div>
 
-              {/* YENİ: Ülke Seçimi (Açılır Liste) */}
               <div>
                 <label className="block text-sm font-medium text-gray-700 mb-1">Country *</label>
                 <select required value={formData.country} onChange={(e) => setFormData({...formData, country: e.target.value})} className="w-full px-4 py-2 border border-gray-300 rounded-md outline-none focus:border-blue-500 bg-white">
