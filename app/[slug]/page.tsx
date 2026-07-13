@@ -315,11 +315,11 @@ export default async function BlogPostPage(props: PageProps<'/[slug]'>) {
                   <div className="relative bg-white p-4 sm:p-10 rounded-md border border-gray-200 shadow-sm w-full overflow-hidden">
                     <div className="pointer-events-none absolute -top-16 -right-16 w-56 h-56 bg-blue-300/10 rounded-full blur-3xl"></div>
                     <div
-                      className="relative text-sm sm:text-base text-gray-700 leading-relaxed break-words hyphens-auto
+                      className="relative text-sm sm:text-base text-gray-700 leading-relaxed break-words
                       [&>p]:mb-4 sm:[&>p]:mb-6 [&>p:empty]:min-h-[1.5rem]
-                      [&>h1]:text-xl sm:[&>h1]:text-3xl [&>h1]:font-bold [&>h1]:mb-3 sm:[&>h1]:mb-4 [&>h1]:mt-6 sm:[&>h1]:mt-8 [&>h1]:hyphens-none
-                      [&>h2]:text-lg sm:[&>h2]:text-2xl [&>h2]:font-bold [&>h2]:mb-3 sm:[&>h2]:mb-4 [&>h2]:mt-6 sm:[&>h2]:mt-8 [&>h2]:hyphens-none
-                      [&>h3]:text-base sm:[&>h3]:text-xl [&>h3]:font-bold [&>h3]:mb-2 sm:[&>h3]:mb-3 [&>h3]:mt-5 sm:[&>h3]:mt-6 [&>h3]:hyphens-none
+                      [&>h1]:text-xl sm:[&>h1]:text-3xl [&>h1]:font-bold [&>h1]:mb-3 sm:[&>h1]:mb-4 [&>h1]:mt-6 sm:[&>h1]:mt-8
+                      [&>h2]:text-lg sm:[&>h2]:text-2xl [&>h2]:font-bold [&>h2]:mb-3 sm:[&>h2]:mb-4 [&>h2]:mt-6 sm:[&>h2]:mt-8
+                      [&>h3]:text-base sm:[&>h3]:text-xl [&>h3]:font-bold [&>h3]:mb-2 sm:[&>h3]:mb-3 [&>h3]:mt-5 sm:[&>h3]:mt-6
                       [&>ul]:list-disc [&>ul]:pl-6 [&>ul]:mb-4 sm:[&>ul]:mb-6
                       [&>ol]:list-decimal [&>ol]:pl-6 [&>ol]:mb-4 sm:[&>ol]:mb-6
                       [&>strong]:font-bold [&>em]:italic
@@ -371,11 +371,11 @@ export default async function BlogPostPage(props: PageProps<'/[slug]'>) {
                   <div className="bg-white p-4 sm:p-10 rounded-md border border-gray-200 shadow-sm">
                     <h3 className="text-lg sm:text-2xl font-bold text-gray-900 mb-4 sm:mb-6">Alternative Applications</h3>
                     <div
-                      className="text-sm sm:text-base text-gray-700 leading-relaxed break-words hyphens-auto
+                      className="text-sm sm:text-base text-gray-700 leading-relaxed break-words
                       [&>p]:mb-3 sm:[&>p]:mb-4 [&>p:empty]:min-h-[1.5rem]
-                      [&>h1]:text-lg sm:[&>h1]:text-2xl [&>h1]:font-bold [&>h1]:mb-3 sm:[&>h1]:mb-4 [&>h1]:hyphens-none
-                      [&>h2]:text-base sm:[&>h2]:text-xl [&>h2]:font-bold [&>h2]:mb-2 sm:[&>h2]:mb-3 [&>h2]:hyphens-none
-                      [&>h3]:text-sm sm:[&>h3]:text-lg [&>h3]:font-bold [&>h3]:mb-2 [&>h3]:hyphens-none
+                      [&>h1]:text-lg sm:[&>h1]:text-2xl [&>h1]:font-bold [&>h1]:mb-3 sm:[&>h1]:mb-4
+                      [&>h2]:text-base sm:[&>h2]:text-xl [&>h2]:font-bold [&>h2]:mb-2 sm:[&>h2]:mb-3
+                      [&>h3]:text-sm sm:[&>h3]:text-lg [&>h3]:font-bold [&>h3]:mb-2
                       [&>ul]:list-disc [&>ul]:pl-6 [&>ul]:mb-3 sm:[&>ul]:mb-4
                       [&>ol]:list-decimal [&>ol]:pl-6 [&>ol]:mb-3 sm:[&>ol]:mb-4
                       [&>strong]:font-bold [&>em]:italic

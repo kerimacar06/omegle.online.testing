@@ -6,7 +6,13 @@ import sanitizeHtml from "sanitize-html";
  * enjeksiyonuna (XSS) karşı güvenlik katmanı.
  */
 export function sanitizePostHtml(html: string): string {
-  return sanitizeHtml(html, {
+  // Editörden/yapıştırmadan gelen içerikte kelimeler arasına normal boşluk yerine
+  // &nbsp; (bölünemez boşluk) sızabiliyor; bu da mobilde satırın hiç kırılamayıp
+  // taşmasına ya da kelimenin ortasından zorla bölünmesine yol açıyor. Normal
+  // boşluğa çeviriyoruz ki tarayıcı kelime sınırlarında doğal şekilde sarabilsin.
+  const normalizedHtml = html.replace(/&nbsp;/gi, " ").replace(/ /g, " ");
+
+  return sanitizeHtml(normalizedHtml, {
     allowedTags: [
       "p", "br", "strong", "b", "em", "i", "u", "s", "blockquote",
       "h1", "h2", "h3", "h4", "h5", "h6",
