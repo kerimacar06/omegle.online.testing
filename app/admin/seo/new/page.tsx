@@ -34,10 +34,15 @@ export default function NewSeoPage() {
       "@type": "WebPage",
       name: formData.title || formData.pageName,
       description: formData.description,
+      image: "https://omegletest.online/omegletest.online.jpeg",
       publisher: {
         "@type": "Organization",
         name: "Omegle Test",
         url: "https://omegletest.online",
+        logo: {
+          "@type": "ImageObject",
+          url: "https://omegletest.online/omegletest.online.jpeg",
+        },
       },
     };
     if (formData.canonicalUrl) webPageJsonLd.url = formData.canonicalUrl;

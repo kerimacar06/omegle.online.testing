@@ -20,6 +20,24 @@ export const metadata: Metadata = {
   description: "Connect with strangers worldwide in real-time video chat with omegletest.online",
 };
 
+// Tüm sayfalarda ortak: WebSite ve Organization şemaları. Sayfaya özel şemalar
+// (WebPage, Article, FAQPage, BreadcrumbList vb.) ilgili sayfa bileşeninde ayrıca basılır.
+const siteJsonLd = [
+  {
+    '@context': 'https://schema.org',
+    '@type': 'WebSite',
+    name: 'Omegle Test - talk to strangers',
+    url: 'https://omegletest.online/',
+  },
+  {
+    '@context': 'https://schema.org',
+    '@type': 'Organization',
+    name: 'Omegle Test',
+    url: 'https://omegletest.online',
+    logo: 'https://omegletest.online/omegletest.online.jpeg',
+  },
+];
+
 export default function RootLayout({
   children,
 }: Readonly<{
@@ -31,6 +49,10 @@ export default function RootLayout({
       className={`${geistSans.variable} ${geistMono.variable} h-full antialiased`}
     >
       <body className="min-h-full flex flex-col">
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{ __html: JSON.stringify(siteJsonLd) }}
+        />
         <ScrollToTop />
         {children}
       </body>

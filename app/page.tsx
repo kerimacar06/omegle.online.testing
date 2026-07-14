@@ -58,31 +58,25 @@ export default async function Home() {
     { name: breadcrumbName, url: 'https://omegletest.online' }
   ]);
 
-  const combinedJsonLd: Record<string, unknown>[] = [breadcrumbJsonLd];
-
-  if (jsonLdString) {
-    try {
-      const parsed = JSON.parse(jsonLdString);
-      if (Array.isArray(parsed)) {
-        combinedJsonLd.push(...parsed);
-      } else {
-        combinedJsonLd.push(parsed);
-      }
-    } catch (e) {
-      console.error("JSON-LD parse error:", e);
-    }
-  }
-
-  if (faqJsonLd) {
-    combinedJsonLd.push(faqJsonLd);
-  }
-
   return (
     <>
-      {combinedJsonLd.length > 0 && (
+      {/* Admin panelinde girilen JSON-LD, olduğu gibi (diğer sayfalarla aynı desende)
+          ayrı bir script etiketinde basılır — böylece panelde ne yazılırsa sayfa
+          kaynağında birebir o görünür. */}
+      {jsonLdString && (
         <script
           type="application/ld+json"
-          dangerouslySetInnerHTML={{ __html: JSON.stringify(combinedJsonLd) }}
+          dangerouslySetInnerHTML={{ __html: jsonLdString }}
+        />
+      )}
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbJsonLd) }}
+      />
+      {faqJsonLd && (
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{ __html: JSON.stringify(faqJsonLd) }}
         />
       )}
       <ScrollToHash />

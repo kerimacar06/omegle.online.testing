@@ -59,6 +59,15 @@ export default async function BlogPostPage(props: PageProps<'/[slug]'>) {
   const cons: string[] = post.cons || [];
   const maxRows = Math.max(pros.length, cons.length);
 
+  // Otomatik WebPage JSON-LD (staj şefinin gösterdiği örnekteki gibi, Article'ın yanında)
+  const webPageJsonLd: Record<string, unknown> = {
+    '@context': 'https://schema.org',
+    '@type': 'WebPage',
+    name: post.title,
+    description: post.description,
+    url: `https://omegletest.online/${post.slug}`,
+  };
+
   // Otomatik Article JSON-LD
   const articleJsonLd: {
     '@context': string;
@@ -93,7 +102,7 @@ export default async function BlogPostPage(props: PageProps<'/[slug]'>) {
       name: 'Omegle Test',
       logo: {
         '@type': 'ImageObject',
-        url: 'https://omegletest.online/img/logo.png'
+        url: 'https://omegletest.online/omegletest.online.jpeg'
       }
     },
     // Mongoose { timestamps: true } bu alanları her zaman dolduruyor; boşsa (çok eski/bozuk kayıt)
@@ -151,6 +160,10 @@ export default async function BlogPostPage(props: PageProps<'/[slug]'>) {
 
   return (
     <>
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(webPageJsonLd) }}
+      />
       <script
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(articleJsonLd) }}
