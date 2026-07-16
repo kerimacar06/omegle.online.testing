@@ -21,7 +21,7 @@ export function sanitizePostHtml(html: string): string {
       "table", "thead", "tbody", "tr", "th", "td",
     ],
     allowedAttributes: {
-      a: ["href", "target", "rel", "class"],
+      a: ["href", "target", "class"],
       img: ["src", "alt", "width", "height", "class"],
       span: ["class"],
       "*": ["class"],
@@ -29,7 +29,7 @@ export function sanitizePostHtml(html: string): string {
     allowedSchemes: ["http", "https", "mailto"],
     // Dış linkler her zaman target="_self" ile açılsın (mevcut davranışla aynı)
     transformTags: {
-      a: sanitizeHtml.simpleTransform("a", { target: "_self", rel: "noopener noreferrer" }),
+      a: sanitizeHtml.simpleTransform("a", { target: "_self" }),
     },
   });
 }
