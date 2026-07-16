@@ -97,7 +97,7 @@ export default async function BlogPostPage(props: PageProps<'/[slug]'>) {
     '@type': 'Article',
     headline: post.title,
     description: post.description,
-    image: post.coverImage || `${siteUrl}/img/default-cover.jpg`,
+    image: post.coverImage || `${siteUrl}/default-cover.jpg`,
     author: {
       '@type': (!post.author || post.author === 'Omegle Test') ? 'Organization' : 'Person',
       name: post.author || 'Omegle Test',
