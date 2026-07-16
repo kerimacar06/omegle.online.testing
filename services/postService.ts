@@ -88,8 +88,7 @@ export const postService = {
 
   /**
    * Yayında olan (Draft veya Deleted olmayan) postları getirir (Apps sayfası için)
-   * "En iyi alternatifler" mantığına uygun olarak puana göre azalan sırada listelenir,
-   * eşit puanlarda en yeni eklenen post önce gelir.
+   * En son eklenen post en üstte olacak şekilde tarihe göre azalan sırada listelenir.
    */
   async getPublishedPosts() {
     try {
@@ -100,7 +99,7 @@ export const postService = {
         await connectMongoDB();
         // Sadece yayında olanları (Draft veya Deleted olmayanları) buluruz.
         posts = await Post.find({ status: { $ne: 'Draft' }, isDeleted: { $ne: true } })
-          .sort({ rating: -1, createdAt: -1 })
+          .sort({ createdAt: -1 })
           .lean();
         if (posts) setInCache(cacheKey, posts, 300);
       }
