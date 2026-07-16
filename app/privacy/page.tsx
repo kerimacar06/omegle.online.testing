@@ -2,7 +2,7 @@ import Navbar from '@/components/Navbar';
 import Footer from '@/components/Footer';
 import Link from 'next/link';
 import { seoService } from '@/services/seoService';
-import { resolveCanonical } from '@/lib/canonical';
+import { resolveCanonical, getSiteUrl } from '@/lib/canonical';
 
 export const dynamic = 'force-dynamic';
 
@@ -15,7 +15,7 @@ export async function generateMetadata() {
       description: seoData.description,
       keywords: seoData.keywords,
       alternates: {
-        canonical: resolveCanonical('/privacy', seoData.canonicalUrl),
+        canonical: await resolveCanonical('/privacy', seoData.canonicalUrl),
       },
       robots: seoData.robots,
     };
@@ -25,7 +25,7 @@ export async function generateMetadata() {
     title: 'Privacy Policy - Omegle Test',
     description: 'Read the privacy policy for using Omegletest.online.',
     alternates: {
-      canonical: resolveCanonical('/privacy'),
+      canonical: await resolveCanonical('/privacy'),
     },
   };
 }
@@ -35,12 +35,15 @@ export async function generateMetadata() {
 export default async function PrivacyPage() {
   const seoData = await seoService.getSeoData('privacy');
   const jsonLd = await seoService.getSeoJsonLd('privacy');
+  const homeSeoData = await seoService.getSeoData('home');
 
+  const siteUrl = await getSiteUrl();
   const breadcrumbName = seoData?.breadcrumb && seoData.breadcrumb.trim() !== "" ? seoData.breadcrumb : 'Privacy Policy';
+  const homeBreadcrumbName = homeSeoData?.breadcrumb && homeSeoData.breadcrumb.trim() !== "" ? homeSeoData.breadcrumb : 'Home';
 
   const breadcrumbJsonLd = seoService.generateBreadcrumbJsonLd([
-    { name: 'Omegle Test Online', url: 'https://omegletest.online' },
-    { name: breadcrumbName, url: 'https://omegletest.online/privacy' }
+    { name: homeBreadcrumbName, url: siteUrl },
+    { name: breadcrumbName, url: `${siteUrl}/privacy` }
   ]);
 
   return (
@@ -62,7 +65,7 @@ export default async function PrivacyPage() {
       <div className="w-full max-w-4xl mx-auto px-4 pt-8 pb-12">
         {/* Visual Breadcrumb */}
         <div className="flex items-center gap-2 text-sm text-gray-500 mb-8 font-medium">
-          <Link href="/" className="hover:text-blue-600 transition-colors">Home</Link>
+          <Link href="/" className="hover:text-blue-600 transition-colors">{homeBreadcrumbName}</Link>
           <span>›</span>
           <span className="text-gray-900">{breadcrumbName}</span>
         </div>

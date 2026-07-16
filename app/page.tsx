@@ -10,7 +10,7 @@ import Footer from '@/components/Footer';
 import ScrollToHash from '@/components/ScrollToHash';
 import { seoService } from '@/services/seoService';
 import { faqService } from '@/services/faqService';
-import { resolveCanonical } from '@/lib/canonical';
+import { resolveCanonical, getSiteUrl } from '@/lib/canonical';
 
 // Sayfanın her istendiğinde yeniden oluşturulmasını (önbellekten gelmemesini) sağlar.
 export const dynamic = 'force-dynamic';
@@ -24,17 +24,18 @@ export async function generateMetadata() {
       description: seoData.description,
       keywords: seoData.keywords,
       alternates: {
-        canonical: resolveCanonical('/', seoData.canonicalUrl),
+        canonical: await resolveCanonical('/', seoData.canonicalUrl),
       },
       robots: seoData.robots,
     };
   }
 
+  const siteUrl = await getSiteUrl();
   return {
     title: 'Omegle Test - talk to strangers',
-    description: 'Connect with strangers worldwide in real-time video chat with omegletest.online',
+    description: `Connect with strangers worldwide in real-time video chat with ${siteUrl.replace(/^https?:\/\//, '')}`,
     alternates: {
-      canonical: resolveCanonical('/'),
+      canonical: await resolveCanonical('/'),
     },
   };
 }
@@ -52,10 +53,11 @@ export default async function Home() {
   const faqJsonLd = await getFaqJsonLd();
   const seoData = await seoService.getSeoData('home');
 
+  const siteUrl = await getSiteUrl();
   const breadcrumbName = seoData?.breadcrumb && seoData.breadcrumb.trim() !== "" ? seoData.breadcrumb : 'Omegle Test Online';
 
   const breadcrumbJsonLd = seoService.generateBreadcrumbJsonLd([
-    { name: breadcrumbName, url: 'https://omegletest.online' }
+    { name: breadcrumbName, url: siteUrl }
   ]);
 
   return (

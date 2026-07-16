@@ -7,7 +7,7 @@ import { postService } from '@/services/postService';
 import { seoService } from '@/services/seoService';
 import MobileVideoChatFab from '@/components/MobileVideoChatFab';
 import { sanitizePostHtml } from '@/lib/sanitizeHtml';
-import { resolveCanonical } from '@/lib/canonical';
+import { resolveCanonical, getSiteUrl } from '@/lib/canonical';
 
 export const dynamic = 'force-dynamic';
 
@@ -27,7 +27,7 @@ export async function generateMetadata(props: PageProps<'/[slug]'>): Promise<Met
     title: post.title,
     description: post.description,
     alternates: {
-      canonical: resolveCanonical(`/${post.slug}`),
+      canonical: await resolveCanonical(`/${post.slug}`),
     },
     openGraph: {
       title: post.title,
@@ -55,6 +55,12 @@ export default async function BlogPostPage(props: PageProps<'/[slug]'>) {
   const appsSeoData = await seoService.getSeoData('apps');
   const appsBreadcrumbName = appsSeoData?.breadcrumb && appsSeoData.breadcrumb.trim() !== "" ? appsSeoData.breadcrumb : 'Omegle Alternatives';
 
+  // Home sayfasının admin panelindeki breadcrumb değeri — aynı mantıkla tek kaynaktan
+  const homeSeoData = await seoService.getSeoData('home');
+  const homeBreadcrumbName = homeSeoData?.breadcrumb && homeSeoData.breadcrumb.trim() !== "" ? homeSeoData.breadcrumb : 'Home';
+
+  const siteUrl = await getSiteUrl();
+
   const pros: string[] = post.pros || [];
   const cons: string[] = post.cons || [];
   const maxRows = Math.max(pros.length, cons.length);
@@ -65,7 +71,7 @@ export default async function BlogPostPage(props: PageProps<'/[slug]'>) {
     '@type': 'WebPage',
     name: post.title,
     description: post.description,
-    url: `https://omegletest.online/${post.slug}`,
+    url: `${siteUrl}/${post.slug}`,
   };
 
   // Otomatik Article JSON-LD
@@ -91,18 +97,18 @@ export default async function BlogPostPage(props: PageProps<'/[slug]'>) {
     '@type': 'Article',
     headline: post.title,
     description: post.description,
-    image: post.coverImage || 'https://omegletest.online/img/default-cover.jpg',
+    image: post.coverImage || `${siteUrl}/img/default-cover.jpg`,
     author: {
       '@type': (!post.author || post.author === 'Omegle Test') ? 'Organization' : 'Person',
       name: post.author || 'Omegle Test',
-      url: 'https://omegletest.online'
+      url: siteUrl
     },
     publisher: {
       '@type': 'Organization',
       name: 'Omegle Test',
       logo: {
         '@type': 'ImageObject',
-        url: 'https://omegletest.online/omegletest.online.jpeg'
+        url: `${siteUrl}/omegletest-online.jpeg`
       }
     },
     // Mongoose { timestamps: true } bu alanları her zaman dolduruyor; boşsa (çok eski/bozuk kayıt)
@@ -145,9 +151,8 @@ export default async function BlogPostPage(props: PageProps<'/[slug]'>) {
     : post.slug.replace(/-/g, ' ').replace(/\b\w/g, (c: string) => c.toUpperCase());
 
   const breadcrumbJsonLd = seoService.generateBreadcrumbJsonLd([
-    { name: 'Omegle Test Online', url: 'https://omegletest.online' },
-    { name: appsBreadcrumbName, url: 'https://omegletest.online/apps' },
-    { name: breadcrumbName, url: `https://omegletest.online/${post.slug}` }
+    { name: homeBreadcrumbName, url: siteUrl },
+    { name: breadcrumbName, url: `${siteUrl}/${post.slug}` }
   ]);
 
   const createdAt = new Date(post.createdAt || 0);
@@ -185,7 +190,7 @@ export default async function BlogPostPage(props: PageProps<'/[slug]'>) {
         <div className="w-full max-w-5xl mx-auto px-4 pt-6 sm:pt-8 pb-1 sm:pb-2">
           {/* Breadcrumb */}
           <div className="flex items-center gap-2 text-sm text-gray-500 mb-4 sm:mb-6 font-medium">
-            <Link href="/" className="hover:text-blue-600 transition-colors">Home</Link>
+            <Link href="/" className="hover:text-blue-600 transition-colors">{homeBreadcrumbName}</Link>
             <span>›</span>
             <Link href="/apps" className="hover:text-blue-600 transition-colors">{appsBreadcrumbName}</Link>
             <span>›</span>

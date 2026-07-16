@@ -4,7 +4,7 @@ import Link from 'next/link';
 import { seoService } from '@/services/seoService';
 import { postService } from '@/services/postService';
 import AppsList from '@/components/AppsList';
-import { resolveCanonical } from '@/lib/canonical';
+import { resolveCanonical, getSiteUrl } from '@/lib/canonical';
 
 export const dynamic = 'force-dynamic';
 
@@ -36,7 +36,7 @@ export async function generateMetadata(props: AppsPageProps) {
       description: seoData.description,
       keywords: seoData.keywords,
       alternates: {
-        canonical: resolveCanonical(canonicalPath, page && page > 1 ? null : seoData.canonicalUrl),
+        canonical: await resolveCanonical(canonicalPath, page && page > 1 ? null : seoData.canonicalUrl),
       },
       robots: seoData.robots,
     };
@@ -46,7 +46,7 @@ export async function generateMetadata(props: AppsPageProps) {
     title: 'Omegle Alternatives & Reviews',
     description: 'Expert reviews for the best random chat platforms.',
     alternates: {
-      canonical: resolveCanonical(canonicalPath),
+      canonical: await resolveCanonical(canonicalPath),
     },
   };
 }
@@ -64,13 +64,16 @@ export default async function AppsPage(props: AppsPageProps) {
   const posts = await getPosts();
   const seoData = await seoService.getSeoData('apps');
   const jsonLd = await seoService.getSeoJsonLd('apps');
+  const homeSeoData = await seoService.getSeoData('home');
+  const siteUrl = await getSiteUrl();
 
   const breadcrumbName = seoData?.breadcrumb && seoData.breadcrumb.trim() !== "" ? seoData.breadcrumb : 'Omegle Alternatives';
+  const homeBreadcrumbName = homeSeoData?.breadcrumb && homeSeoData.breadcrumb.trim() !== "" ? homeSeoData.breadcrumb : 'Home';
 
   // Otomatik Breadcrumb JSON-LD
   const breadcrumbJsonLd = seoService.generateBreadcrumbJsonLd([
-    { name: 'Omegle Test Online', url: 'https://omegletest.online' },
-    { name: breadcrumbName, url: 'https://omegletest.online/apps' }
+    { name: homeBreadcrumbName, url: siteUrl },
+    { name: breadcrumbName, url: `${siteUrl}/apps` }
   ]);
 
   const serializedPosts = posts.map((post: AppsPost) => ({
@@ -114,7 +117,7 @@ export default async function AppsPage(props: AppsPageProps) {
         <div className="w-full max-w-5xl mx-auto px-4 pt-8 pb-12">
           {/* Visual Breadcrumb */}
           <div className="flex items-center gap-2 text-sm text-gray-500 mb-8 font-medium">
-            <Link href="/" className="hover:text-blue-600 transition-colors">Home</Link>
+            <Link href="/" className="hover:text-blue-600 transition-colors">{homeBreadcrumbName}</Link>
             <span>›</span>
             <span className="text-gray-900">{breadcrumbName}</span>
           </div>

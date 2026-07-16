@@ -1,13 +1,18 @@
 import type { Metadata } from "next";
-import { resolveCanonical } from "@/lib/canonical";
+import { resolveCanonical, getSiteUrl } from "@/lib/canonical";
 
-export const metadata: Metadata = {
-  title: "Live Video Chat | omegletest.online",
-  description: "Start a free, anonymous live video chat with strangers worldwide on omegletest.online.",
-  alternates: {
-    canonical: resolveCanonical("/live-video"),
-  },
-};
+export async function generateMetadata(): Promise<Metadata> {
+  const siteUrl = await getSiteUrl();
+  const hostname = siteUrl.replace(/^https?:\/\//, '');
+
+  return {
+    title: `Live Video Chat | ${hostname}`,
+    description: `Start a free, anonymous live video chat with strangers worldwide on ${hostname}.`,
+    alternates: {
+      canonical: await resolveCanonical("/live-video"),
+    },
+  };
+}
 
 export default function LiveVideoLayout({ children }: { children: React.ReactNode }) {
   return children;

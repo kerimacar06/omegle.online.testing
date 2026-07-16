@@ -68,23 +68,26 @@ export default function EditSeoPage() {
   const handleRegenerateJsonLd = () => {
     if (formData.jsonLd.trim() !== "" && !confirm("Mevcut JSON-LD içeriğinin üzerine yazılacak. Devam edilsin mi?")) return;
 
+    const siteUrl = window.location.origin;
+    const path = formData.pageKey === 'home' ? '/' : `/${formData.pageKey}`;
+
     const webPageJsonLd: Record<string, unknown> = {
       "@context": "https://schema.org",
       "@type": "WebPage",
       name: formData.title || formData.pageName,
       description: formData.description,
-      image: "https://omegletest.online/omegletest.online.jpeg",
+      image: `${siteUrl}/omegletest-online.jpeg`,
       publisher: {
         "@type": "Organization",
         name: "Omegle Test",
-        url: "https://omegletest.online",
+        url: siteUrl,
         logo: {
           "@type": "ImageObject",
-          url: "https://omegletest.online/omegletest.online.jpeg",
+          url: `${siteUrl}/omegletest-online.jpeg`,
         },
       },
+      url: formData.canonicalUrl || `${siteUrl}${path}`,
     };
-    if (formData.canonicalUrl) webPageJsonLd.url = formData.canonicalUrl;
 
     setFormData({ ...formData, jsonLd: JSON.stringify(webPageJsonLd, null, 2) });
   };
