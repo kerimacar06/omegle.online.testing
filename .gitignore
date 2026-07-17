@@ -39,3 +39,6 @@ yarn-error.log*
 # typescript
 *.tsbuildinfo
 next-env.d.ts
+
+# kod dökümü / AI'ya yapıştırmak için oluşturulan geçici dosyalar
+all_code.txt
