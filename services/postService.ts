@@ -24,6 +24,10 @@ interface PostDoc {
   updatedAt: string;
 }
 
+// getPostBySlug'da negatif cache için işaret değeri — var olmayan bir slug'ı
+// "bulunamadı" olarak kısa süreli cache'lemek için kullanılıyor.
+const NOT_FOUND = Symbol('post_not_found');
+
 export const postService = {
   /**
    * Admin paneli veya API için tüm postları getirir
@@ -139,13 +143,16 @@ export const postService = {
    */
   async getPostBySlug(slug: string) {
     const cacheKey = `post_detail_${slug}`;
-    const cached = getFromCache<PostDoc>(cacheKey);
-    if (cached) return cached;
+    const cached = getFromCache<PostDoc | typeof NOT_FOUND>(cacheKey);
+    if (cached) return cached === NOT_FOUND ? null : cached;
 
     try {
       await connectMongoDB();
       const post = await Post.findOne({ slug }).lean();
-      if (post) setInCache(cacheKey, post, 300);
+      // Var olmayan slug'lar için de kısa süreli (negatif) cache: aksi halde
+      // rastgele/var olmayan URL'lere yapılan istekler her seferinde DB'ye gider
+      // (cache-miss loop) ve veritabanını gereksiz yere yorabilir.
+      setInCache(cacheKey, post ?? NOT_FOUND, post ? 300 : 60);
       return post;
     } catch (error) {
       console.error(`Post çekilemedi (${slug}):`, error);
