@@ -5,6 +5,7 @@ import Link from "next/link";
 import { useRouter, useParams } from "next/navigation";
 import Editor from "@/components/Editor";
 import FileSelectButton from "@/components/FileSelectButton";
+import { isReservedSlug } from "@/lib/reservedSlugs";
 
 export default function EditPost() {
   const router = useRouter();
@@ -142,6 +143,12 @@ export default function EditPost() {
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
+
+    if (isReservedSlug(formData.slug)) {
+      setMessage(`❌ "${formData.slug}" sistem tarafından kullanılan bir yol olduğu için slug olarak kullanılamaz.`);
+      return;
+    }
+
     setIsLoading(true);
     setMessage("");
 
@@ -160,11 +167,13 @@ export default function EditPost() {
         }),
       });
 
+      const result = await response.json().catch(() => null);
+
       if (response.ok) {
         setMessage("✅ Post başarıyla güncellendi! Yönlendiriliyorsunuz...");
         redirectTimeoutRef.current = setTimeout(() => router.push("/admin/posts"), 2000);
       } else {
-        setMessage("❌ Güncelleme sırasında bir hata oluştu.");
+        setMessage(`❌ ${result?.message || "Güncelleme sırasında bir hata oluştu."}`);
       }
     } catch {
       setMessage("❌ Sunucuya bağlanılamadı.");

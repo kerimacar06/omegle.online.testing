@@ -3,6 +3,7 @@ import { postService } from "@/services/postService";
 import { clearCache } from "@/lib/ramCache";
 import { revalidatePath } from "next/cache";
 import { requireAdmin } from "@/lib/auth";
+import { isReservedSlug } from "@/lib/reservedSlugs";
 
 export const dynamic = 'force-dynamic';
 
@@ -12,6 +13,11 @@ export async function POST(request: Request) {
 
   try {
     const body = await request.json();
+
+    if (isReservedSlug(body.slug || "")) {
+      return NextResponse.json({ message: `"${body.slug}" sistem tarafından kullanılan bir yol olduğu için slug olarak kullanılamaz.` }, { status: 400 });
+    }
+
     const newPost = await postService.createPost(body);
 
     // RAM cache DB ile otomatik senkronize olmadığı için, yeni post anında görünsün diye elle temizliyoruz

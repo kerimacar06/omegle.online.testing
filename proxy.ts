@@ -2,7 +2,7 @@ import { NextResponse } from 'next/server';
 import type { NextRequest } from 'next/server';
 import { jwtVerify } from 'jose';
 
-// Middleware kendi `request.cookies` nesnesini kullanıyor (lib/auth.ts ise route handler'lara
+// Proxy kendi `request.cookies` nesnesini kullanıyor (lib/auth.ts ise route handler'lara
 // özel next/headers cookies() ile çalışıyor), o yüzden secret encode işlemi burada ayrıca yapılıyor.
 function getJwtSecretKey() {
   const secret = process.env.JWT_SECRET;
@@ -12,7 +12,7 @@ function getJwtSecretKey() {
   return new TextEncoder().encode(secret);
 }
 
-export async function middleware(request: NextRequest) {
+export async function proxy(request: NextRequest) {
   const isLoginPage = request.nextUrl.pathname === '/admin/login';
   const token = request.cookies.get('admin_token')?.value;
 

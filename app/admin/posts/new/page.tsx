@@ -4,6 +4,7 @@ import { useState } from "react";
 import Link from "next/link";
 import Editor from "@/components/Editor";
 import FileSelectButton from "@/components/FileSelectButton";
+import { isReservedSlug } from "@/lib/reservedSlugs";
 
 export default function CreateNewPost() {
   const [formData, setFormData] = useState({
@@ -100,6 +101,12 @@ export default function CreateNewPost() {
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
+
+    if (isReservedSlug(formData.slug)) {
+      setMessage(`❌ "${formData.slug}" sistem tarafından kullanılan bir yol olduğu için slug olarak kullanılamaz.`);
+      return;
+    }
+
     setIsLoading(true);
     setMessage("");
 
@@ -120,11 +127,13 @@ export default function CreateNewPost() {
         }),
       });
 
+      const result = await response.json().catch(() => null);
+
       if (response.ok) {
         setMessage("✅ Post başarıyla veritabanına kaydedildi!");
         setFormData({ title: "", slug: "", breadcrumb: "", description: "", coverImage: "", content: "", alternativeAppsContent: "", rating: 5, voteCount: 0, pros: "", cons: "", author: "Omegle Test", authorImage: "", status: "Published", faqs: [] });
       } else {
-        setMessage("❌ Kayıt sırasında bir hata oluştu.");
+        setMessage(`❌ ${result?.message || "Kayıt sırasında bir hata oluştu."}`);
       }
     } catch (error) {
       console.error("Hata:", error);
