@@ -12,14 +12,16 @@ COPY . .
 RUN npm run build
 
 # --- 3. AŞAMA: Sadece çalıştırmak için gerekenleri al (image küçük kalsın) ---
+# next.config.ts'teki output: "standalone" sayesinde Next.js sadece gerçekten
+# kullanılan node_modules dosyalarını .next/standalone içine kendisi topluyor —
+# node_modules'ün tamamını kopyalamaya gerek kalmıyor, image çok daha küçük oluyor.
 FROM node:20-alpine AS runner
 WORKDIR /app
 ENV NODE_ENV=production
 
 COPY --from=builder /app/public ./public
-COPY --from=builder /app/.next ./.next
-COPY --from=builder /app/node_modules ./node_modules
-COPY --from=builder /app/package.json ./package.json
+COPY --from=builder /app/.next/standalone ./
+COPY --from=builder /app/.next/static ./.next/static
 
 EXPOSE 3000
-CMD ["npm", "start"]
+CMD ["node", "server.js"]

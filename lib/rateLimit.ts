@@ -11,6 +11,23 @@ if (process.env.NODE_ENV !== "production") globalForRateLimit.loginAttempts = at
 const MAX_ATTEMPTS = 5;
 const WINDOW_MS = 15 * 60 * 1000; // 15 dakika
 
+// Bir IP tek/birkaç kere başarısız giriş yapıp bir daha hiç dönmezse kaydı isRateLimited/
+// clearAttempts hiç tetiklenmediği için Map'te süresiz kalır. Bu periyodik tarama, süresi
+// dolmuş (WINDOW_MS'i aşmış) kayıtları elden geçirip bellekte birikmelerini önler.
+const globalForRateLimitGC = globalThis as unknown as { rateLimitGcStarted: boolean };
+
+if (!globalForRateLimitGC.rateLimitGcStarted) {
+  globalForRateLimitGC.rateLimitGcStarted = true;
+  setInterval(() => {
+    const now = Date.now();
+    for (const [key, entry] of attempts.entries()) {
+      if (now - entry.firstAttempt > WINDOW_MS) {
+        attempts.delete(key);
+      }
+    }
+  }, 15 * 60 * 1000);
+}
+
 /**
  * Verilen anahtar (ör. IP adresi) son WINDOW_MS içinde MAX_ATTEMPTS'i aştıysa
  * true döner. Admin login için basit brute-force koruması.
