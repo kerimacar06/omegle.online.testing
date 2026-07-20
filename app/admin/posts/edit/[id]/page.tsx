@@ -83,6 +83,7 @@ export default function EditPost() {
     setIsUploadingImage(true);
     const data = new FormData();
     data.append("file", file);
+    data.append("folder", "covers");
 
     try {
       const res = await fetch("/api/upload", {
@@ -110,6 +111,7 @@ export default function EditPost() {
     setIsUploadingAuthorImage(true);
     const data = new FormData();
     data.append("file", file);
+    data.append("folder", "authors");
 
     try {
       const res = await fetch("/api/upload", {

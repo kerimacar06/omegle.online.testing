@@ -9,7 +9,7 @@ const reviewsData = [
     username: "@sarah_j",
     date: "2 days ago",
     rating: 5,
-    avatar: "/uploads/reviews/sarah.png"
+    avatar: "/reviews/sarah.png"
   },
   {
     text: "I've been using Omegle for anonymous video chat and it's amazing. The HD video quality and secure messaging are top-notch! I haven't seen anything like it.",
@@ -17,7 +17,7 @@ const reviewsData = [
     username: "@davidc99",
     date: "1 week ago",
     rating: 5,
-    avatar: "/uploads/reviews/david.png"
+    avatar: "/reviews/david.png"
   },
   {
     text: "Omegle's one-on-one video chat with girls feature is fantastic. The platform is safe, moderated, and incredibly user-friendly! You can easily find like-minded friends.",
@@ -25,7 +25,7 @@ const reviewsData = [
     username: "@emily_rod",
     date: "2 weeks ago",
     rating: 5,
-    avatar: "/uploads/reviews/emily.png"
+    avatar: "/reviews/emily.png"
   },
   {
     text: "Best free Omegle alternative I've ever found! The random chat rooms and face-to-face interactions are truly incredible! It's super fast and always connects instantly.",
@@ -33,7 +33,7 @@ const reviewsData = [
     username: "@alex_t",
     date: "3 weeks ago",
     rating: 5,
-    avatar: "/uploads/reviews/alex.png"
+    avatar: "/reviews/alex.png"
   },
   {
     text: "Omegle online has changed how I meet new people. The live chat and anonymous messaging features are great! The community here is always welcoming.",
@@ -41,7 +41,7 @@ const reviewsData = [
     username: "@mariag_xo",
     date: "1 month ago",
     rating: 5,
-    avatar: "/uploads/reviews/maria.png"
+    avatar: "/reviews/maria.png"
   },
   {
     text: "I love how fast the matchmaking is. No boring sign-ups, just straight to chatting with cool people worldwide. It feels so natural and the overall interface is clean.",
@@ -49,7 +49,7 @@ const reviewsData = [
     username: "@james_w91",
     date: "1 month ago",
     rating: 5,
-    avatar: "/uploads/reviews/james.png"
+    avatar: "/reviews/james.png"
   },
   {
     text: "Great experience so far! Met some really interesting folks from different cultures. Highly recommend this site for anyone looking to pass time and have meaningful chats.",
@@ -57,7 +57,7 @@ const reviewsData = [
     username: "@linda_smth",
     date: "2 months ago",
     rating: 4,
-    avatar: "/uploads/reviews/linda.png"
+    avatar: "/reviews/linda.png"
   },
   {
     text: "The anonymity makes it so much easier to open up and just have fun conversations without any pressure. Love it! It's the perfect place to safely express yourself.",
@@ -65,7 +65,7 @@ const reviewsData = [
     username: "@mike_b_77",
     date: "2 months ago",
     rating: 5,
-    avatar: "/uploads/reviews/michael.png"
+    avatar: "/reviews/michael.png"
   },
   {
     text: "Finally a random chat app that doesn't constantly drop connections! Video is super crisp even on mobile data. I can talk for hours without a single glitch at all.",
@@ -73,7 +73,7 @@ const reviewsData = [
     username: "@chloee_d",
     date: "3 months ago",
     rating: 5,
-    avatar: "/uploads/reviews/chloe.png"
+    avatar: "/reviews/chloe.png"
   },
   {
     text: "It's like the golden days of internet chat rooms but modernized and much safer. Great job to the devs! I will definitely keep coming back to meet wonderful strangers.",
@@ -81,7 +81,7 @@ const reviewsData = [
     username: "@rob_taylor",
     date: "3 months ago",
     rating: 5,
-    avatar: "/uploads/reviews/robert.png"
+    avatar: "/reviews/robert.png"
   }
 ];
 
