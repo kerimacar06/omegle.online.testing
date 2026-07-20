@@ -2,6 +2,10 @@ import type { MetadataRoute } from "next";
 import { getSiteUrl } from "@/lib/canonical";
 import { postService } from "@/services/postService";
 
+// DB'ye bağımlı olduğu için build anında değil, her istekte oluşturulmalı
+// (aksi halde `next build` sırasında MONGODB_URI olmayan ortamlarda — ör. Docker — patlar)
+export const dynamic = 'force-dynamic';
+
 export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   const siteUrl = await getSiteUrl();
   const posts = await postService.getPublishedPosts();

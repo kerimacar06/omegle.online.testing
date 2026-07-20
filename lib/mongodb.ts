@@ -1,11 +1,5 @@
 import mongoose from "mongoose";
 
-const MONGODB_URI = process.env.MONGODB_URI;
-
-if (!MONGODB_URI) {
-  throw new Error("Lütfen .env dosyasında MONGODB_URI değişkenini tanımlayın.");
-}
-
 // Next.js'te (özellikle serverless/soğuk başlangıçlarda) aynı anda birden fazla
 // istek gelirse, tek bir bağlantı sözünü (promise) globalThis üzerinde önbelleğe
 // alıp herkesin aynı bağlantıyı beklemesini sağlıyoruz — üst üste binen
@@ -17,6 +11,14 @@ const globalForMongoose = globalThis as unknown as {
 export const connectMongoDB = async () => {
   if (mongoose.connection.readyState === 1) {
     return mongoose.connection.asPromise();
+  }
+
+  // Modül import edilirken değil, gerçekten bağlanılmaya çalışılırken kontrol
+  // ediliyor — aksi halde `next build` bu dosyayı sadece import ettiğinde bile
+  // (MONGODB_URI henüz set edilmemiş build ortamlarında, ör. Docker) patlar.
+  const MONGODB_URI = process.env.MONGODB_URI;
+  if (!MONGODB_URI) {
+    throw new Error("Lütfen .env dosyasında MONGODB_URI değişkenini tanımlayın.");
   }
 
   if (!globalForMongoose.mongooseConnPromise) {
