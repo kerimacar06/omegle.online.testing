@@ -4,8 +4,8 @@ const reasonsData = [
   {
     icon: (
       // 3 Maymun İkonu (Complete Anonymity)
-      <div className="flex items-center justify-center p-1 md:p-3">
-        <span className="text-xl sm:text-3xl md:text-5xl" role="img" aria-label="3 monkeys">
+      <div className="flex items-center justify-center p-1 sm:p-1 md:p-3">
+        <span className="text-3xl sm:text-3xl md:text-5xl" role="img" aria-label="3 monkeys">
           🙉🙈🙊
         </span>
       </div>
@@ -16,8 +16,8 @@ const reasonsData = [
   {
     icon: (
       // Alev Almış Roket İkonu (Instant Connection)
-      <div className="flex items-center justify-center p-1 md:p-3">
-        <span className="text-xl sm:text-3xl md:text-5xl" role="img" aria-label="rocket speed">
+      <div className="flex items-center justify-center p-1 sm:p-1 md:p-3">
+        <span className="text-3xl sm:text-3xl md:text-5xl" role="img" aria-label="rocket speed">
           🚀🔥
         </span>
       </div>
@@ -28,8 +28,8 @@ const reasonsData = [
   {
     icon: (
       // Sohbet Balonu İkonu (Classic Chat Experience)
-      <div className="flex items-center justify-center p-1 md:p-3">
-        <span className="text-xl sm:text-3xl md:text-5xl" role="img" aria-label="chat bubbles">
+      <div className="flex items-center justify-center p-1 sm:p-1 md:p-3">
+        <span className="text-3xl sm:text-3xl md:text-5xl" role="img" aria-label="chat bubbles">
           💬✨
         </span>
       </div>
@@ -49,24 +49,24 @@ export default function WhyChoose() {
           Why Choose Omegletest Online?
         </h2>
 
-        {/* Mobilde 3'lü Grid Dizilimi (Kompakt), Masaüstünde Orijinal Boyut */}
-        <div className="grid grid-cols-3 gap-2 sm:gap-4 md:gap-6 mb-8 md:mb-12">
+        {/* Mobilde alt alta liste (ikon solda, metin sağda), masaüstünde 3'lü kolon */}
+        <div className="grid grid-cols-1 sm:grid-cols-3 gap-3 sm:gap-4 md:gap-6 mb-8 md:mb-12">
           {reasonsData.map((reason, index) => (
             <div
               key={index}
-              className="neon-card p-2 sm:p-4 md:p-6 rounded-md flex flex-col items-center justify-start gap-1 sm:gap-2 md:gap-0 h-full"
+              className="neon-card p-4 sm:p-4 md:p-6 rounded-md flex flex-row sm:flex-col items-center justify-start gap-4 sm:gap-2 md:gap-0 h-full text-left sm:text-center"
             >
               {/* İkon Konteyneri */}
-              <div className="shrink-0 flex justify-center mb-1 md:mb-6">
+              <div className="shrink-0 flex justify-center mb-0 sm:mb-1 md:mb-6">
                 {reason.icon}
               </div>
 
-              {/* Metin İçeriği (Her Ekranda Ortalanmış) */}
-              <div className="flex flex-col text-center w-full">
-                <h3 className="text-xs sm:text-sm md:text-lg font-bold text-neon-ink mb-1 md:mb-3 leading-tight">
+              {/* Metin İçeriği */}
+              <div className="flex flex-col text-left sm:text-center w-full min-w-0">
+                <h3 className="text-sm sm:text-sm md:text-lg font-bold text-neon-ink mb-1 md:mb-3 leading-tight text-center">
                   {reason.title}
                 </h3>
-                <p className="text-xs sm:text-xs md:text-sm text-neon-ink-2 leading-tight md:leading-relaxed md:max-w-xs md:mx-auto text-center md:text-justify">
+                <p className="text-xs sm:text-xs md:text-sm text-neon-ink-2 leading-relaxed md:max-w-xs md:mx-auto text-justify md:text-justify">
                   {reason.description}
                 </p>
               </div>
