@@ -13,8 +13,8 @@ export default function Navbar({ isSticky = false }: NavbarProps) {
   return (
     <nav
       className={`
-        w-full border-b border-neon-line shrink-0 transition-all duration-300 relative backdrop-blur-md
-        ${isSticky ? 'sticky top-0 z-50 bg-neon-bg/80' : 'bg-neon-bg/80'}
+        w-full border-b border-neon-line shrink-0 transition-all duration-300 relative z-50 backdrop-blur-md bg-neon-bg/80
+        ${isSticky ? 'sticky top-0' : ''}
       `}
     >
       {/* 
