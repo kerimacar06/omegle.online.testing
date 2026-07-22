@@ -63,7 +63,7 @@ export default function WhyChoose() {
 
               {/* Metin İçeriği */}
               <div className="flex flex-col text-left sm:text-center w-full min-w-0">
-                <h3 className="text-sm sm:text-sm md:text-lg font-bold text-neon-ink mb-1 md:mb-3 leading-tight text-center">
+                <h3 className="text-sm sm:text-sm md:text-lg font-bold text-neon-ink mb-1 md:mb-3 leading-tight text-left sm:text-center">
                   {reason.title}
                 </h3>
                 <p className="text-xs sm:text-xs md:text-sm text-neon-ink-2 leading-relaxed md:max-w-xs md:mx-auto text-justify md:text-justify">
