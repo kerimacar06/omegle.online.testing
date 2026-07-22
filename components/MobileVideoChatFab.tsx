@@ -7,21 +7,42 @@ export default function MobileVideoChatFab({ watchId }: { watchId: string }) {
   const [visible, setVisible] = useState(false);
 
   useEffect(() => {
-    const target = document.getElementById(watchId);
-    if (!target) return;
+    let intersectionObserver: IntersectionObserver | null = null;
 
-    const observer = new IntersectionObserver(
-      ([entry]) => {
-        // Sadece buton yukarı doğru kaydırılıp geçildiğinde (viewport'un üstünde kaldığında)
-        // FAB'ı göster. Henüz ulaşılmamışsa (buton hâlâ aşağıda, ekrana girmemiş) gösterme.
-        const scrolledPast = !entry.isIntersecting && entry.boundingClientRect.top < 0;
-        setVisible(scrolledPast);
-      },
-      { threshold: 0 }
-    );
+    const attach = (target: Element) => {
+      intersectionObserver = new IntersectionObserver(
+        ([entry]) => {
+          // Sadece buton yukarı doğru kaydırılıp geçildiğinde (viewport'un üstünde kaldığında)
+          // FAB'ı göster. Henüz ulaşılmamışsa (buton hâlâ aşağıda, ekrana girmemiş) gösterme.
+          const scrolledPast = !entry.isIntersecting && entry.boundingClientRect.top < 0;
+          setVisible(scrolledPast);
+        },
+        { threshold: 0 }
+      );
+      intersectionObserver.observe(target);
+    };
 
-    observer.observe(target);
-    return () => observer.disconnect();
+    const existing = document.getElementById(watchId);
+    if (existing) {
+      attach(existing);
+      return () => intersectionObserver?.disconnect();
+    }
+
+    // Hedef eleman henüz DOM'a mount olmamış olabilir (yavaş bağlantı/hydration gecikmesi);
+    // ortaya çıkana kadar bekleyip sonra IntersectionObserver'ı bağlıyoruz.
+    const mutationObserver = new MutationObserver(() => {
+      const target = document.getElementById(watchId);
+      if (target) {
+        mutationObserver.disconnect();
+        attach(target);
+      }
+    });
+    mutationObserver.observe(document.body, { childList: true, subtree: true });
+
+    return () => {
+      mutationObserver.disconnect();
+      intersectionObserver?.disconnect();
+    };
   }, [watchId]);
 
   return (

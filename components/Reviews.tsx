@@ -164,8 +164,9 @@ export default function Reviews() {
         
         {/* Sol Tuş */}
         <button
+          type="button"
           onClick={scrollLeftBtn}
-          className="absolute left-1 md:left-0 z-10 md:-ml-12 w-8 h-8 md:w-12 md:h-12 rounded-full bg-white shadow-md border border-gray-200 flex items-center justify-center text-gray-600 hover:bg-gray-50 hover:text-gray-900 transition-colors"
+          className="absolute left-1 md:left-0 z-10 md:-ml-12 w-8 h-8 md:w-12 md:h-12 rounded-full bg-white shadow-md border border-gray-200 flex items-center justify-center text-gray-600 hover:bg-gray-50 hover:text-gray-900 transition-colors touch-manipulation"
           aria-label="Previous review"
         >
           <svg className="w-4 h-4 md:w-6 md:h-6" fill="none" stroke="currentColor" strokeWidth={2.5} viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" d="M15 19l-7-7 7-7" /></svg>
@@ -223,8 +224,9 @@ export default function Reviews() {
 
         {/* Sağ Tuş */}
         <button
+          type="button"
           onClick={scrollRightBtn}
-          className="absolute right-1 md:right-0 z-10 md:-mr-12 w-8 h-8 md:w-12 md:h-12 rounded-full bg-white shadow-md border border-gray-200 flex items-center justify-center text-gray-600 hover:bg-gray-50 hover:text-gray-900 transition-colors"
+          className="absolute right-1 md:right-0 z-10 md:-mr-12 w-8 h-8 md:w-12 md:h-12 rounded-full bg-white shadow-md border border-gray-200 flex items-center justify-center text-gray-600 hover:bg-gray-50 hover:text-gray-900 transition-colors touch-manipulation"
           aria-label="Next review"
         >
           <svg className="w-4 h-4 md:w-6 md:h-6" fill="none" stroke="currentColor" strokeWidth={2.5} viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" d="M9 5l7 7-7 7" /></svg>
