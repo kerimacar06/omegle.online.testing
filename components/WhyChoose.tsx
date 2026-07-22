@@ -5,7 +5,7 @@ const reasonsData = [
     icon: (
       // 3 Maymun İkonu (Complete Anonymity)
       <div className="flex items-center justify-center p-1 sm:p-1 md:p-3">
-        <span className="text-3xl sm:text-3xl md:text-5xl" role="img" aria-label="3 monkeys">
+        <span className="text-lg sm:text-3xl md:text-5xl whitespace-nowrap" role="img" aria-label="3 monkeys">
           🙉🙈🙊
         </span>
       </div>
@@ -17,7 +17,7 @@ const reasonsData = [
     icon: (
       // Alev Almış Roket İkonu (Instant Connection)
       <div className="flex items-center justify-center p-1 sm:p-1 md:p-3">
-        <span className="text-3xl sm:text-3xl md:text-5xl" role="img" aria-label="rocket speed">
+        <span className="text-3xl sm:text-3xl md:text-5xl whitespace-nowrap" role="img" aria-label="rocket speed">
           🚀🔥
         </span>
       </div>
@@ -29,7 +29,7 @@ const reasonsData = [
     icon: (
       // Sohbet Balonu İkonu (Classic Chat Experience)
       <div className="flex items-center justify-center p-1 sm:p-1 md:p-3">
-        <span className="text-3xl sm:text-3xl md:text-5xl" role="img" aria-label="chat bubbles">
+        <span className="text-3xl sm:text-3xl md:text-5xl whitespace-nowrap" role="img" aria-label="chat bubbles">
           💬✨
         </span>
       </div>
@@ -56,14 +56,14 @@ export default function WhyChoose() {
               key={index}
               className="neon-card p-4 sm:p-4 md:p-6 rounded-md flex flex-row sm:flex-col items-center justify-start gap-4 sm:gap-2 md:gap-0 h-full text-left sm:text-center"
             >
-              {/* İkon Konteyneri */}
-              <div className="shrink-0 flex justify-center mb-0 sm:mb-1 md:mb-6">
+              {/* İkon Konteyneri: mobilde sabit genişlik, emoji sayısı farklı olsa da metin aynı hizadan başlasın */}
+              <div className="shrink-0 flex items-center justify-center w-14 h-10 sm:w-auto sm:h-auto mb-0 sm:mb-1 md:mb-6">
                 {reason.icon}
               </div>
 
               {/* Metin İçeriği */}
               <div className="flex flex-col text-left sm:text-center w-full min-w-0">
-                <h3 className="text-sm sm:text-sm md:text-lg font-bold text-neon-ink mb-1 md:mb-3 leading-tight text-left sm:text-center">
+                <h3 className="text-sm sm:text-sm md:text-lg font-bold text-neon-ink mb-1 md:mb-3 leading-tight text-center">
                   {reason.title}
                 </h3>
                 <p className="text-xs sm:text-xs md:text-sm text-neon-ink-2 leading-relaxed md:max-w-xs md:mx-auto text-justify md:text-justify">
