@@ -32,8 +32,8 @@ export default function AppsList({
 }) {
   if (posts.length === 0) {
     return (
-      <div className="text-center py-20 bg-white rounded-md shadow-sm border border-gray-100">
-        <p className="text-gray-500 text-lg">Henüz hiç uygulama eklenmemiş. Lütfen admin panelinden yeni bir Post ekleyin.</p>
+      <div className="text-center py-20 neon-card rounded-md">
+        <p className="text-neon-ink-2 text-lg">Henüz hiç uygulama eklenmemiş. Lütfen admin panelinden yeni bir Post ekleyin.</p>
       </div>
     );
   }
@@ -48,10 +48,10 @@ export default function AppsList({
 
         return (
           <Link key={post._id} href={`/${post.slug}`} className="group block h-full">
-            <div className="bg-white rounded sm:rounded-md border border-gray-200 shadow-sm flex flex-col h-full overflow-hidden group-hover:border-blue-400 group-hover:shadow-lg transition-all duration-300">
+            <div className="neon-card rounded sm:rounded-md flex flex-col h-full overflow-hidden">
 
               {/* Kapak Görseli: object-cover ile tüm fotoğraflar çerçeveyi eşit doldurur */}
-              <div className="w-full h-24 sm:h-36 md:h-44 relative overflow-hidden bg-gray-100 shrink-0 border-b border-gray-100">
+              <div className="w-full h-24 sm:h-36 md:h-44 relative overflow-hidden bg-neon-surface-2 shrink-0 border-b border-neon-line">
                 {post.coverImage ? (
                   <img
                     src={post.coverImage}
@@ -71,29 +71,29 @@ export default function AppsList({
 
               {/* İçerik */}
               <div className="p-2.5 sm:p-5 flex flex-col flex-grow">
-                <h2 className="text-xs sm:text-base font-bold text-gray-900 mb-1 sm:mb-2 group-hover:text-blue-600 transition-colors line-clamp-2 leading-tight min-h-[1.875rem] sm:min-h-[2.5rem]">
+                <h2 className="text-xs sm:text-base font-bold text-neon-ink mb-1 sm:mb-2 group-hover:text-neon-cyan transition-colors line-clamp-2 leading-tight min-h-[1.875rem] sm:min-h-[2.5rem]">
                   {post.title}
                 </h2>
 
                 {post.description && (
-                  <p className="hidden sm:block text-gray-500 text-sm line-clamp-2 leading-relaxed mb-4 flex-grow">
+                  <p className="hidden sm:block text-neon-ink-2 text-sm line-clamp-2 leading-relaxed mb-4 flex-grow">
                     {post.description}
                   </p>
                 )}
 
-                <div className="flex items-center justify-between text-[10px] sm:text-xs font-medium text-gray-500 mb-2 sm:mb-4 pt-1.5 sm:pt-3 border-t border-gray-100 mt-auto">
+                <div className="flex items-center justify-between text-[10px] sm:text-xs font-medium text-neon-ink-3 mb-2 sm:mb-4 pt-1.5 sm:pt-3 border-t border-neon-line mt-auto">
                   <div className="flex items-center gap-0.5 sm:gap-1">
                     {[1, 2, 3, 4, 5].map((star) => (
-                      <svg key={star} className={`w-2.5 h-2.5 sm:w-3.5 sm:h-3.5 ${star <= Math.round(rating) ? 'text-amber-400' : 'text-gray-200'}`} fill="currentColor" viewBox="0 0 20 20">
+                      <svg key={star} className={`w-2.5 h-2.5 sm:w-3.5 sm:h-3.5 ${star <= Math.round(rating) ? 'text-amber-400' : 'text-neon-line'}`} fill="currentColor" viewBox="0 0 20 20">
                         <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z" />
                       </svg>
                     ))}
-                    <span className="text-gray-600 font-semibold ml-0.5">{rating.toFixed(1)}</span>
+                    <span className="text-neon-ink-2 font-semibold ml-0.5">{rating.toFixed(1)}</span>
                   </div>
                   <span>{voteCount.toLocaleString('en-US')} votes</span>
                 </div>
 
-                <div className="w-full bg-blue-600 group-hover:bg-blue-700 text-white text-center py-1.5 sm:py-2.5 rounded sm:rounded-md font-bold text-[11px] sm:text-sm transition-colors duration-300 shadow-sm">
+                <div className="w-full bg-gradient-to-r from-neon-cyan to-neon-violet text-neon-bg text-center py-1.5 sm:py-2.5 rounded sm:rounded-md font-bold text-[11px] sm:text-sm transition-transform duration-300 group-hover:-translate-y-0.5 shadow-sm">
                   Read Review
                 </div>
               </div>
@@ -111,8 +111,8 @@ export default function AppsList({
           aria-disabled={currentPage <= 1}
           className={`px-3 py-2 rounded-md border text-sm font-medium transition ${
             currentPage <= 1
-              ? 'border-gray-200 text-gray-300 pointer-events-none'
-              : 'border-gray-200 text-gray-600 bg-white hover:bg-gray-50'
+              ? 'border-neon-line text-neon-ink-3 pointer-events-none'
+              : 'border-neon-line text-neon-ink-2 bg-neon-surface hover:bg-neon-surface-2'
           }`}
         >
           Prev
@@ -124,8 +124,8 @@ export default function AppsList({
             href={`/apps?page=${page}`}
             className={`w-9 h-9 flex items-center justify-center rounded-md border text-sm font-bold transition ${
               page === currentPage
-                ? 'bg-blue-600 border-blue-600 text-white'
-                : 'border-gray-200 text-gray-600 bg-white hover:bg-gray-50'
+                ? 'bg-gradient-to-r from-neon-cyan to-neon-violet border-transparent text-neon-bg'
+                : 'border-neon-line text-neon-ink-2 bg-neon-surface hover:bg-neon-surface-2'
             }`}
           >
             {page}
@@ -137,8 +137,8 @@ export default function AppsList({
           aria-disabled={currentPage >= totalPages}
           className={`px-3 py-2 rounded-md border text-sm font-medium transition ${
             currentPage >= totalPages
-              ? 'border-gray-200 text-gray-300 pointer-events-none'
-              : 'border-gray-200 text-gray-600 bg-white hover:bg-gray-50'
+              ? 'border-neon-line text-neon-ink-3 pointer-events-none'
+              : 'border-neon-line text-neon-ink-2 bg-neon-surface hover:bg-neon-surface-2'
           }`}
         >
           Next

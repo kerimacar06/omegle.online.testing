@@ -8,6 +8,7 @@ import FAQ from '@/components/FAQ';
 import BottomBanner from '@/components/BottomBanner';
 import Footer from '@/components/Footer';
 import ScrollToHash from '@/components/ScrollToHash';
+import SiteBackground from '@/components/SiteBackground';
 import { seoService } from '@/services/seoService';
 import { faqService } from '@/services/faqService';
 import { resolveCanonical, getSiteUrl } from '@/lib/canonical';
@@ -82,8 +83,10 @@ export default async function Home() {
         />
       )}
       <ScrollToHash />
-      <main className="relative min-h-screen flex flex-col ">
+      <main className="relative min-h-screen flex flex-col bg-neon-bg neon-page">
+        <SiteBackground />
         {/* Navbar (Sadece bu sayfada sticky) */}
+        <div className="relative z-10">
         <Navbar isSticky={true} />
 
         {/* HERO BÖLÜMÜ: yükseklik ortadaki sohbet kutusunun kendi içeriğine göre belirlenir;
@@ -123,7 +126,7 @@ export default async function Home() {
         <InfoSection />
 
         {/* 2. BÖLÜM: Orta Kısım */}
-        <section className="w-full border-t border-gray-100">
+        <section className="w-full border-t border-neon-line">
           {/* Alternatif Uygulamalar Bölümü */}
           <Alternatives />
 
@@ -132,7 +135,7 @@ export default async function Home() {
         </section>
 
         {/* 3. BÖLÜM: Alt Kısım */}
-        <section className="w-full bg-slate-100 border-t border-gray-100">
+        <section className="w-full bg-neon-surface/40 border-t border-neon-line">
           {/* Kullanıcı Yorumları Bölümü */}
           <Reviews />
 
@@ -145,6 +148,7 @@ export default async function Home() {
 
         {/* Footer */}
         <Footer />
+        </div>
 
       </main>
     </>

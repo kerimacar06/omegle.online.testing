@@ -35,8 +35,8 @@ export default async function Alternatives() {
         
         {/* Bölüm Başlığı */}
         <div className="text-center mb-10">
-          <h2 className="text-2xl sm:text-3xl md:text-4xl font-bold md:font-extrabold text-gray-900 mb-2 leading-none">Top Omegle Alternatives</h2>
-          <p className="text-gray-500 text-xs sm:text-lg font-medium leading-none">Check out the best random video chat platforms.</p>
+          <h2 className="text-2xl sm:text-3xl md:text-4xl font-bold md:font-extrabold text-neon-ink mb-2 leading-none">Top Omegle Alternatives</h2>
+          <p className="text-neon-ink-2 text-xs sm:text-lg font-medium leading-none">Check out the best random video chat platforms.</p>
         </div>
 
         {/* Dinamik Kartlar: solda foto, sağda üstten alta isim / yıldız / oy sayısı */}
@@ -48,12 +48,12 @@ export default async function Alternatives() {
 
             return (
               <Link key={post._id.toString()} href={`/${post.slug}`} className="group block h-full">
-                <div className="bg-white p-2.5 sm:p-3 rounded-md border border-gray-200 shadow-sm flex items-center gap-2.5 sm:gap-3 group-hover:border-blue-400 group-hover:shadow-lg transition-all duration-300 h-full">
+                <div className="neon-card p-2.5 sm:p-3 rounded-md flex items-center gap-2.5 sm:gap-3 h-full">
 
                   {/* Sol: Resim/İkon */}
                   <div className="shrink-0">
                     {post.coverImage ? (
-                      <div className="relative w-11 h-11 sm:w-14 sm:h-14 rounded-md overflow-hidden border border-gray-100 shadow-sm group-hover:scale-105 transition-transform">
+                      <div className="relative w-11 h-11 sm:w-14 sm:h-14 rounded-md overflow-hidden border border-neon-line shadow-sm group-hover:scale-105 transition-transform">
                         <Image src={post.coverImage} alt={post.title || 'App Logo'} fill className="object-cover" unoptimized />
                       </div>
                     ) : (
@@ -67,22 +67,22 @@ export default async function Alternatives() {
 
                   {/* Sağ: İsim, Yıldızlar, Oy Sayısı (üstten alta, sıkı leading) */}
                   <div className="min-w-0 flex-1 flex flex-col gap-0.5">
-                    <h3 className="text-xs sm:text-base font-bold text-gray-900 group-hover:text-blue-600 transition-colors truncate uppercase tracking-wide leading-none">
+                    <h3 className="text-xs sm:text-base font-bold text-neon-ink group-hover:text-neon-cyan transition-colors truncate uppercase tracking-wide leading-none">
                       {post.slug}
                     </h3>
 
                     <div className="flex items-center gap-0.5 leading-none">
                       {[1, 2, 3, 4, 5].map((star) => (
-                        <svg key={star} className={`w-2.5 h-2.5 sm:w-3.5 sm:h-3.5 ${star <= Math.round(ratingValue) ? 'text-amber-400' : 'text-gray-200'}`} fill="currentColor" viewBox="0 0 20 20">
+                        <svg key={star} className={`w-2.5 h-2.5 sm:w-3.5 sm:h-3.5 ${star <= Math.round(ratingValue) ? 'text-amber-400' : 'text-neon-line'}`} fill="currentColor" viewBox="0 0 20 20">
                           <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z" />
                         </svg>
                       ))}
-                      <span className="text-gray-600 font-semibold text-xs sm:text-[11px] leading-none ml-0.5">
+                      <span className="text-neon-ink-2 font-semibold text-xs sm:text-[11px] leading-none ml-0.5">
                         {ratingValue.toFixed(1)}
                       </span>
                     </div>
 
-                    <div className="text-gray-400 text-xs sm:text-[11px] font-medium leading-none">
+                    <div className="text-neon-ink-3 text-xs sm:text-[11px] font-medium leading-none">
                       {voteCount} votes
                     </div>
                   </div>
@@ -92,11 +92,11 @@ export default async function Alternatives() {
             );
           })}
         </div>
-        
+
         {/* Tümünü Gör Butonu */}
         {totalCount > 6 && (
           <div className="text-center mt-10">
-            <Link href="/apps" scroll={true} className="inline-block bg-white text-gray-800 font-bold border border-gray-200 px-8 py-3 rounded-md hover:bg-gray-50 transition shadow-sm">
+            <Link href="/apps" scroll={true} className="inline-block bg-neon-surface-2 text-neon-ink font-bold border border-neon-line px-8 py-3 rounded-md hover:bg-neon-surface transition shadow-sm">
               View All Applications
             </Link>
           </div>

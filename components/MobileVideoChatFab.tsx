@@ -49,8 +49,8 @@ export default function MobileVideoChatFab({ watchId }: { watchId: string }) {
     <Link
       href="/live-video"
       aria-label="Start Video Chat"
-      className={`lg:hidden fixed bottom-6 right-6 z-40 w-14 h-14 rounded-full bg-blue-600 hover:bg-blue-700 text-white flex items-center justify-center shadow-lg border border-blue-700/20 transition-all duration-300 ${
-        visible ? 'opacity-100 scale-100 pointer-events-auto' : 'opacity-0 scale-75 pointer-events-none'
+      className={`lg:hidden fixed bottom-6 right-6 z-40 w-14 h-14 rounded-full bg-gradient-to-br from-neon-cyan to-neon-violet text-neon-bg flex items-center justify-center shadow-lg transition-all duration-300 ${
+        visible ? 'opacity-100 scale-100 pointer-events-auto neon-pulse-glow' : 'opacity-0 scale-75 pointer-events-none'
       }`}
     >
       <svg className="w-6 h-6" fill="currentColor" viewBox="0 0 24 24">

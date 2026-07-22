@@ -1,8 +1,20 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap');
 @import "tailwindcss";
 
 :root {
   --background: #ffffff;
   --foreground: #171717;
+
+  /* Neon gece teması (design-experiments) */
+  --neon-bg: #06050e;
+  --neon-surface: #110e24;
+  --neon-surface-2: #181538;
+  --neon-ink: #eef1ff;
+  --neon-ink-2: #a8b0d0;
+  --neon-ink-3: #5c6488;
+  --neon-cyan: #00e5ff;
+  --neon-violet: #a855f7;
+  --neon-line: #1a1740;
 }
 
 @theme inline {
@@ -10,6 +22,16 @@
   --color-foreground: var(--foreground);
   --font-sans: var(--font-geist-sans);
   --font-mono: var(--font-geist-mono);
+
+  --color-neon-bg: var(--neon-bg);
+  --color-neon-surface: var(--neon-surface);
+  --color-neon-surface-2: var(--neon-surface-2);
+  --color-neon-ink: var(--neon-ink);
+  --color-neon-ink-2: var(--neon-ink-2);
+  --color-neon-ink-3: var(--neon-ink-3);
+  --color-neon-cyan: var(--neon-cyan);
+  --color-neon-violet: var(--neon-violet);
+  --color-neon-line: var(--neon-line);
 }
 
 @media (prefers-color-scheme: dark) {
@@ -47,4 +69,70 @@ body {
 
 .animate-soft-bounce {
   animation: soft-bounce 1.5s infinite;
+}
+
+/* ===================== Neon tema ortak parçaları ===================== */
+
+.neon-page {
+  font-family: 'Inter', system-ui, sans-serif;
+}
+
+.neon-orb {
+  position: absolute;
+  border-radius: 50%;
+  filter: blur(90px);
+  opacity: 0.3;
+  pointer-events: none;
+}
+
+@keyframes neon-drift-1 {
+  0%, 100% { transform: translate(0, 0) scale(1); }
+  50% { transform: translate(60px, 50px) scale(1.1); }
+}
+@keyframes neon-drift-2 {
+  0%, 100% { transform: translate(0, 0) scale(1); }
+  50% { transform: translate(-60px, -40px) scale(1.08); }
+}
+
+@keyframes neon-gradient-shift {
+  0% { background-position: 0% 50%; }
+  100% { background-position: 200% 50%; }
+}
+
+.neon-gradient-text {
+  background: linear-gradient(90deg, var(--neon-cyan), var(--neon-violet), var(--neon-cyan));
+  background-size: 200% auto;
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+  animation: neon-gradient-shift 6s linear infinite;
+}
+
+@keyframes neon-pulse-glow {
+  0%, 100% { box-shadow: 0 0 0 0 rgba(0,229,255,0.4), 0 0 18px rgba(168,85,247,0.2); }
+  50% { box-shadow: 0 0 0 8px rgba(0,229,255,0), 0 0 26px rgba(168,85,247,0.4); }
+}
+
+.neon-pulse-glow {
+  animation: neon-pulse-glow 2.6s ease-in-out infinite;
+}
+
+.neon-card {
+  position: relative;
+  background: var(--neon-surface);
+  border: 1px solid var(--neon-line);
+  transition: transform 0.25s ease, border-color 0.25s ease;
+}
+
+.neon-card:hover {
+  transform: translateY(-4px);
+  border-color: rgba(0,229,255,0.35);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .neon-orb,
+  .neon-gradient-text,
+  .neon-pulse-glow {
+    animation: none !important;
+  }
 }

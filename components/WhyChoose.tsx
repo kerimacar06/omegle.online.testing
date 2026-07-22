@@ -41,11 +41,11 @@ const reasonsData = [
 
 export default function WhyChoose() {
   return (
-    <div className="w-full py-8 sm:py-16 border-t border-gray-100">
+    <div className="w-full py-8 sm:py-16 border-t border-neon-line">
       <div className="w-full max-w-5xl mx-auto px-4 text-center md:text-center">
 
         {/* Bölüm Başlığı */}
-        <h2 className="text-2xl sm:text-3xl md:text-4xl font-bold md:font-extrabold text-gray-900 mb-8 md:mb-12">
+        <h2 className="text-2xl sm:text-3xl md:text-4xl font-bold md:font-extrabold text-neon-ink mb-8 md:mb-12">
           Why Choose Omegletest Online?
         </h2>
 
@@ -54,7 +54,7 @@ export default function WhyChoose() {
           {reasonsData.map((reason, index) => (
             <div
               key={index}
-              className="bg-white p-2 sm:p-4 md:p-6 rounded-md shadow border border-gray-100 flex flex-col items-center justify-start hover:-translate-y-1 transition-transform duration-300 gap-1 sm:gap-2 md:gap-0 h-full"
+              className="neon-card p-2 sm:p-4 md:p-6 rounded-md flex flex-col items-center justify-start gap-1 sm:gap-2 md:gap-0 h-full"
             >
               {/* İkon Konteyneri */}
               <div className="shrink-0 flex justify-center mb-1 md:mb-6">
@@ -63,10 +63,10 @@ export default function WhyChoose() {
 
               {/* Metin İçeriği (Her Ekranda Ortalanmış) */}
               <div className="flex flex-col text-center w-full">
-                <h3 className="text-xs sm:text-sm md:text-lg font-bold text-gray-800 mb-1 md:mb-3 leading-tight">
+                <h3 className="text-xs sm:text-sm md:text-lg font-bold text-neon-ink mb-1 md:mb-3 leading-tight">
                   {reason.title}
                 </h3>
-                <p className="text-xs sm:text-xs md:text-sm text-gray-500 leading-tight md:leading-relaxed md:max-w-xs md:mx-auto text-center md:text-justify">
+                <p className="text-xs sm:text-xs md:text-sm text-neon-ink-2 leading-tight md:leading-relaxed md:max-w-xs md:mx-auto text-center md:text-justify">
                   {reason.description}
                 </p>
               </div>
@@ -76,7 +76,7 @@ export default function WhyChoose() {
 
         {/* Ortadaki Yönlendirme Butonu */}
         <div className="flex justify-center mt-4 px-2">
-          <Link href="/live-video" className="w-auto bg-red-500 hover:bg-red-600 text-white font-bold py-2 md:py-4 px-6 md:px-12 rounded-full text-sm md:text-xl shadow-lg hover:shadow-xl transition-all flex items-center justify-center gap-2 md:gap-3 animate-soft-bounce">
+          <Link href="/live-video" className="w-auto bg-gradient-to-r from-neon-cyan to-neon-violet text-neon-bg font-bold py-2 md:py-4 px-6 md:px-12 rounded-full text-sm md:text-xl shadow-lg hover:shadow-xl transition-all flex items-center justify-center gap-2 md:gap-3 animate-soft-bounce neon-pulse-glow">
             <svg className="w-4 h-4 md:w-6 md:h-6 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 10l4.553-2.276A1 1 0 0121 8.618v6.764a1 1 0 01-1.447.894L15 14M5 18h8a2 2 0 002-2V8a2 2 0 00-2-2H5a2 2 0 00-2 2v8a2 2 0 002 2z" /></svg>
             <span className="truncate">Start Video Chat Now</span>
           </Link>
