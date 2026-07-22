@@ -183,7 +183,7 @@ export default function Reviews() {
                 key={index}
                 className="snap-center shrink-0 w-full md:w-1/3 px-12 md:px-3"
               >
-                <div className="neon-card w-full rounded-md p-6 md:p-8 flex flex-col mx-auto h-full">
+                <div className="neon-card-static w-full rounded-md p-6 md:p-8 flex flex-col mx-auto h-full">
                   {/* Üst Kısım: Avatar, İsim ve @Username */}
                   <div className="flex items-center justify-between mb-4">
                     <div className="flex items-center gap-4">

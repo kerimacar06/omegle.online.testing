@@ -63,8 +63,9 @@ export default function Navbar({ isSticky = false }: NavbarProps) {
         {/* MOBİL HAMBURGER BUTONU (Masaüstünde tamamen gizlenir: sm:hidden) */}
         <button
           onClick={() => setIsMenuOpen(!isMenuOpen)}
-          className="sm:hidden relative z-10 p-2 text-neon-ink-2 hover:text-neon-cyan focus:outline-none transition-colors touch-manipulation"
+          className="sm:hidden relative z-10 p-2 text-neon-ink-2 hover:text-neon-cyan focus:outline-none focus-visible:ring-2 focus-visible:ring-neon-cyan rounded-md transition-colors touch-manipulation"
           aria-label="Toggle Menu"
+          aria-expanded={isMenuOpen}
         >
           {isMenuOpen ? (
             // X İkonu (Menü açıkken)

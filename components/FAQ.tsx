@@ -37,7 +37,7 @@ export default async function FAQ() {
               className="group neon-card rounded-md [&_summary::-webkit-details-marker]:hidden"
             >
               {/* Soru (Mesaj Balonu) */}
-              <summary className="flex cursor-pointer items-center justify-between px-8 py-2 focus:outline-none">
+              <summary className="flex cursor-pointer items-center justify-between px-8 py-2 rounded-md focus:outline-none focus-visible:ring-2 focus-visible:ring-neon-cyan">
                 <span className="font-bold text-neon-ink text-xs sm:text-[16px] pr-4">{faq.question}</span>
 
                 {/* Yumuşak Ok İkonu */}

@@ -11,7 +11,7 @@
   --neon-surface-2: #181538;
   --neon-ink: #eef1ff;
   --neon-ink-2: #a8b0d0;
-  --neon-ink-3: #5c6488;
+  --neon-ink-3: #7d84ab;
   --neon-cyan: #00e5ff;
   --neon-violet: #a855f7;
   --neon-line: #1a1740;
@@ -127,6 +127,14 @@ body {
 .neon-card:hover {
   transform: translateY(-4px);
   border-color: rgba(0,229,255,0.35);
+}
+
+/* Tıklanamayan / link olmayan içerik kutuları için: aynı görünüm, hover'da
+   kalkma-parlama efekti yok (aksi halde etkileşimli gibi görünüyorlardı). */
+.neon-card-static {
+  position: relative;
+  background: var(--neon-surface);
+  border: 1px solid var(--neon-line);
 }
 
 @media (prefers-reduced-motion: reduce) {

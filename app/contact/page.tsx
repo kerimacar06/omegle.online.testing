@@ -110,7 +110,7 @@ export default async function ContactPage() {
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 sm:gap-6">
 
                 {/* Get In Touch */}
-                <div className="neon-card p-5 sm:p-8 rounded-md">
+                <div className="neon-card-static p-5 sm:p-8 rounded-md">
                   <h2 className="text-lg sm:text-2xl font-bold text-neon-ink mb-4 sm:mb-6">Get In Touch</h2>
                   <p className="text-neon-ink-2 mb-6 sm:mb-8 text-sm sm:text-base leading-relaxed">
                     Have questions, feedback, or need support? Reach out to our team using the details below.
@@ -140,7 +140,7 @@ export default async function ContactPage() {
                 </div>
 
                 {/* Diğer Yollar */}
-                <div className="neon-card p-5 sm:p-8 rounded-md">
+                <div className="neon-card-static p-5 sm:p-8 rounded-md">
                   <h2 className="text-lg sm:text-2xl font-bold text-neon-ink mb-4 sm:mb-6">Other Ways to Reach Us</h2>
 
                   <ul className="space-y-5 sm:space-y-6">
@@ -179,7 +179,7 @@ export default async function ContactPage() {
               </div>
 
               {/* Alt Sıra: Send Us A Message, daraltılmış ve ortalanmış */}
-              <div className="neon-card p-6 sm:p-10 rounded-md max-w-2xl mx-auto">
+              <div className="neon-card-static p-6 sm:p-10 rounded-md max-w-2xl mx-auto">
                 <h2 className="text-xl sm:text-2xl font-bold text-neon-ink mb-5 sm:mb-6">Send Us A Message</h2>
                 <form className="space-y-5">
                   <div className="grid grid-cols-1 sm:grid-cols-2 gap-5">

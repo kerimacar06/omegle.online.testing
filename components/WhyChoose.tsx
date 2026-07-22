@@ -54,7 +54,7 @@ export default function WhyChoose() {
           {reasonsData.map((reason, index) => (
             <div
               key={index}
-              className="neon-card p-4 sm:p-4 md:p-6 rounded-md flex flex-row sm:flex-col items-center justify-start gap-4 sm:gap-2 md:gap-0 h-full text-left sm:text-center"
+              className="neon-card-static p-4 sm:p-4 md:p-6 rounded-md flex flex-row sm:flex-col items-center justify-start gap-4 sm:gap-2 md:gap-0 h-full text-left sm:text-center"
             >
               {/* İkon Konteyneri: mobilde sabit genişlik, emoji sayısı farklı olsa da metin aynı hizadan başlasın */}
               <div className="shrink-0 flex items-center justify-center w-14 h-10 sm:w-auto sm:h-auto mb-0 sm:mb-1 md:mb-6">

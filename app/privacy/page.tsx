@@ -89,7 +89,7 @@ export default async function PrivacyPage() {
         <div className="w-full max-w-4xl mx-auto px-4 py-10 sm:py-16">
 
           {/* Metin Kutusu */}
-          <div className="neon-card p-6 sm:p-10 rounded-md text-neon-ink-2 text-base sm:text-lg [&_p]:text-justify">
+          <div className="neon-card-static p-6 sm:p-10 rounded-md text-neon-ink-2 text-base sm:text-lg [&_p]:text-justify">
 
             <h2 className="text-xl sm:text-2xl font-bold text-neon-ink mb-4 mt-0">
               1. Introduction

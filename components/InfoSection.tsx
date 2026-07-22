@@ -6,10 +6,10 @@ export default function InfoSection() {
       <div className="w-full max-w-6xl mx-auto mt-2 sm:mt-14 lg:mt-20 px-4 pb-6 sm:pb-10 pt-3 sm:pt-10 border-t border-neon-line">
 
         {/* 3 Paragraph Section - Mobilde alt alta liste, masaüstünde 3 kolon */}
-        <div className="grid grid-cols-1 sm:grid-cols-3 gap-3 sm:gap-10">
+        <div className="grid grid-cols-1 sm:grid-cols-3 gap-3 sm:gap-4 md:gap-6">
 
           {/* Madde 1 */}
-          <div className="neon-card flex flex-row sm:flex-col items-center text-left sm:text-center gap-4 sm:gap-0 p-4 sm:p-6 rounded-md">
+          <div className="neon-card-static flex flex-row sm:flex-col items-center text-left sm:text-center gap-4 sm:gap-0 p-4 sm:p-6 rounded-md">
             <div className="w-12 h-12 sm:w-12 sm:h-12 bg-neon-surface-2 text-neon-cyan rounded-md flex items-center justify-center mb-0 sm:mb-5 shrink-0">
               <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z"></path></svg>
             </div>
@@ -22,7 +22,7 @@ export default function InfoSection() {
           </div>
 
           {/* Madde 2 */}
-          <div className="neon-card flex flex-row sm:flex-col items-center text-left sm:text-center gap-4 sm:gap-0 p-4 sm:p-6 rounded-md">
+          <div className="neon-card-static flex flex-row sm:flex-col items-center text-left sm:text-center gap-4 sm:gap-0 p-4 sm:p-6 rounded-md">
             <div className="w-12 h-12 sm:w-12 sm:h-12 bg-neon-surface-2 text-neon-violet rounded-md flex items-center justify-center mb-0 sm:mb-5 shrink-0">
               <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z"></path></svg>
             </div>
@@ -35,7 +35,7 @@ export default function InfoSection() {
           </div>
 
           {/* Madde 3 */}
-          <div className="neon-card flex flex-row sm:flex-col items-center text-left sm:text-center gap-4 sm:gap-0 p-4 sm:p-6 rounded-md">
+          <div className="neon-card-static flex flex-row sm:flex-col items-center text-left sm:text-center gap-4 sm:gap-0 p-4 sm:p-6 rounded-md">
             <div className="w-12 h-12 sm:w-12 sm:h-12 bg-neon-surface-2 text-amber-400 rounded-md flex items-center justify-center mb-0 sm:mb-5 shrink-0">
               <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z"></path></svg>
             </div>
@@ -99,9 +99,11 @@ export default function InfoSection() {
                     src="/about_illustration.png"
                     alt="Omegletest Online Global Connectivity"
                     fill
-                    className="object-cover hover:scale-105 transition-transform duration-700"
+                    className="object-cover brightness-90 contrast-110 hover:scale-105 transition-transform duration-700"
                   />
-                  <div className="absolute inset-0 bg-gradient-to-tr from-neon-violet/15 to-transparent pointer-events-none"></div>
+                  {/* Görsel açık zeminli; koyu temaya daha uyumlu görünmesi için karartma katmanı */}
+                  <div className="absolute inset-0 bg-neon-bg/25 pointer-events-none"></div>
+                  <div className="absolute inset-0 bg-gradient-to-tr from-neon-violet/25 via-transparent to-neon-bg/20 pointer-events-none"></div>
                 </div>
               </div>
 
