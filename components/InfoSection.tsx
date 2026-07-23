@@ -3,82 +3,88 @@ import Image from 'next/image';
 export default function InfoSection() {
   return (
     <>
-      <div className="w-full max-w-6xl mx-auto mt-2 sm:mt-14 lg:mt-20 px-4 pb-6 sm:pb-10 pt-3 sm:pt-10 border-t border-gray-100">
+      <div className="w-full max-w-6xl mx-auto mt-4 sm:mt-16 lg:mt-24 px-4 pb-6 sm:pb-10 pt-3 sm:pt-10">
 
-        {/* 3 Paragraph Section - Temiz & Renksiz 3 Kolon Düzeni */}
-        <div className="grid grid-cols-3 gap-2 sm:gap-10">
+        {/* 3 Paragraph Section - Asimetrik "bento" düzen: kartlar farklı yükseklikte kayıyor */}
+        <div className="grid grid-cols-1 sm:grid-cols-3 gap-3 sm:gap-6">
 
           {/* Madde 1 */}
-          <div className="flex flex-col items-center text-center p-2 sm:p-6 bg-white border border-gray-200 rounded sm:rounded-md shadow-sm hover:shadow-md transition-shadow duration-200">
-            <div className="w-8 h-8 sm:w-12 sm:h-12 bg-gray-100 text-gray-600 rounded sm:rounded-md flex items-center justify-center mb-2 sm:mb-5 shrink-0">
-              <svg className="w-4 h-4 sm:w-6 sm:h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z"></path></svg>
+          <div className="brut-card flex flex-row sm:flex-col items-center text-left sm:text-center gap-4 sm:gap-0 p-4 sm:p-6 lg:-rotate-1">
+            <div className="w-12 h-12 sm:w-12 sm:h-12 bg-brut-blue/15 text-brut-blue border-2 border-ink flex items-center justify-center mb-0 sm:mb-5 shrink-0">
+              <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z"></path></svg>
             </div>
-            <h3 className="text-xs sm:text-sm md:text-lg font-bold text-gray-800 mb-1 sm:mb-3 leading-tight">Relevant Chats</h3>
-            <p className="text-xs sm:text-sm text-gray-500 leading-tight sm:leading-relaxed sm:text-justify">
-              Add your interests and get matched with strangers who share your vibe. No more awkward small talk to start a conversation.
-            </p>
+            <div className="min-w-0">
+              <h3 className="brut-display text-sm sm:text-sm md:text-lg text-ink mb-1 sm:mb-3 leading-tight text-center">Relevant Chats</h3>
+              <p className="text-xs sm:text-sm text-ink/70 font-semibold leading-relaxed text-justify">
+                Add your interests and get matched with strangers who share your vibe. No more awkward small talk to start a conversation.
+              </p>
+            </div>
           </div>
 
-          {/* Madde 2 */}
-          <div className="flex flex-col items-center text-center p-2 sm:p-6 bg-white border border-gray-200 rounded sm:rounded-md shadow-sm hover:shadow-md transition-shadow duration-200">
-            <div className="w-8 h-8 sm:w-12 sm:h-12 bg-gray-100 text-gray-600 rounded sm:rounded-md flex items-center justify-center mb-2 sm:mb-5 shrink-0">
-              <svg className="w-4 h-4 sm:w-6 sm:h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z"></path></svg>
+          {/* Madde 2 — ortadaki kart hafifçe yukarı kaydırılmış */}
+          <div className="brut-card flex flex-row sm:flex-col items-center text-left sm:text-center gap-4 sm:gap-0 p-4 sm:p-6 lg:-translate-y-4">
+            <div className="w-12 h-12 sm:w-12 sm:h-12 bg-brut-pink/15 text-brut-pink border-2 border-ink flex items-center justify-center mb-0 sm:mb-5 shrink-0">
+              <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z"></path></svg>
             </div>
-            <h3 className="text-xs sm:text-sm md:text-lg font-bold text-gray-800 mb-1 sm:mb-3 leading-tight">Safety & Privacy</h3>
-            <p className="text-xs sm:text-sm text-gray-500 leading-tight sm:leading-relaxed sm:text-justify">
-              Chats are anonymous by default and require no registration. You can end any conversation instantly, whenever you want.
-            </p>
+            <div className="min-w-0">
+              <h3 className="brut-display text-sm sm:text-sm md:text-lg text-ink mb-1 sm:mb-3 leading-tight text-center">Safety & Privacy</h3>
+              <p className="text-xs sm:text-sm text-ink/70 font-semibold leading-relaxed text-justify">
+                Chats are anonymous by default and require no registration. You can end any conversation instantly, whenever you want.
+              </p>
+            </div>
           </div>
 
           {/* Madde 3 */}
-          <div className="flex flex-col items-center text-center p-2 sm:p-6 bg-white border border-gray-200 rounded sm:rounded-md shadow-sm hover:shadow-md transition-shadow duration-200">
-            <div className="w-8 h-8 sm:w-12 sm:h-12 bg-gray-100 text-gray-600 rounded sm:rounded-md flex items-center justify-center mb-2 sm:mb-5 shrink-0">
-              <svg className="w-4 h-4 sm:w-6 sm:h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z"></path></svg>
+          <div className="brut-card flex flex-row sm:flex-col items-center text-left sm:text-center gap-4 sm:gap-0 p-4 sm:p-6 lg:rotate-1">
+            <div className="w-12 h-12 sm:w-12 sm:h-12 bg-brut-yellow/40 text-ink border-2 border-ink flex items-center justify-center mb-0 sm:mb-5 shrink-0">
+              <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z"></path></svg>
             </div>
-            <h3 className="text-xs sm:text-sm md:text-lg font-bold text-gray-800 mb-1 sm:mb-3 leading-tight">AI Moderation</h3>
-            <p className="text-xs sm:text-sm text-gray-500 leading-tight sm:leading-relaxed sm:text-justify">
-              Every chat is moderated by AI and human teams to keep things safe. This preserves the classic random chat experience you know.
-            </p>
+            <div className="min-w-0">
+              <h3 className="brut-display text-sm sm:text-sm md:text-lg text-ink mb-1 sm:mb-3 leading-tight text-center">AI Moderation</h3>
+              <p className="text-xs sm:text-sm text-ink/70 font-semibold leading-relaxed text-justify">
+                Every chat is moderated by AI and human teams to keep things safe. This preserves the classic random chat experience you know.
+              </p>
+            </div>
           </div>
 
         </div>
       </div>
 
-      {/* About Section - Hibrit Tasarım (Mobil: Cam Kart, Masaüstü: Başlık Ortada, Split Screen) */}
-      <div className="w-full bg-slate-100 py-8 sm:py-12 md:py-24 lg:py-10 border-t border-gray-100">
+      {/* About Section - Hibrit Tasarım (Mobil: Kart, Masaüstü: Başlık Ortada, Split Screen) */}
+      <div className="w-full bg-ink py-8 sm:py-12 md:py-24 lg:py-16 border-y-3 border-ink" style={{ borderTopWidth: 3, borderBottomWidth: 3 }}>
         <div className="max-w-[1400px] mx-auto px-4 sm:px-6">
-          
+
           {/* MASAÜSTÜ İÇİN ORTALANMIŞ BAŞLIK */}
           <div className="hidden lg:flex flex-col items-center mb-8">
-            <h2 className="text-2xl sm:text-3xl md:text-4xl font-bold md:font-extrabold text-gray-900 mb-6 leading-tight text-center">
+            <h2 className="brut-display text-2xl sm:text-3xl md:text-4xl text-paper mb-6 leading-tight text-center">
               About Omegletest App
             </h2>
-            <div className="w-24 h-1.5 bg-gradient-to-r from-blue-500 to-purple-500 rounded-full"></div>
+            <div className="w-24 h-2 bg-brut-yellow"></div>
           </div>
 
           {/* MOBİL İÇİN KAPSAYICI */}
           <div className="relative w-full flex items-center lg:block p-6 sm:p-10 lg:p-0">
-            
+
             {/* İÇERİK: Masaüstünde Split Screen, Mobilde düz metin */}
             <div className="relative z-10 flex flex-col lg:flex-row items-center gap-10 lg:gap-12 w-full">
-              
+
               {/* SOL TARAF (Metinler) */}
               <div className="w-full lg:w-[55%] flex flex-col justify-center">
-                
+
                 {/* MOBİL İÇİN BAŞLIK (Masaüstünde yukarıda gösterildiği için burada gizli) */}
                 <div className="lg:hidden">
-                  <h2 className="text-2xl sm:text-3xl md:text-4xl font-bold md:font-extrabold text-gray-900 mb-6 leading-tight whitespace-nowrap">
+                  <h2 className="brut-display text-2xl sm:text-3xl md:text-4xl text-paper mb-6 leading-tight whitespace-nowrap">
                     About Omegletest App
                   </h2>
-                  <div className="w-16 h-1.5 bg-gradient-to-r from-pink-500 to-purple-500 rounded-full mb-6"></div>
+                  <div className="w-16 h-2 bg-brut-yellow mb-6"></div>
                 </div>
-                
-                <div className="text-justify text-gray-700 lg:text-gray-600 text-xs sm:text-base lg:text-lg leading-relaxed space-y-5 lg:space-y-6">
+
+                <div className="text-justify text-paper/80 text-xs sm:text-base lg:text-lg leading-relaxed space-y-5 lg:space-y-6 font-medium">
                   <p>
-                    <strong className="text-gray-900 lg:text-gray-800 font-extrabold lg:font-bold">Omegletest</strong> is a premier free online chat platform designed to connect you with random strangers from all corners of the globe. Born out of the desire to keep the classic random chat spirit alive, our platform offers a seamless, instant connection without the hassle of registrations or hidden fees.
+                    <strong className="text-paper font-extrabold">Omegletest</strong> is a premier free online chat platform designed to connect you with random strangers from all corners of the globe. Born out of the desire to keep the classic random chat spirit alive, our platform offers a seamless, instant connection without the hassle of registrations or hidden fees.
                   </p>
                   <p>
-                    What sets us apart is our commitment to both <strong className="text-gray-900 lg:text-gray-800 font-extrabold lg:font-bold">freedom and safety</strong>. We understand that anonymity is the core of random chatting. We pair this freedom with state-of-the-art AI moderation and a dedicated reporting system, ensuring that while you enjoy the thrill of the unknown, you are fully protected.
+                    What sets us apart is our commitment to both <strong className="text-paper font-extrabold">freedom and safety</strong>. We understand that anonymity is the core of random chatting. We pair this freedom with state-of-the-art AI moderation and a dedicated reporting system, ensuring that while you enjoy the thrill of the unknown, you are fully protected.
                   </p>
                   <p>
                     Whether you are looking to make new friends, practice a new language, or simply have a fun conversation, our platform provides the perfect environment. Join our growing community today and experience the excitement of truly spontaneous interactions, all within a secure and user-friendly interface.
@@ -88,14 +94,13 @@ export default function InfoSection() {
 
               {/* SAĞ TARAF (Masaüstü Görseli) */}
               <div className="hidden lg:block lg:w-[45%]">
-                <div className="relative w-full aspect-[4/3] rounded-md overflow-hidden shadow-2xl transform transition-transform hover:-translate-y-2 duration-500 border-4 border-white/60">
-                  <Image 
-                    src="/about_illustration.png" 
-                    alt="Omegletest Online Global Connectivity" 
-                    fill 
-                    className="object-cover hover:scale-105 transition-transform duration-700"
+                <div className="relative w-full aspect-[4/3] overflow-hidden border-3 border-paper rotate-2 shadow-[10px_10px_0_0_rgba(255,210,63,1)]" style={{ borderWidth: 3 }}>
+                  <Image
+                    src="/about_illustration.png"
+                    alt="Omegletest Online Global Connectivity"
+                    fill
+                    className="object-cover"
                   />
-                  <div className="absolute inset-0 bg-gradient-to-tr from-purple-500/10 to-transparent pointer-events-none"></div>
                 </div>
               </div>
 

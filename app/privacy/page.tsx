@@ -58,44 +58,44 @@ export default async function PrivacyPage() {
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbJsonLd) }}
       />
-      <main className="min-h-screen bg-white flex flex-col">
+      <main className="min-h-screen brut-page flex flex-col">
       <Navbar />
 
       {/* HEADER BÖLÜMÜ */}
       <div className="w-full max-w-4xl mx-auto px-4 pt-8 pb-12">
         {/* Visual Breadcrumb */}
-        <div className="flex items-center gap-2 text-sm text-gray-500 mb-8 font-medium">
-          <Link href="/" className="hover:text-blue-600 transition-colors">{homeBreadcrumbName}</Link>
+        <div className="flex items-center gap-2 text-sm text-ink/60 mb-8 font-bold">
+          <Link href="/" className="hover:text-brut-pink transition-colors">{homeBreadcrumbName}</Link>
           <span>›</span>
-          <span className="text-gray-900">{breadcrumbName}</span>
+          <span className="text-ink">{breadcrumbName}</span>
         </div>
 
         {/* Sayfa Başlığı */}
         <div className="text-center">
-          <h1 className="text-2xl sm:text-3xl md:text-4xl font-bold md:font-extrabold text-gray-900 mb-3 leading-tight">
+          <h1 className="brut-display text-2xl sm:text-3xl md:text-4xl text-ink mb-3 leading-tight">
             Privacy Policy
           </h1>
-          <p className="text-gray-500 text-base sm:text-lg font-medium">
+          <p className="text-ink/70 text-base sm:text-lg font-semibold">
             Last updated: June 2026
           </p>
         </div>
       </div>
 
       {/* İÇERİK BÖLÜMÜ */}
-      <div className="w-full bg-slate-100 border-t border-gray-100 flex-grow">
+      <div className="w-full border-t-3 border-ink flex-grow" style={{ borderTopWidth: 3 }}>
         <div className="w-full max-w-4xl mx-auto px-4 py-10 sm:py-16">
 
           {/* Metin Kutusu */}
-          <div className="bg-white p-6 sm:p-10 rounded-md border border-gray-200 shadow-sm text-gray-700 text-base sm:text-lg [&_p]:text-justify">
+          <div className="brut-card-static p-6 sm:p-10 text-ink/80 font-medium text-base sm:text-lg [&_p]:text-justify">
 
-            <h2 className="text-xl sm:text-2xl font-bold text-gray-900 mb-4 mt-0">
+            <h2 className="brut-display text-xl sm:text-2xl text-ink mb-4 mt-0">
               1. Introduction
             </h2>
             <p className="leading-relaxed mb-8">
               Omegletest Online connects you with strangers for anonymous chat — no account, no profile, no strings attached. That same principle guides how we handle your data: we collect as little as possible, and we don&apos;t sell or trade what we do collect.
             </p>
 
-            <h2 className="text-xl sm:text-2xl font-bold text-gray-900 mb-4">
+            <h2 className="brut-display text-xl sm:text-2xl text-ink mb-4">
               2. What We Don&apos;t Collect
             </h2>
             <ul className="list-disc pl-5 space-y-2 mb-8 leading-relaxed">
@@ -104,28 +104,28 @@ export default async function PrivacyPage() {
               <li>No selling or sharing of your data with advertisers.</li>
             </ul>
 
-            <h2 className="text-xl sm:text-2xl font-bold text-gray-900 mb-4">
+            <h2 className="brut-display text-xl sm:text-2xl text-ink mb-4">
               3. Technical Data & Cookies
             </h2>
             <p className="leading-relaxed mb-8">
               To match you with a stranger, we briefly process basic technical data such as your IP address and browser type. Essential cookies keep your session running and remember simple preferences like language — nothing more.
             </p>
 
-            <h2 className="text-xl sm:text-2xl font-bold text-gray-900 mb-4">
+            <h2 className="brut-display text-xl sm:text-2xl text-ink mb-4">
               4. Safety & AI Moderation
             </h2>
             <p className="leading-relaxed mb-8">
               Automated AI moderation scans live video and text in real time to catch harmful or illegal content. These checks aren&apos;t recorded or reviewed by a human unless something is flagged for a serious violation of our Terms.
             </p>
 
-            <h2 className="text-xl sm:text-2xl font-bold text-gray-900 mb-4">
+            <h2 className="brut-display text-xl sm:text-2xl text-ink mb-4">
               5. Your Part in Staying Safe
             </h2>
             <p className="leading-relaxed mb-8">
               Anonymity protects you, but only if you keep it that way. Avoid sharing personal details — real names, social media, exact location — with strangers you meet here.
             </p>
 
-            <h2 className="text-xl sm:text-2xl font-bold text-gray-900 mb-4">
+            <h2 className="brut-display text-xl sm:text-2xl text-ink mb-4">
               6. Policy Updates
             </h2>
             <p className="leading-relaxed">

@@ -48,6 +48,11 @@ async function getFaqJsonLd() {
   return await faqService.getFaqJsonLd();
 }
 
+const TICKER_WORDS = [
+  'RELEVANT CHATS', 'SAFETY & PRIVACY', 'AI MODERATION',
+  'COMPLETE ANONYMITY', 'INSTANT CONNECTION', 'CLASSIC CHAT EXPERIENCE',
+];
+
 export default async function Home() {
   const jsonLdString = await getSeoJsonLd();
   const faqJsonLd = await getFaqJsonLd();
@@ -82,7 +87,7 @@ export default async function Home() {
         />
       )}
       <ScrollToHash />
-      <main className="relative min-h-screen flex flex-col ">
+      <main className="relative min-h-screen flex flex-col brut-page">
         {/* Navbar (Sadece bu sayfada sticky) */}
         <Navbar isSticky={true} />
 
@@ -96,7 +101,7 @@ export default async function Home() {
             <img
               src="/boy-Photoroom.png"
               alt="Boy"
-              className="absolute bottom-0 left-1/2 -translate-x-1/2 h-full w-auto max-w-full object-contain"
+              className="absolute bottom-0 left-1/2 -translate-x-1/2 h-full w-auto max-w-full object-contain xl:-rotate-2"
             />
           </div>
           {/* === SOLDAKİ ERKEK GÖRSELİ BİTİŞİ === */}
@@ -112,7 +117,7 @@ export default async function Home() {
             <img
               src="/girl-Photoroom.png"
               alt="Girl"
-              className="absolute bottom-0 left-1/2 -translate-x-1/2 h-full w-auto max-w-full object-contain"
+              className="absolute bottom-0 left-1/2 -translate-x-1/2 h-full w-auto max-w-full object-contain xl:rotate-3"
             />
           </div>
           {/* === SAĞDAKİ KIZ GÖRSELİ BİTİŞİ === */}
@@ -120,10 +125,22 @@ export default async function Home() {
         </div>
         {/* HERO BÖLÜMÜ BİTİŞİ */}
 
+        {/* Kayan başlık şeridi — mevcut özellik başlıklarını tekrar kullanan dekoratif bant */}
+        <div className="w-full border-y-3 border-ink bg-ink py-2.5 overflow-hidden" style={{ borderTopWidth: 3, borderBottomWidth: 3 }}>
+          <div className="brut-marquee-track">
+            {[...TICKER_WORDS, ...TICKER_WORDS].map((word, i) => (
+              <span key={i} className="flex items-center shrink-0 text-paper font-bold text-sm sm:text-base uppercase tracking-wide px-4">
+                {word}
+                <span className="text-brut-yellow ml-4">★</span>
+              </span>
+            ))}
+          </div>
+        </div>
+
         <InfoSection />
 
         {/* 2. BÖLÜM: Orta Kısım */}
-        <section className="w-full border-t border-gray-100">
+        <section className="w-full border-t-3 border-ink" style={{ borderTopWidth: 3 }}>
           {/* Alternatif Uygulamalar Bölümü */}
           <Alternatives />
 
@@ -132,7 +149,7 @@ export default async function Home() {
         </section>
 
         {/* 3. BÖLÜM: Alt Kısım */}
-        <section className="w-full bg-slate-100 border-t border-gray-100">
+        <section className="w-full bg-brut-yellow/20 border-t-3 border-ink" style={{ borderTopWidth: 3 }}>
           {/* Kullanıcı Yorumları Bölümü */}
           <Reviews />
 

@@ -1,8 +1,21 @@
+@import url('https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;600;700&family=Archivo+Black&display=swap');
 @import "tailwindcss";
 
 :root {
   --background: #ffffff;
   --foreground: #171717;
+
+  /* Neobrütalist tema (design-v4) — kağıt tonu zemin, kalın siyah kontur,
+     ofsetli sert gölgeler ve canlı vurgu renkleri. */
+  --ink: #14120f;
+  --paper: #f7f1e2;
+  --surface: #ffffff;
+  --brut-yellow: #ffd23f;
+  --brut-pink: #ff5d8f;
+  --brut-blue: #3d6bff;
+  --brut-green: #21c37a;
+  --brut-red: #ff4d4d;
+  --brut-line: #14120f;
 }
 
 @theme inline {
@@ -10,6 +23,15 @@
   --color-foreground: var(--foreground);
   --font-sans: var(--font-geist-sans);
   --font-mono: var(--font-geist-mono);
+
+  --color-ink: var(--ink);
+  --color-paper: var(--paper);
+  --color-surface: var(--surface);
+  --color-brut-yellow: var(--brut-yellow);
+  --color-brut-pink: var(--brut-pink);
+  --color-brut-blue: var(--brut-blue);
+  --color-brut-green: var(--brut-green);
+  --color-brut-red: var(--brut-red);
 }
 
 @media (prefers-color-scheme: dark) {
@@ -47,4 +69,94 @@ body {
 
 .animate-soft-bounce {
   animation: soft-bounce 1.5s infinite;
+}
+
+/* ===================== Brutalist tema ortak parçaları ===================== */
+
+.brut-page {
+  font-family: 'Space Grotesk', system-ui, sans-serif;
+  background-color: var(--paper);
+  background-image: radial-gradient(var(--ink) 1px, transparent 1px);
+  background-size: 22px 22px;
+  background-position: -10px -10px;
+}
+
+.brut-display {
+  font-family: 'Archivo Black', 'Space Grotesk', system-ui, sans-serif;
+}
+
+/* Kalın kontur + ofsetli sert gölge (blur yok, saf ofset) */
+.brut-card {
+  position: relative;
+  background: var(--surface);
+  border: 3px solid var(--ink);
+  box-shadow: 6px 6px 0 0 var(--ink);
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.brut-card:hover {
+  transform: translate(-3px, -3px);
+  box-shadow: 9px 9px 0 0 var(--ink);
+}
+
+/* Tıklanamayan kutular için: aynı görünüm, hover kalkışı yok */
+.brut-card-static {
+  position: relative;
+  background: var(--surface);
+  border: 3px solid var(--ink);
+  box-shadow: 6px 6px 0 0 var(--ink);
+}
+
+.brut-btn {
+  border: 3px solid var(--ink);
+  box-shadow: 5px 5px 0 0 var(--ink);
+  transition: transform 0.15s ease, box-shadow 0.15s ease;
+}
+
+.brut-btn:hover {
+  transform: translate(-2px, -2px);
+  box-shadow: 7px 7px 0 0 var(--ink);
+}
+
+.brut-btn:active {
+  transform: translate(5px, 5px);
+  box-shadow: 0 0 0 0 var(--ink);
+}
+
+/* Küçük ikon/rozet daireleri (sticker görünümü) */
+.brut-sticker {
+  border: 3px solid var(--ink);
+  box-shadow: 4px 4px 0 0 var(--ink);
+  border-radius: 9999px;
+}
+
+.tilt-l {
+  transform: rotate(-2deg);
+}
+
+.tilt-r {
+  transform: rotate(1.5deg);
+}
+
+.tilt-l:hover,
+.tilt-r:hover {
+  transform: rotate(0deg) translate(-3px, -3px);
+}
+
+/* Kayan şerit (marquee) — üstteki/alttaki bant başlıklar için */
+@keyframes brut-marquee {
+  0% { transform: translateX(0); }
+  100% { transform: translateX(-50%); }
+}
+
+.brut-marquee-track {
+  display: flex;
+  width: max-content;
+  animation: brut-marquee 26s linear infinite;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .brut-marquee-track {
+    animation: none;
+  }
 }
