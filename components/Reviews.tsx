@@ -186,11 +186,6 @@ export default function Reviews() {
                 {/* Her yorum küçük bir kartpostal olarak gösteriliyor */}
                 <div className="pc-card-static relative w-full p-5 md:p-7 flex flex-col mx-auto h-full">
 
-                  {/* Puan damgası — sağ üst köşe */}
-                  <div className="pc-stamp absolute -top-3 -right-3 w-11 h-11 bg-pc-card flex items-center justify-center text-pc-mustard rotate-6 text-xs font-bold">
-                    {review.rating}.0
-                  </div>
-
                   <div className="flex items-center gap-3 mb-3">
                     <div className="w-12 h-12 md:w-14 md:h-14 rounded-full overflow-hidden shrink-0 border-2 border-pc-line">
                       <img src={review.avatar} alt={review.name} className="w-full h-full object-cover sepia-[0.2]" />
@@ -209,7 +204,10 @@ export default function Reviews() {
                     &ldquo;{review.text}&rdquo;
                   </p>
 
-                  <div className="mt-3 flex items-center justify-start border-t-2 border-dashed border-pc-line pt-3">
+                  <div className="mt-3 flex items-center gap-2.5 justify-start border-t-2 border-dashed border-pc-line pt-3">
+                    <span className="pc-stamp shrink-0 w-9 h-9 bg-pc-card flex items-center justify-center text-pc-mustard text-[11px] font-bold">
+                      {review.rating.toFixed(1)}
+                    </span>
                     <div className="flex items-center gap-1">
                       {[...Array(review.rating)].map((_, i) => (
                         <svg key={i} className="w-4 h-4 text-pc-mustard" fill="currentColor" viewBox="0 0 20 20">
