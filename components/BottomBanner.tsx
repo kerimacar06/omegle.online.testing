@@ -4,7 +4,7 @@ export default function BottomBanner() {
   return (
     <div className="w-full py-8 sm:py-14 md:py-20">
       <div className="max-w-2xl mx-auto px-4 flex flex-col items-center text-center">
-        <div className="pop-card-static bg-gradient-to-br from-white to-pop-bg px-6 py-8 sm:px-10 sm:py-12 -rotate-1 w-full">
+        <div className="pop-card-static bg-gradient-to-br from-white to-pop-bg px-6 py-8 sm:px-10 sm:py-12 w-full">
           <h2 className="pop-display text-2xl sm:text-3xl md:text-4xl text-pop-ink mb-2 leading-tight">
             Ready to meet strangers worldwide?
           </h2>
