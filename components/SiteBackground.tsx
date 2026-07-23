@@ -19,7 +19,7 @@ export default function SiteBackground() {
         className="neon-orb"
         style={{
           width: 420, height: 420, top: '40%', left: '50%',
-          background: '#3b82f6', animation: 'neon-drift-1 38s ease-in-out infinite',
+          background: 'var(--neon-magenta)', animation: 'neon-drift-1 38s ease-in-out infinite',
         }}
       />
       <div

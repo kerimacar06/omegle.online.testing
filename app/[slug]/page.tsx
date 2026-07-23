@@ -241,7 +241,8 @@ export default async function BlogPostPage(props: PageProps<'/[slug]'>) {
 
               {/* SAĞ KOLON (mobilde üstte): Hızlı Bilgi Kartı */}
               <aside className="order-1 lg:order-2 lg:col-span-1">
-                <div className="lg:sticky lg:top-8 neon-card rounded-md p-4 sm:p-6">
+                <div className="lg:sticky lg:top-8">
+                <div className="neon-card rounded-md p-4 sm:p-6">
 
                   {/* Yazar (+ mobilde sağda kompakt yıldız/oy) */}
                   <div className="flex items-center justify-between gap-3 pb-2 mb-2 border-b border-neon-line">
@@ -325,6 +326,7 @@ export default async function BlogPostPage(props: PageProps<'/[slug]'>) {
                     </svg>
                     Start Video Chat
                   </Link>
+                </div>
                 </div>
               </aside>
 
