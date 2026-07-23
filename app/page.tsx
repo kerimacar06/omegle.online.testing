@@ -82,66 +82,52 @@ export default async function Home() {
         />
       )}
       <ScrollToHash />
-      <main className="relative min-h-screen flex flex-col ">
+      <main className="relative min-h-screen flex flex-col ch-page">
         {/* Navbar (Sadece bu sayfada sticky) */}
         <Navbar isSticky={true} />
 
-        {/* HERO BÖLÜMÜ: yükseklik ortadaki sohbet kutusunun kendi içeriğine göre belirlenir;
-            görseller "absolute" konumlandığı için satırın yüksekliğine katkı yapmaz, bu sayede
-            kutunun yüksekliği neyse görseller de (object-contain ile) tam o yüksekliğe oturur. */}
-        <div className="flex flex-row items-stretch justify-center px-[clamp(6px,2vw,32px)] pt-6 sm:pt-10 pb-3 sm:pb-10 min-h-[clamp(240px,62vw,380px)] xl:min-h-0">
+        {/* HERO BANDI: koyu lacivert, kenardan kenara — kart/cam/blob yok */}
+        <div className="band-navy w-full relative overflow-hidden">
+          <div className="flex flex-row items-stretch justify-center px-[clamp(6px,2vw,32px)] pt-10 sm:pt-16 pb-8 sm:pb-14 min-h-[clamp(240px,62vw,380px)] xl:min-h-0 relative z-10">
 
-          {/* === SOLDAKİ ERKEK GÖRSELİ === */}
-          <div className="relative flex-1 min-w-0">
-            <img
-              src="/boy-Photoroom.png"
-              alt="Boy"
-              className="absolute bottom-0 left-1/2 -translate-x-1/2 h-full w-auto max-w-full object-contain"
-            />
+            {/* === SOLDAKİ ERKEK GÖRSELİ === */}
+            <div className="hidden xl:block relative flex-1 min-w-0">
+              <img
+                src="/boy-Photoroom.png"
+                alt="Boy"
+                className="absolute bottom-0 left-1/2 -translate-x-1/2 h-full w-auto max-w-full object-contain brightness-90"
+              />
+            </div>
+
+            {/* === ORTADAKİ SOHBET METNİ === */}
+            <div className="w-full max-w-md xl:w-[clamp(280px,32vw,480px)] shrink-0 flex justify-center self-center">
+              <ChatStarter />
+            </div>
+
+            {/* === SAĞDAKİ KIZ GÖRSELİ === */}
+            <div className="hidden xl:block relative flex-1 min-w-0">
+              <img
+                src="/girl-Photoroom.png"
+                alt="Girl"
+                className="absolute bottom-0 left-1/2 -translate-x-1/2 h-full w-auto max-w-full object-contain brightness-90"
+              />
+            </div>
+
           </div>
-          {/* === SOLDAKİ ERKEK GÖRSELİ BİTİŞİ === */}
-
-          {/* === ORTADAKİ SOHBET KUTUSU === */}
-          <div className="w-[clamp(180px,38vw,640px)] shrink-0 flex justify-center self-center">
-            <ChatStarter />
-          </div>
-          {/* === ORTADAKİ SOHBET KUTUSU BİTİŞİ === */}
-
-          {/* === SAĞDAKİ KIZ GÖRSELİ === */}
-          <div className="relative flex-1 min-w-0">
-            <img
-              src="/girl-Photoroom.png"
-              alt="Girl"
-              className="absolute bottom-0 left-1/2 -translate-x-1/2 h-full w-auto max-w-full object-contain"
-            />
-          </div>
-          {/* === SAĞDAKİ KIZ GÖRSELİ BİTİŞİ === */}
-
         </div>
-        {/* HERO BÖLÜMÜ BİTİŞİ */}
+        {/* HERO BANDI BİTİŞİ */}
 
         <InfoSection />
 
-        {/* 2. BÖLÜM: Orta Kısım */}
-        <section className="w-full border-t border-gray-100">
-          {/* Alternatif Uygulamalar Bölümü */}
-          <Alternatives />
+        <Alternatives />
 
-          {/* Neden Bizi Seçmelisiniz Bölümü */}
-          <WhyChoose />
-        </section>
+        <WhyChoose />
 
-        {/* 3. BÖLÜM: Alt Kısım */}
-        <section className="w-full bg-slate-100 border-t border-gray-100">
-          {/* Kullanıcı Yorumları Bölümü */}
-          <Reviews />
+        <Reviews />
 
-          {/* SSS Bölümü */}
-          <FAQ />
+        <FAQ />
 
-          {/* Alt Banner (Son CTA) */}
-          <BottomBanner />
-        </section>
+        <BottomBanner />
 
         {/* Footer */}
         <Footer />

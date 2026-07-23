@@ -1,4 +1,5 @@
 import { faqService } from "@/services/faqService";
+import FAQTabs from "./FAQTabs";
 
 interface FaqItem {
   _id: { toString(): string };
@@ -15,46 +16,27 @@ export default async function FAQ() {
 
   if (faqs.length === 0) return null;
 
+  const serializedFaqs = faqs.map((faq: FaqItem) => ({
+    id: faq._id.toString(),
+    question: faq.question,
+    answer: faq.answer,
+  }));
+
   return (
-    <div id="faq" className="w-full scroll-mt-24 py-8 sm:py-16 border-t border-gray-100">
-      <div className="w-full max-w-3xl mx-auto px-4">
-        
-        {/* Ortalanmış Başlık */}
-        <div className="text-center mb-12">
-          <h2 className="text-2xl sm:text-3xl md:text-4xl font-bold md:font-extrabold text-gray-900 mb-2 leading-none">
+    <div id="faq" className="band-cream w-full scroll-mt-24 py-10 sm:py-16 border-b border-v6-line">
+      <div className="w-full max-w-4xl mx-auto px-4 sm:px-6">
+
+        <div className="text-center mb-10">
+          <h2 className="ch-display text-2xl sm:text-3xl md:text-4xl font-bold text-v6-ink mb-2 leading-none">
             Frequently Asked Questions
           </h2>
-          <p className="text-gray-500 text-xs sm:text-lg font-medium leading-none">
+          <p className="text-v6-ink-2 text-xs sm:text-lg">
             Everything you need to know about our service.
           </p>
         </div>
 
-        {/* Chat Balonu Tarzı SSS Listesi */}
-        <div className="space-y-4">
-          {faqs.map((faq: FaqItem) => (
-            <details 
-              key={faq._id.toString()} 
-              className="group bg-white rounded-md shadow-sm hover:shadow-md transition-all duration-300 [&_summary::-webkit-details-marker]:hidden border border-white/50"
-            >
-              {/* Soru (Mesaj Balonu) */}
-              <summary className="flex cursor-pointer items-center justify-between px-8 py-2 focus:outline-none">
-                <span className="font-bold text-gray-800 text-xs sm:text-[16px] pr-4">{faq.question}</span>
-
-                {/* Yumuşak Ok İkonu */}
-                <span className="shrink-0 w-8 h-8 rounded-full bg-indigo-50 text-indigo-600 flex items-center justify-center transition-transform duration-300 group-open:-rotate-180">
-                  <svg fill="none" height="18" stroke="currentColor" strokeLinecap="round" strokeLinejoin="round" strokeWidth="2.5" viewBox="0 0 24 24" width="18">
-                    <path d="M6 9l6 6 6-6"></path>
-                  </svg>
-                </span>
-              </summary>
-
-              {/* Cevap */}
-              <div className="px-8 pb-5 pt-0 text-gray-600 text-xs sm:text-[15px] leading-relaxed font-medium whitespace-pre-wrap border-t border-gray-100/50">
-                {faq.answer}
-              </div>
-            </details>
-          ))}
-        </div>
+        {/* İki kolonlu sekme düzeni — akordiyon yerine soldan seç, sağda oku */}
+        <FAQTabs faqs={serializedFaqs} />
 
       </div>
     </div>

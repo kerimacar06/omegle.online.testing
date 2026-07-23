@@ -1,6 +1,6 @@
 'use client';
 
-import { useRef, useEffect } from 'react';
+import { useState } from 'react';
 
 const reviewsData = [
   {
@@ -85,152 +85,78 @@ const reviewsData = [
   }
 ];
 
-// Sonsuz döngü (infinite loop) yanılsaması için yorumları 3 kere arka arkaya ekliyoruz
-const infiniteReviews = [...reviewsData, ...reviewsData, ...reviewsData];
-
 export default function Reviews() {
-  const scrollRef = useRef<HTMLDivElement>(null);
+  const [index, setIndex] = useState(0);
+  const review = reviewsData[index];
 
-  // Sayfa yüklendiğinde gizlice 2. setin (ortadaki array) başına kaydırıyoruz.
-  // Böylece kullanıcı ilk açtığında hem sağa hem sola kaydırma alanına sahip oluyor.
-  useEffect(() => {
-    if (scrollRef.current && scrollRef.current.children[10]) {
-      const child = scrollRef.current.children[10] as HTMLElement;
-      scrollRef.current.scrollTo({ left: child.offsetLeft, behavior: 'auto' });
-    }
-  }, []);
-
-  const scrollLeftBtn = () => {
-    if (!scrollRef.current) return;
-    const container = scrollRef.current;
-
-    const child0 = container.children[0] as HTMLElement;
-    const child10 = container.children[10] as HTMLElement;
-    const setWidth = child10.offsetLeft - child0.offsetLeft;
-    const itemWidth = child0.clientWidth;
-
-    if (container.scrollLeft - itemWidth < child0.offsetLeft + setWidth / 4) {
-      container.style.scrollBehavior = 'auto';
-      container.scrollLeft += setWidth;
-
-      requestAnimationFrame(() => {
-        container.style.scrollBehavior = 'smooth';
-        container.scrollBy({ left: -itemWidth });
-      });
-    } else {
-      container.style.scrollBehavior = 'smooth';
-      container.scrollBy({ left: -itemWidth });
-    }
-  };
-
-  const scrollRightBtn = () => {
-    if (!scrollRef.current) return;
-    const container = scrollRef.current;
-
-    const child10 = container.children[10] as HTMLElement;
-    const child20 = container.children[20] as HTMLElement;
-    const setWidth = child20.offsetLeft - child10.offsetLeft;
-    const itemWidth = child10.clientWidth;
-
-    if (container.scrollLeft + container.clientWidth + itemWidth > child20.offsetLeft + setWidth - (setWidth / 4)) {
-      container.style.scrollBehavior = 'auto';
-      container.scrollLeft -= setWidth;
-
-      requestAnimationFrame(() => {
-        container.style.scrollBehavior = 'smooth';
-        container.scrollBy({ left: itemWidth });
-      });
-    } else {
-      container.style.scrollBehavior = 'smooth';
-      container.scrollBy({ left: itemWidth });
-    }
-  };
+  const prev = () => setIndex((i) => (i - 1 + reviewsData.length) % reviewsData.length);
+  const next = () => setIndex((i) => (i + 1) % reviewsData.length);
 
   return (
-    <div className="w-full max-w-6xl mx-auto px-4 py-8 sm:py-16">
+    <div className="band-teal w-full py-12 sm:py-20 border-b border-v6-line">
+      <div className="max-w-3xl mx-auto px-4 sm:px-6 text-center">
 
-      {/* Bölüm Başlığı */}
-      <div className="flex flex-col items-center justify-center mb-10 gap-2">
-        <div className="text-center">
-          <h2 className="text-2xl sm:text-3xl md:text-4xl font-bold md:font-extrabold text-gray-900 mb-2 leading-none">
-            Omegle User Reviews
-          </h2>
-          <p className="text-gray-500 text-xs sm:text-lg font-medium leading-none">Don&apos;t just take our word for it.</p>
-        </div>
-      </div>
+        <span className="text-white/70 font-bold text-xs tracking-[0.2em] uppercase mb-2 block">Reviews</span>
+        <h2 className="ch-display text-2xl sm:text-3xl md:text-4xl font-bold text-white mb-10 sm:mb-14 leading-none">
+          Omegle User Reviews
+        </h2>
 
-      {/* Carousel Wrapper */}
-      <div className="relative w-full flex items-center group">
-        
-        {/* Sol Tuş */}
-        <button
-          type="button"
-          onClick={scrollLeftBtn}
-          className="absolute left-1 md:left-0 z-10 md:-ml-12 w-8 h-8 md:w-12 md:h-12 rounded-full bg-white shadow-md border border-gray-200 flex items-center justify-center text-gray-600 hover:bg-gray-50 hover:text-gray-900 transition-colors touch-manipulation"
-          aria-label="Previous review"
-        >
-          <svg className="w-4 h-4 md:w-6 md:h-6" fill="none" stroke="currentColor" strokeWidth={2.5} viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" d="M15 19l-7-7 7-7" /></svg>
-        </button>
+        {/* Tek büyük "spotlight" alıntı — kart carousel'i yerine */}
+        <div className="min-h-[220px] sm:min-h-[180px] flex flex-col items-center justify-center">
+          <div className="flex items-center gap-1 mb-5">
+            {[...Array(review.rating)].map((_, i) => (
+              <svg key={i} className="w-5 h-5 text-amber-300" fill="currentColor" viewBox="0 0 20 20">
+                <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z" />
+              </svg>
+            ))}
+          </div>
 
-        {/* Yatay Kaydırılabilir Carousel Container */}
-        <div
-          ref={scrollRef}
-          className="flex overflow-x-auto w-full snap-x snap-mandatory [&::-webkit-scrollbar]:hidden [-ms-overflow-style:none] [scrollbar-width:none]"
-        >
-          {infiniteReviews.map((review, index) => {
-            return (
-              <div
-                key={index}
-                className="snap-center shrink-0 w-full md:w-1/3 px-12 md:px-3"
-              >
-                <div className="w-full bg-gray-50/80 rounded-md p-6 md:p-8 flex flex-col border border-gray-100 hover:bg-gray-100/80 transition-colors mx-auto h-full shadow-sm">
-                  {/* Üst Kısım: Avatar, İsim ve @Username */}
-                  <div className="flex items-center justify-between mb-4">
-                    <div className="flex items-center gap-4">
-                      <div className="w-14 h-14 md:w-16 md:h-16 rounded-full overflow-hidden shrink-0 border border-gray-200">
-                        <img src={review.avatar} alt={review.name} className="w-full h-full object-cover" />
-                      </div>
-                      <div className="flex flex-col">
-                        <span className="text-gray-900 font-bold text-[16px] md:text-[18px] leading-tight">
-                          {review.name}
-                        </span>
-                        <span className="text-gray-500 text-[14px] md:text-[15px]">
-                          {review.username}
-                        </span>
-                      </div>
-                    </div>
-                  </div>
+          <p className="ch-display text-lg sm:text-2xl md:text-3xl text-white font-semibold leading-snug mb-8 max-w-2xl">
+            &ldquo;{review.text}&rdquo;
+          </p>
 
-                  {/* Yorum İçeriği */}
-                  <p className="text-gray-800 text-xs md:text-[16px] leading-relaxed mt-2 font-medium md:text-justify line-clamp-5 min-h-[76px] md:min-h-[130px]">
-                    &quot;{review.text}&quot;
-                  </p>
-
-                  {/* Alt Kısım: Yıldızlar */}
-                  <div className="mt-0 md:mt-3 flex items-center justify-start border-t border-gray-200/60 pt-0.5 md:pt-3">
-                    <div className="flex items-center gap-1">
-                      {[...Array(review.rating)].map((_, i) => (
-                        <svg key={i} className="w-5 h-5 text-amber-400" fill="currentColor" viewBox="0 0 20 20">
-                          <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z" />
-                        </svg>
-                      ))}
-                    </div>
-                  </div>
-                </div>
-              </div>
-            );
-          })}
+          <div className="flex items-center gap-3">
+            <div className="w-12 h-12 rounded-full overflow-hidden border-2 border-white/30">
+              <img src={review.avatar} alt={review.name} className="w-full h-full object-cover" />
+            </div>
+            <div className="text-left">
+              <div className="text-white font-bold text-sm">{review.name}</div>
+              <div className="text-white/60 text-xs">{review.username}</div>
+            </div>
+          </div>
         </div>
 
-        {/* Sağ Tuş */}
-        <button
-          type="button"
-          onClick={scrollRightBtn}
-          className="absolute right-1 md:right-0 z-10 md:-mr-12 w-8 h-8 md:w-12 md:h-12 rounded-full bg-white shadow-md border border-gray-200 flex items-center justify-center text-gray-600 hover:bg-gray-50 hover:text-gray-900 transition-colors touch-manipulation"
-          aria-label="Next review"
-        >
-          <svg className="w-4 h-4 md:w-6 md:h-6" fill="none" stroke="currentColor" strokeWidth={2.5} viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" d="M9 5l7 7-7 7" /></svg>
-        </button>
+        {/* Kontroller: ok butonları + nokta göstergeleri */}
+        <div className="flex items-center justify-center gap-6 mt-10">
+          <button
+            type="button"
+            onClick={prev}
+            aria-label="Previous review"
+            className="w-10 h-10 rounded-full border border-white/25 text-white flex items-center justify-center hover:bg-white/10 transition-colors"
+          >
+            <svg className="w-5 h-5" fill="none" stroke="currentColor" strokeWidth={2.5} viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" d="M15 19l-7-7 7-7" /></svg>
+          </button>
+
+          <div className="flex items-center gap-1.5">
+            {reviewsData.map((_, i) => (
+              <button
+                key={i}
+                onClick={() => setIndex(i)}
+                aria-label={`Go to review ${i + 1}`}
+                className={`h-1.5 rounded-full transition-all ${i === index ? 'w-6 bg-white' : 'w-1.5 bg-white/30'}`}
+              />
+            ))}
+          </div>
+
+          <button
+            type="button"
+            onClick={next}
+            aria-label="Next review"
+            className="w-10 h-10 rounded-full border border-white/25 text-white flex items-center justify-center hover:bg-white/10 transition-colors"
+          >
+            <svg className="w-5 h-5" fill="none" stroke="currentColor" strokeWidth={2.5} viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" d="M9 5l7 7-7 7" /></svg>
+          </button>
+        </div>
 
       </div>
     </div>

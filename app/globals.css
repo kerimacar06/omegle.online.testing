@@ -1,8 +1,22 @@
+@import url('https://fonts.googleapis.com/css2?family=Sora:wght@500;600;700;800&family=Inter:wght@400;500;600;700&display=swap');
 @import "tailwindcss";
 
 :root {
   --background: #ffffff;
   --foreground: #171717;
+
+  /* "Chapters" teması (design-v6) — kart/blob/cam gibi süslemeler yok.
+     Tüm sayfa, kenardan kenara akan (full-bleed) dönüşümlü renk bantlarından
+     oluşan bir "bölüm bölüm" düzen: her bölüm kendi rengini taşır, içerik
+     kutu içine hapsedilmez. v2-v5'ten yapısal olarak tamamen farklı. */
+  --v6-navy: #10192b;
+  --v6-cream: #faf5ec;
+  --v6-teal: #1c6f63;
+  --v6-coral: #e2543e;
+  --v6-ink: #14181f;
+  --v6-ink-2: #59606c;
+  --v6-ink-3: #8b909b;
+  --v6-line: rgba(20, 24, 31, 0.1);
 }
 
 @theme inline {
@@ -10,6 +24,15 @@
   --color-foreground: var(--foreground);
   --font-sans: var(--font-geist-sans);
   --font-mono: var(--font-geist-mono);
+
+  --color-v6-navy: var(--v6-navy);
+  --color-v6-cream: var(--v6-cream);
+  --color-v6-teal: var(--v6-teal);
+  --color-v6-coral: var(--v6-coral);
+  --color-v6-ink: var(--v6-ink);
+  --color-v6-ink-2: var(--v6-ink-2);
+  --color-v6-ink-3: var(--v6-ink-3);
+  --color-v6-line: var(--v6-line);
 }
 
 @media (prefers-color-scheme: dark) {
@@ -47,4 +70,96 @@ body {
 
 .animate-soft-bounce {
   animation: soft-bounce 1.5s infinite;
+}
+
+/* ===================== "Chapters" tema ortak parçaları ===================== */
+
+.ch-page {
+  background: var(--v6-cream);
+  color: var(--v6-ink);
+  font-family: 'Inter', system-ui, sans-serif;
+}
+
+.ch-display {
+  font-family: 'Sora', 'Inter', system-ui, sans-serif;
+}
+
+/* Bölüm bantları — kenardan kenara, kart yok */
+.band-cream {
+  background: var(--v6-cream);
+  color: var(--v6-ink);
+}
+
+.band-navy {
+  background: var(--v6-navy);
+  color: #f2f4f8;
+}
+
+.band-teal {
+  background: var(--v6-teal);
+  color: #f2fbf9;
+}
+
+.band-white {
+  background: #ffffff;
+  color: var(--v6-ink);
+}
+
+/* Dev, soluk bölüm rakamı — dergi bölümü hissi */
+.ch-num {
+  font-family: 'Sora', sans-serif;
+  font-weight: 800;
+  line-height: 1;
+  opacity: 0.1;
+  letter-spacing: -0.04em;
+}
+
+/* Dolu buton — bant renginin üstünde kontrast oluşturacak şekilde her yerde kullanılabilir */
+.ch-btn {
+  background: var(--v6-coral);
+  color: white;
+  border-radius: 0.75rem;
+  transition: transform 0.2s ease, opacity 0.2s ease;
+}
+
+.ch-btn:hover {
+  transform: translateY(-2px);
+  opacity: 0.92;
+}
+
+.ch-btn-outline {
+  background: transparent;
+  border: 1.5px solid currentColor;
+  border-radius: 0.75rem;
+  transition: transform 0.2s ease, opacity 0.2s ease;
+}
+
+.ch-btn-outline:hover {
+  transform: translateY(-2px);
+  opacity: 0.85;
+}
+
+/* Yatay raf (shelf) — kart grid'i yerine kaydırmalı film şeridi */
+.shelf-track {
+  display: flex;
+  gap: 1rem;
+  overflow-x: auto;
+  scroll-snap-type: x mandatory;
+  -webkit-overflow-scrolling: touch;
+  scrollbar-width: none;
+}
+
+.shelf-track::-webkit-scrollbar {
+  display: none;
+}
+
+.shelf-item {
+  scroll-snap-align: start;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .ch-btn,
+  .ch-btn-outline {
+    transition: none;
+  }
 }
