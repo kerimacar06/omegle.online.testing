@@ -1,6 +1,6 @@
 'use client';
 
-import { useState } from 'react';
+import { useRef, useState } from 'react';
 
 const reviewsData = [
   {
@@ -87,10 +87,42 @@ const reviewsData = [
 
 export default function Reviews() {
   const [index, setIndex] = useState(0);
-  const review = reviewsData[index];
+  const trackRef = useRef<HTMLDivElement>(null);
+  const scrollTimeout = useRef<ReturnType<typeof setTimeout> | null>(null);
 
-  const prev = () => setIndex((i) => (i - 1 + reviewsData.length) % reviewsData.length);
-  const next = () => setIndex((i) => (i + 1) % reviewsData.length);
+  // Belirli bir slayta kaydır (gerçek yatay kaydırma hissi için native scroll kullanıyoruz)
+  const goTo = (i: number) => {
+    const track = trackRef.current;
+    if (!track) return;
+    const clamped = (i + reviewsData.length) % reviewsData.length;
+    const item = track.children[clamped] as HTMLElement | undefined;
+    if (item) {
+      track.scrollTo({ left: item.offsetLeft, behavior: 'smooth' });
+    }
+  };
+
+  const prev = () => goTo(index - 1);
+  const next = () => goTo(index + 1);
+
+  // Kullanıcı elle kaydırdıkça (mobilde parmakla) aktif noktayı senkron tut
+  const handleScroll = () => {
+    if (scrollTimeout.current) clearTimeout(scrollTimeout.current);
+    scrollTimeout.current = setTimeout(() => {
+      const track = trackRef.current;
+      if (!track) return;
+      let closest = 0;
+      let closestDist = Infinity;
+      Array.from(track.children).forEach((child, i) => {
+        const el = child as HTMLElement;
+        const dist = Math.abs(el.offsetLeft - track.scrollLeft);
+        if (dist < closestDist) {
+          closestDist = dist;
+          closest = i;
+        }
+      });
+      setIndex(closest);
+    }, 100);
+  };
 
   return (
     <div className="band-teal w-full py-12 sm:py-20 border-b border-v6-line">
@@ -101,29 +133,39 @@ export default function Reviews() {
           Omegle User Reviews
         </h2>
 
-        {/* Tek büyük "spotlight" alıntı — kart carousel'i yerine */}
-        <div className="min-h-[220px] sm:min-h-[180px] flex flex-col items-center justify-center">
-          <div className="flex items-center gap-1 mb-5">
-            {[...Array(review.rating)].map((_, i) => (
-              <svg key={i} className="w-5 h-5 text-amber-300" fill="currentColor" viewBox="0 0 20 20">
-                <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z" />
-              </svg>
-            ))}
-          </div>
+        {/* Yatay kaydırılabilir "spotlight" şeridi — parmakla/native scroll ile gerçek kayma hissi */}
+        <div
+          ref={trackRef}
+          onScroll={handleScroll}
+          className="flex overflow-x-auto snap-x snap-mandatory w-full [&::-webkit-scrollbar]:hidden [-ms-overflow-style:none] [scrollbar-width:none]"
+        >
+          {reviewsData.map((review, i) => (
+            <div key={i} className="snap-center shrink-0 w-full flex flex-col items-center justify-center">
+              <div className="flex items-center gap-1 mb-5">
+                {[...Array(review.rating)].map((_, star) => (
+                  <svg key={star} className="w-5 h-5 text-amber-300" fill="currentColor" viewBox="0 0 20 20">
+                    <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z" />
+                  </svg>
+                ))}
+              </div>
 
-          <p className="ch-display text-lg sm:text-2xl md:text-3xl text-white font-semibold leading-snug mb-8 max-w-2xl">
-            &ldquo;{review.text}&rdquo;
-          </p>
+              <div className="h-[130px] sm:h-[160px] md:h-[190px] flex items-center mb-8 px-2">
+                <p className="ch-display text-lg sm:text-2xl md:text-3xl text-white font-semibold leading-snug max-w-2xl text-justify line-clamp-4">
+                  &ldquo;{review.text}&rdquo;
+                </p>
+              </div>
 
-          <div className="flex items-center gap-3">
-            <div className="w-12 h-12 rounded-full overflow-hidden border-2 border-white/30">
-              <img src={review.avatar} alt={review.name} className="w-full h-full object-cover" />
+              <div className="flex items-center gap-3">
+                <div className="w-12 h-12 rounded-full overflow-hidden border-2 border-white/30">
+                  <img src={review.avatar} alt={review.name} className="w-full h-full object-cover" />
+                </div>
+                <div className="text-left">
+                  <div className="text-white font-bold text-sm">{review.name}</div>
+                  <div className="text-white/60 text-xs">{review.username}</div>
+                </div>
+              </div>
             </div>
-            <div className="text-left">
-              <div className="text-white font-bold text-sm">{review.name}</div>
-              <div className="text-white/60 text-xs">{review.username}</div>
-            </div>
-          </div>
+          ))}
         </div>
 
         {/* Kontroller: ok butonları + nokta göstergeleri */}
@@ -141,7 +183,7 @@ export default function Reviews() {
             {reviewsData.map((_, i) => (
               <button
                 key={i}
-                onClick={() => setIndex(i)}
+                onClick={() => goTo(i)}
                 aria-label={`Go to review ${i + 1}`}
                 className={`h-1.5 rounded-full transition-all ${i === index ? 'w-6 bg-white' : 'w-1.5 bg-white/30'}`}
               />

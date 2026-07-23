@@ -1,6 +1,6 @@
 import Link from 'next/link';
-import Image from 'next/image';
 import { postService } from '@/services/postService';
+import AlternativesShelf from './AlternativesShelf';
 
 interface AlternativePost {
   _id: { toString(): string };
@@ -12,22 +12,22 @@ interface AlternativePost {
 }
 
 async function getLatestPosts() {
-  return await postService.getLatestPosts(6);
+  return await postService.getLatestPosts(10);
 }
 
 export default async function Alternatives() {
   const { posts, totalCount } = await getLatestPosts();
 
-  // Renkli yedek ikonlar için gradyan dizisi
-  const gradients = [
-    'from-pink-500 to-purple-500',
-    'from-blue-500 to-teal-400',
-    'from-amber-400 to-orange-500',
-    'from-indigo-500 to-blue-600',
-    'from-emerald-400 to-green-500'
-  ];
-
   if (posts.length === 0) return null;
+
+  const serializedPosts = posts.map((post: AlternativePost) => ({
+    _id: post._id.toString(),
+    slug: post.slug,
+    title: post.title,
+    coverImage: post.coverImage,
+    rating: post.rating,
+    voteCount: post.voteCount,
+  }));
 
   return (
     <div className="band-cream w-full py-10 sm:py-16 border-b border-v6-line">
@@ -39,56 +39,18 @@ export default async function Alternatives() {
             <h2 className="ch-display text-2xl sm:text-3xl md:text-4xl font-bold text-v6-ink leading-none mb-2">Top Omegle Alternatives</h2>
             <p className="text-v6-ink-2 text-xs sm:text-base">Check out the best random video chat platforms.</p>
           </div>
-          {totalCount > 6 && (
+          {totalCount > 10 && (
             <Link href="/apps" scroll={true} className="hidden sm:inline-flex ch-btn-outline text-v6-ink font-bold px-5 py-2.5 shrink-0">
               View All
             </Link>
           )}
         </div>
 
-        {/* Yatay kaydırılabilir raf (shelf) — kart grid'i yerine film şeridi */}
-        <div className="shelf-track -mx-4 px-4 sm:mx-0 sm:px-0">
-          {posts.map((post: AlternativePost, index: number) => {
-            const color = gradients[index % gradients.length];
-            const voteCount = (post.voteCount || 0).toLocaleString('en-US');
-            const ratingValue = Number(post.rating) || 5;
-
-            return (
-              <Link key={post._id.toString()} href={`/${post.slug}`} className="shelf-item group block shrink-0 w-[220px] sm:w-[240px]">
-                <div className="bg-white rounded-2xl border border-v6-line overflow-hidden h-full hover:border-v6-coral/40 transition-colors">
-                  <div className="relative w-full h-28 sm:h-32 bg-v6-cream">
-                    {post.coverImage ? (
-                      <Image src={post.coverImage} alt={post.title || 'App Logo'} fill className="object-cover" unoptimized />
-                    ) : (
-                      <div className={`w-full h-full bg-gradient-to-tr ${color} flex items-center justify-center`}>
-                        <svg className="w-8 h-8 text-white" fill="none" stroke="currentColor" strokeWidth="2.5" viewBox="0 0 24 24">
-                          <path strokeLinecap="round" strokeLinejoin="round" d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z" />
-                        </svg>
-                      </div>
-                    )}
-                  </div>
-                  <div className="p-4">
-                    <h3 className="text-sm font-bold text-v6-ink group-hover:text-v6-coral transition-colors truncate uppercase tracking-wide">
-                      {post.slug}
-                    </h3>
-                    <div className="flex items-center gap-1 mt-1.5">
-                      {[1, 2, 3, 4, 5].map((star) => (
-                        <svg key={star} className={`w-3 h-3 ${star <= Math.round(ratingValue) ? 'text-amber-400' : 'text-v6-line'}`} fill="currentColor" viewBox="0 0 20 20">
-                          <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z" />
-                        </svg>
-                      ))}
-                      <span className="text-v6-ink-3 text-xs ml-1">{ratingValue.toFixed(1)}</span>
-                    </div>
-                    <div className="text-v6-ink-3 text-xs mt-0.5">{voteCount} votes</div>
-                  </div>
-                </div>
-              </Link>
-            );
-          })}
-        </div>
+        {/* Yatay kaydırılabilir raf (shelf) — ok tuşlarıyla, kart grid'i yerine film şeridi */}
+        <AlternativesShelf posts={serializedPosts} />
 
         {/* Mobilde Tümünü Gör Butonu */}
-        {totalCount > 6 && (
+        {totalCount > 10 && (
           <div className="text-center mt-8 sm:hidden">
             <Link href="/apps" scroll={true} className="ch-btn-outline inline-block text-v6-ink font-bold px-8 py-3">
               View All Applications
