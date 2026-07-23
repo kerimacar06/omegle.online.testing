@@ -1,8 +1,22 @@
+@import url('https://fonts.googleapis.com/css2?family=Baloo+2:wght@500;600;700;800&family=Inter:wght@400;500;600;700&display=swap');
 @import "tailwindcss";
 
 :root {
   --background: #ffffff;
   --foreground: #171717;
+
+  /* "Pop Bubble" teması (design-v5) — açık zemin, canlı degradeler,
+     yuvarlak köşeler, yumuşak renkli gölgeler. Neon/koyu temaların tam tersi. */
+  --pop-bg: #fffaf3;
+  --pop-surface: #ffffff;
+  --pop-ink: #241832;
+  --pop-ink-2: #6b5c7a;
+  --pop-ink-3: #a698b3;
+  --pop-pink: #ff3d81;
+  --pop-yellow: #ffc93c;
+  --pop-teal: #17c3b2;
+  --pop-purple: #7b61ff;
+  --pop-line: rgba(36, 24, 50, 0.08);
 }
 
 @theme inline {
@@ -10,6 +24,17 @@
   --color-foreground: var(--foreground);
   --font-sans: var(--font-geist-sans);
   --font-mono: var(--font-geist-mono);
+
+  --color-pop-bg: var(--pop-bg);
+  --color-pop-surface: var(--pop-surface);
+  --color-pop-ink: var(--pop-ink);
+  --color-pop-ink-2: var(--pop-ink-2);
+  --color-pop-ink-3: var(--pop-ink-3);
+  --color-pop-pink: var(--pop-pink);
+  --color-pop-yellow: var(--pop-yellow);
+  --color-pop-teal: var(--pop-teal);
+  --color-pop-purple: var(--pop-purple);
+  --color-pop-line: var(--pop-line);
 }
 
 @media (prefers-color-scheme: dark) {
@@ -47,4 +72,111 @@ body {
 
 .animate-soft-bounce {
   animation: soft-bounce 1.5s infinite;
+}
+
+/* ===================== Pop Bubble tema ortak parçaları ===================== */
+
+.pop-page {
+  background: var(--pop-bg);
+  color: var(--pop-ink);
+  font-family: 'Inter', system-ui, sans-serif;
+}
+
+.pop-display {
+  font-family: 'Baloo 2', 'Inter', system-ui, sans-serif;
+}
+
+/* Arkaplan mesh-gradient blobları — yumuşak, canlı, ışıltılı */
+.pop-blob {
+  position: absolute;
+  border-radius: 9999px;
+  filter: blur(70px);
+  opacity: 0.35;
+  pointer-events: none;
+}
+
+@keyframes pop-float-1 {
+  0%, 100% { transform: translate3d(0, 0, 0) scale(1); }
+  50% { transform: translate3d(40px, 30px, 0) scale(1.1); }
+}
+@keyframes pop-float-2 {
+  0%, 100% { transform: translate3d(0, 0, 0) scale(1); }
+  50% { transform: translate3d(-30px, -35px, 0) scale(1.08); }
+}
+
+/* Yuvarlak, yumuşak renkli gölgeli kart — brütalizmin tam tersi: sert kenar yok */
+.pop-card {
+  position: relative;
+  background: var(--pop-surface);
+  border: 2px solid var(--pop-line);
+  border-radius: 1.75rem;
+  box-shadow: 0 16px 40px -20px rgba(123, 97, 255, 0.25);
+  transition: transform 0.3s ease, box-shadow 0.3s ease, border-color 0.3s ease;
+}
+
+.pop-card:hover {
+  transform: translateY(-6px) rotate(-0.5deg);
+  box-shadow: 0 24px 50px -18px rgba(255, 61, 129, 0.3);
+  border-color: rgba(255, 61, 129, 0.35);
+}
+
+.pop-card-static {
+  position: relative;
+  background: var(--pop-surface);
+  border: 2px solid var(--pop-line);
+  border-radius: 1.75rem;
+  box-shadow: 0 16px 40px -20px rgba(123, 97, 255, 0.2);
+}
+
+/* Dolgun, hap şeklinde degrade buton */
+.pop-btn {
+  background: linear-gradient(90deg, var(--pop-pink), var(--pop-purple));
+  color: white;
+  border-radius: 9999px;
+  transition: transform 0.25s cubic-bezier(0.34, 1.56, 0.64, 1), box-shadow 0.25s ease;
+  box-shadow: 0 10px 30px -10px rgba(255, 61, 129, 0.5);
+}
+
+.pop-btn:hover {
+  transform: translateY(-3px) scale(1.03);
+  box-shadow: 0 16px 36px -10px rgba(255, 61, 129, 0.55);
+}
+
+.pop-btn-outline {
+  background: var(--pop-surface);
+  color: var(--pop-ink);
+  border: 2px solid var(--pop-line);
+  border-radius: 9999px;
+  transition: transform 0.25s ease, border-color 0.25s ease;
+}
+
+.pop-btn-outline:hover {
+  transform: translateY(-3px);
+  border-color: var(--pop-pink);
+}
+
+/* Kayan renkli şerit (marquee) */
+@keyframes pop-marquee {
+  0% { transform: translateX(0); }
+  100% { transform: translateX(-50%); }
+}
+
+.pop-marquee-track {
+  display: flex;
+  width: max-content;
+  animation: pop-marquee 24s linear infinite;
+}
+
+/* Küçük rozet/etiket daireleri */
+.pop-badge {
+  border-radius: 9999px;
+  border: 2px solid var(--pop-line);
+  background: var(--pop-surface);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .pop-blob,
+  .pop-marquee-track {
+    animation: none !important;
+  }
 }

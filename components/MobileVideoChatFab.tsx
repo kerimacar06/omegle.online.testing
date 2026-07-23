@@ -49,7 +49,7 @@ export default function MobileVideoChatFab({ watchId }: { watchId: string }) {
     <Link
       href="/live-video"
       aria-label="Start Video Chat"
-      className={`lg:hidden fixed bottom-6 right-6 z-40 w-14 h-14 rounded-full bg-blue-600 hover:bg-blue-700 text-white flex items-center justify-center shadow-lg border border-blue-700/20 transition-all duration-300 ${
+      className={`pop-btn lg:hidden fixed bottom-6 right-6 z-40 w-14 h-14 flex items-center justify-center transition-all duration-300 ${
         visible ? 'opacity-100 scale-100 pointer-events-auto' : 'opacity-0 scale-75 pointer-events-none'
       }`}
     >

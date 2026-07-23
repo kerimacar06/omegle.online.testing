@@ -8,6 +8,7 @@ import FAQ from '@/components/FAQ';
 import BottomBanner from '@/components/BottomBanner';
 import Footer from '@/components/Footer';
 import ScrollToHash from '@/components/ScrollToHash';
+import PopBackground from '@/components/PopBackground';
 import { seoService } from '@/services/seoService';
 import { faqService } from '@/services/faqService';
 import { resolveCanonical, getSiteUrl } from '@/lib/canonical';
@@ -48,6 +49,11 @@ async function getFaqJsonLd() {
   return await faqService.getFaqJsonLd();
 }
 
+const TICKER_WORDS = [
+  'RELEVANT CHATS', 'SAFETY & PRIVACY', 'AI MODERATION',
+  'COMPLETE ANONYMITY', 'INSTANT CONNECTION', 'CLASSIC CHAT EXPERIENCE',
+];
+
 export default async function Home() {
   const jsonLdString = await getSeoJsonLd();
   const faqJsonLd = await getFaqJsonLd();
@@ -82,7 +88,9 @@ export default async function Home() {
         />
       )}
       <ScrollToHash />
-      <main className="relative min-h-screen flex flex-col ">
+      <main className="relative min-h-screen flex flex-col pop-page">
+        <PopBackground />
+        <div className="relative z-10 flex flex-col flex-grow">
         {/* Navbar (Sadece bu sayfada sticky) */}
         <Navbar isSticky={true} />
 
@@ -120,10 +128,22 @@ export default async function Home() {
         </div>
         {/* HERO BÖLÜMÜ BİTİŞİ */}
 
+        {/* Kayan renkli şerit — ChatStarter'ın hemen altında, özellik başlıklarını tekrar kullanan dekoratif bant */}
+        <div className="w-full bg-gradient-to-r from-pop-pink via-pop-purple to-pop-teal py-2.5 overflow-hidden">
+          <div className="pop-marquee-track">
+            {[...TICKER_WORDS, ...TICKER_WORDS].map((word, i) => (
+              <span key={i} className="flex items-center shrink-0 text-white font-bold text-sm sm:text-base uppercase tracking-wide px-4">
+                {word}
+                <span className="text-pop-yellow ml-4">✦</span>
+              </span>
+            ))}
+          </div>
+        </div>
+
         <InfoSection />
 
         {/* 2. BÖLÜM: Orta Kısım */}
-        <section className="w-full border-t border-gray-100">
+        <section className="w-full">
           {/* Alternatif Uygulamalar Bölümü */}
           <Alternatives />
 
@@ -132,7 +152,7 @@ export default async function Home() {
         </section>
 
         {/* 3. BÖLÜM: Alt Kısım */}
-        <section className="w-full bg-slate-100 border-t border-gray-100">
+        <section className="w-full bg-white/60">
           {/* Kullanıcı Yorumları Bölümü */}
           <Reviews />
 
@@ -145,6 +165,7 @@ export default async function Home() {
 
         {/* Footer */}
         <Footer />
+        </div>
 
       </main>
     </>
