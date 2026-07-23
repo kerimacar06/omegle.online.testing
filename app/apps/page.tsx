@@ -110,37 +110,37 @@ export default async function AppsPage(props: AppsPageProps) {
         dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbJsonLd) }}
       />
 
-      <main className="min-h-screen bg-gradient-to-b from-white via-blue-50/60 to-purple-50/50 flex flex-col">
+      <main className="min-h-screen pc-page flex flex-col">
         <Navbar />
 
         {/* HEADER BÖLÜMÜ */}
         <div className="w-full max-w-5xl mx-auto px-4 pt-8 pb-12">
           {/* Visual Breadcrumb */}
-          <div className="flex items-center gap-2 text-sm text-gray-500 mb-8 font-medium">
-            <Link href="/" className="hover:text-blue-600 transition-colors">{homeBreadcrumbName}</Link>
+          <div className="flex items-center gap-2 text-sm text-pc-ink-3 mb-8 font-medium">
+            <Link href="/" className="hover:text-pc-rust transition-colors">{homeBreadcrumbName}</Link>
             <span>›</span>
-            <span className="text-gray-900">{breadcrumbName}</span>
+            <span className="text-pc-ink">{breadcrumbName}</span>
           </div>
 
-          {/* Cam Panel: ChatStarter ile aynı görsel dil */}
-          <div className="relative bg-gray-50/70 backdrop-blur-2xl p-6 sm:p-8 rounded-md shadow-[0_8px_30px_rgb(0,0,0,0.08)] ring-1 ring-white/60 border border-gray-200 text-center max-w-xl mx-auto">
-            <p className="text-gray-500 text-base md:text-lg font-medium max-w-xl mx-auto mb-6 leading-relaxed">
+          {/* Panel */}
+          <div className="relative pc-card-static p-6 sm:p-8 text-center max-w-xl mx-auto rotate-1">
+            <p className="text-pc-ink-2 text-base md:text-lg max-w-xl mx-auto mb-6 leading-relaxed">
               Expert reviews for the best random chat platforms — compare features, ratings, and real user feedback.
             </p>
 
             <Link
               href="/live-video"
-              className="inline-flex items-center gap-2 bg-blue-600 hover:bg-blue-700 text-white font-bold py-3 px-6 rounded-md transition-colors duration-300 shadow-md hover:shadow-lg border border-blue-700/20"
+              className="pc-btn inline-flex items-center gap-2 font-bold py-3 px-6"
             >
-              <svg className="w-5 h-5 text-white shrink-0" fill="currentColor" viewBox="0 0 24 24">
+              <svg className="w-5 h-5 shrink-0" fill="currentColor" viewBox="0 0 24 24">
                 <path d="M17 10.5V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-3.5l4 4v-11l-4 4z" />
               </svg>
               Start Video Chat
             </Link>
           </div>
 
-          {/* Başlık: Kutunun dışında, altında, ortalanmış */}
-          <h1 className="text-2xl sm:text-3xl md:text-4xl font-bold md:font-extrabold text-gray-900 text-center mt-10 leading-tight">
+          {/* Başlık */}
+          <h1 className="pc-display text-2xl sm:text-3xl md:text-4xl text-pc-ink text-center mt-10 leading-tight">
             Discover the Best Omegle Alternatives
           </h1>
         </div>

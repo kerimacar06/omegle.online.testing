@@ -183,26 +183,26 @@ export default async function BlogPostPage(props: PageProps<'/[slug]'>) {
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbJsonLd) }}
       />
-      <main className="min-h-screen bg-gradient-to-b from-white via-blue-50/60 to-purple-50/50 flex flex-col">
+      <main className="min-h-screen pc-page flex flex-col">
         <Navbar />
 
         {/* HEADER BÖLÜMÜ */}
         <div className="w-full max-w-5xl mx-auto px-4 pt-6 sm:pt-8 pb-1 sm:pb-2">
           {/* Breadcrumb */}
-          <div className="flex items-center gap-2 text-sm text-gray-500 mb-4 sm:mb-6 font-medium">
-            <Link href="/" className="hover:text-blue-600 transition-colors">{homeBreadcrumbName}</Link>
+          <div className="flex items-center gap-2 text-sm text-pc-ink-3 mb-4 sm:mb-6 font-medium">
+            <Link href="/" className="hover:text-pc-rust transition-colors">{homeBreadcrumbName}</Link>
             <span>›</span>
-            <Link href="/apps" className="hover:text-blue-600 transition-colors">{appsBreadcrumbName}</Link>
+            <Link href="/apps" className="hover:text-pc-rust transition-colors">{appsBreadcrumbName}</Link>
             <span>›</span>
-            <span className="text-gray-900">{breadcrumbName}</span>
+            <span className="text-pc-ink">{breadcrumbName}</span>
           </div>
 
           <div className="text-center">
-            <h1 className="text-2xl sm:text-3xl md:text-4xl font-bold md:font-extrabold text-gray-900 leading-tight">
+            <h1 className="pc-display text-2xl sm:text-3xl md:text-4xl text-pc-ink leading-tight">
               {post.title}
             </h1>
             {post.description && (
-              <p className="text-gray-500 text-base sm:text-lg font-medium mt-3 max-w-3xl mx-auto leading-relaxed">
+              <p className="text-pc-ink-2 text-base sm:text-lg mt-3 max-w-3xl mx-auto leading-relaxed">
                 {post.description}
               </p>
             )}
@@ -215,17 +215,17 @@ export default async function BlogPostPage(props: PageProps<'/[slug]'>) {
 
             {/* Kapak Fotoğrafı */}
             {post.coverImage ? (
-              <div className="w-full rounded-md overflow-hidden mb-4 sm:mb-8 shadow-sm border border-gray-200 bg-white">
+              <div className="w-full overflow-hidden mb-4 sm:mb-8 border-2 border-dashed border-pc-line rounded-sm">
                 <img
                   src={post.coverImage}
                   alt={post.title}
                   loading="lazy"
                   decoding="async"
-                  className="w-full h-auto max-h-[480px] object-cover"
+                  className="w-full h-auto max-h-[480px] object-cover sepia-[0.2]"
                 />
               </div>
             ) : (
-              <div className="w-full h-[200px] sm:h-[360px] rounded-md overflow-hidden mb-4 sm:mb-8 shadow-sm border border-gray-200 bg-gradient-to-tr from-blue-500 to-teal-400 flex flex-col items-center justify-center">
+              <div className="w-full h-[200px] sm:h-[360px] overflow-hidden mb-4 sm:mb-8 border-2 border-dashed border-pc-line rounded-sm bg-gradient-to-tr from-blue-500 to-teal-400 flex flex-col items-center justify-center">
                 <svg className="w-16 h-16 text-white opacity-80 mb-3" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24">
                   <path strokeLinecap="round" strokeLinejoin="round" d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z" />
                 </svg>
@@ -238,12 +238,13 @@ export default async function BlogPostPage(props: PageProps<'/[slug]'>) {
 
               {/* SAĞ KOLON (mobilde üstte): Hızlı Bilgi Kartı */}
               <aside className="order-1 lg:order-2 lg:col-span-1">
-                <div className="lg:sticky lg:top-8 bg-white rounded-md border border-gray-200 shadow-sm p-4 sm:p-6">
+                <div className="lg:sticky lg:top-8">
+                <div className="pc-card-static p-4 sm:p-6">
 
                   {/* Yazar (+ mobilde sağda kompakt yıldız/oy) */}
-                  <div className="flex items-center justify-between gap-3 pb-2 mb-2 border-b border-gray-100">
+                  <div className="flex items-center justify-between gap-3 pb-2 mb-2 border-b-2 border-dashed border-pc-line">
                     <div className="flex items-center gap-3 min-w-0">
-                      <div className="w-11 h-11 rounded-full overflow-hidden shrink-0 border border-gray-200 bg-gray-100">
+                      <div className="w-11 h-11 rounded-full overflow-hidden shrink-0 border-2 border-pc-line bg-pc-paper">
                         {post.authorImage ? (
                           <img
                             src={post.authorImage}
@@ -251,7 +252,7 @@ export default async function BlogPostPage(props: PageProps<'/[slug]'>) {
                             className="w-full h-full object-cover"
                           />
                         ) : (
-                          <div className="w-full h-full flex items-center justify-center bg-gray-100 text-gray-400">
+                          <div className="w-full h-full flex items-center justify-center bg-pc-paper text-pc-ink-3">
                             <svg className="w-6 h-6" fill="currentColor" viewBox="0 0 24 24">
                               <path d="M12 12c2.761 0 5-2.686 5-6s-2.239-6-5-6-5 2.686-5 6 2.239 6 5 6zm0 2c-4.418 0-9 2.239-9 5v3h18v-3c0-2.761-4.582-5-9-5z" />
                             </svg>
@@ -259,69 +260,70 @@ export default async function BlogPostPage(props: PageProps<'/[slug]'>) {
                         )}
                       </div>
                       <div className="min-w-0">
-                        <p className="text-xs text-gray-500 font-medium">Written by</p>
-                        <p className="text-gray-900 font-bold text-sm truncate">{post.author || 'Omegle Test'}</p>
+                        <p className="text-xs text-pc-ink-3">Written by</p>
+                        <p className="font-bold text-pc-ink text-sm truncate">{post.author || 'Omegle Test'}</p>
                       </div>
                     </div>
 
-                    {/* Mobilde: kompakt yıldız + oy sayısı (masaüstünde gizli, aşağıdaki tam versiyon gösteriliyor) */}
+                    {/* Mobilde: kompakt yıldız + oy sayısı */}
                     <div className="text-right shrink-0 sm:hidden">
                       <div className="flex items-center justify-end gap-0.5">
                         {[...Array(5)].map((_, i) => (
-                          <svg key={i} className={`w-3.5 h-3.5 ${i < Math.round(rating) ? 'text-amber-400' : 'text-gray-200'}`} fill="currentColor" viewBox="0 0 20 20">
+                          <svg key={i} className={`w-3.5 h-3.5 ${i < Math.round(rating) ? 'text-pc-mustard' : 'text-pc-line'}`} fill="currentColor" viewBox="0 0 20 20">
                             <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z" />
                           </svg>
                         ))}
-                        <span className="text-gray-900 font-bold text-sm ml-1">{rating.toFixed(1)}</span>
+                        <span className="text-pc-ink font-bold text-sm ml-1">{rating.toFixed(1)}</span>
                       </div>
-                      <p className="text-xs text-gray-500">{voteCount.toLocaleString('en-US')} votes</p>
+                      <p className="text-xs text-pc-ink-3">{voteCount.toLocaleString('en-US')} votes</p>
                     </div>
                   </div>
 
-                  {/* Rating (masaüstü; mobilde yukarıdaki kompakt versiyon gösterildiği için gizli) */}
+                  {/* Rating (masaüstü) */}
                   <div className="hidden sm:block">
                     <div className="flex items-center gap-1 mb-1">
                       {[...Array(5)].map((_, i) => (
-                        <svg key={i} className={`w-5 h-5 ${i < Math.round(rating) ? 'text-amber-400' : 'text-gray-200'}`} fill="currentColor" viewBox="0 0 20 20">
+                        <svg key={i} className={`w-5 h-5 ${i < Math.round(rating) ? 'text-pc-mustard' : 'text-pc-line'}`} fill="currentColor" viewBox="0 0 20 20">
                           <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z" />
                         </svg>
                       ))}
-                      <span className="text-gray-900 font-bold ml-1">{rating.toFixed(1)}</span>
+                      <span className="text-pc-ink font-bold ml-1">{rating.toFixed(1)}</span>
                     </div>
-                    <p className="text-sm text-gray-500 mb-2">{voteCount.toLocaleString('en-US')} votes</p>
+                    <p className="text-sm text-pc-ink-3 mb-2">{voteCount.toLocaleString('en-US')} votes</p>
                   </div>
 
-                  {/* Tarih — masaüstü (ikonlu, iki satır) */}
-                  <div className="hidden sm:flex items-center gap-3 pt-2 border-t border-gray-100">
-                    <div className="w-10 h-10 bg-gray-100 text-gray-600 rounded-md flex items-center justify-center shrink-0">
+                  {/* Tarih — masaüstü */}
+                  <div className="hidden sm:flex items-center gap-3 pt-2 border-t-2 border-dashed border-pc-line">
+                    <div className="pc-stamp w-10 h-10 text-pc-rust flex items-center justify-center shrink-0">
                       <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                         <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" />
                       </svg>
                     </div>
                     <div>
-                      <p className="text-xs text-gray-500 font-medium">{dateLabel}</p>
-                      <p className="text-gray-900 font-semibold text-sm">
+                      <p className="text-xs text-pc-ink-3">{dateLabel}</p>
+                      <p className="text-pc-ink font-semibold text-sm">
                         {displayDate.toLocaleDateString('en-GB', { day: 'numeric', month: 'numeric', year: 'numeric' })}
                       </p>
                     </div>
                   </div>
 
-                  {/* Tarih — mobil (tek satır, ortalanmış) */}
-                  <p className="sm:hidden text-center text-xs text-gray-500 font-medium pt-2 border-t border-gray-100">
-                    {dateLabel}: <span className="text-gray-900 font-bold">{displayDate.toLocaleDateString('en-GB', { day: 'numeric', month: 'numeric', year: 'numeric' })}</span>
+                  {/* Tarih — mobil */}
+                  <p className="sm:hidden text-center text-xs text-pc-ink-3 pt-2 border-t-2 border-dashed border-pc-line">
+                    {dateLabel}: <span className="text-pc-ink font-bold">{displayDate.toLocaleDateString('en-GB', { day: 'numeric', month: 'numeric', year: 'numeric' })}</span>
                   </p>
 
                   {/* CTA */}
                   <Link
                     id="hero-video-cta"
                     href="/live-video"
-                    className="mt-3 w-full inline-flex items-center justify-center gap-2 bg-blue-600 hover:bg-blue-700 text-white font-bold py-3 px-4 rounded-md transition-colors duration-300 shadow-md hover:shadow-lg border border-blue-700/20"
+                    className="pc-btn mt-3 w-full inline-flex items-center justify-center gap-2 font-bold py-3 px-4"
                   >
                     <svg className="w-5 h-5 shrink-0" fill="currentColor" viewBox="0 0 24 24">
                       <path d="M17 10.5V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-3.5l4 4v-11l-4 4z" />
                     </svg>
                     Start Video Chat
                   </Link>
+                </div>
                 </div>
               </aside>
 
@@ -330,50 +332,49 @@ export default async function BlogPostPage(props: PageProps<'/[slug]'>) {
 
                 {/* Asıl Blog İçeriği */}
                 {post.content && (
-                  <div className="relative bg-white p-4 sm:p-6 rounded-md border border-gray-200 shadow-sm w-full overflow-hidden">
-                    <div className="pointer-events-none absolute -top-16 -right-16 w-56 h-56 bg-blue-300/10 rounded-full blur-3xl"></div>
+                  <div className="relative pc-card-static p-4 sm:p-6 w-full overflow-hidden">
                     <div
-                      className="relative text-sm sm:text-base text-gray-700 leading-relaxed break-words
+                      className="relative text-sm sm:text-base text-pc-ink-2 leading-relaxed break-words
                       [&>p]:mb-4 sm:[&>p]:mb-6 [&>p:empty]:min-h-[1.5rem]
-                      [&>h1]:text-xl sm:[&>h1]:text-3xl [&>h1]:font-bold [&>h1]:mb-3 sm:[&>h1]:mb-4 [&>h1]:mt-6 sm:[&>h1]:mt-8
-                      [&>h2]:text-lg sm:[&>h2]:text-2xl [&>h2]:font-bold [&>h2]:mb-3 sm:[&>h2]:mb-4 [&>h2]:mt-6 sm:[&>h2]:mt-8
-                      [&>h3]:text-base sm:[&>h3]:text-xl [&>h3]:font-bold [&>h3]:mb-2 sm:[&>h3]:mb-3 [&>h3]:mt-5 sm:[&>h3]:mt-6
+                      [&>h1]:pc-display [&>h1]:text-xl sm:[&>h1]:text-3xl [&>h1]:text-pc-ink [&>h1]:mb-3 sm:[&>h1]:mb-4 [&>h1]:mt-6 sm:[&>h1]:mt-8
+                      [&>h2]:pc-display [&>h2]:text-lg sm:[&>h2]:text-2xl [&>h2]:text-pc-ink [&>h2]:mb-3 sm:[&>h2]:mb-4 [&>h2]:mt-6 sm:[&>h2]:mt-8
+                      [&>h3]:pc-display [&>h3]:text-base sm:[&>h3]:text-xl [&>h3]:text-pc-ink [&>h3]:mb-2 sm:[&>h3]:mb-3 [&>h3]:mt-5 sm:[&>h3]:mt-6
                       [&>ul]:list-disc [&>ul]:pl-6 [&>ul]:mb-4 sm:[&>ul]:mb-6
                       [&>ol]:list-decimal [&>ol]:pl-6 [&>ol]:mb-4 sm:[&>ol]:mb-6
-                      [&>strong]:font-bold [&>em]:italic
-                      [&_a]:text-blue-600 [&_a]:underline [&_a]:font-medium
-                      [&_table]:w-full [&_table]:border-collapse [&_table]:border [&_table]:border-gray-200 [&_table]:mb-6
-                      [&_th]:border [&_th]:border-gray-200 [&_th]:bg-gray-50 [&_th]:p-3 [&_th]:font-bold [&_th]:text-left
-                      [&_td]:border [&_td]:border-gray-200 [&_td]:p-3
+                      [&>strong]:font-bold [&>strong]:text-pc-ink [&>em]:italic
+                      [&_a]:text-pc-rust [&_a]:underline [&_a]:font-medium
+                      [&_table]:w-full [&_table]:border-collapse [&_table]:border [&_table]:border-pc-line [&_table]:mb-6
+                      [&_th]:border [&_th]:border-pc-line [&_th]:bg-pc-paper [&_th]:text-pc-ink [&_th]:p-3 [&_th]:font-bold [&_th]:text-left
+                      [&_td]:border [&_td]:border-pc-line [&_td]:p-3
                       [&_.ql-align-center]:text-center [&_.ql-align-right]:text-right [&_.ql-align-justify]:text-justify"
                       dangerouslySetInnerHTML={{ __html: sanitizePostHtml(post.content) }}
                     />
                   </div>
                 )}
 
-                {/* Artılar ve Eksiler — tablo (kutu kutu) */}
+                {/* Artılar ve Eksiler — tablo */}
                 {(pros.length > 0 || cons.length > 0) && (
-                  <div className="bg-white p-4 sm:p-6 rounded-md border border-gray-200 shadow-sm">
-                    <h3 className="text-lg sm:text-2xl font-bold text-gray-900 mb-4 sm:mb-6">Pros & Cons</h3>
-                    <div className="rounded-md border border-gray-200 overflow-hidden">
+                  <div className="pc-card-static p-4 sm:p-6">
+                    <h3 className="pc-display text-lg sm:text-2xl text-pc-ink mb-4 sm:mb-6">Pros &amp; Cons</h3>
+                    <div className="rounded-sm border-2 border-dashed border-pc-line overflow-hidden">
                       <table className="w-full text-left border-collapse table-fixed">
                         <thead>
-                          <tr className="bg-gray-50 border-b border-gray-200">
-                            <th className="py-1.5 px-2.5 sm:py-2 sm:px-4 text-xs sm:text-sm font-bold text-emerald-600 uppercase tracking-wide w-1/2 border-r border-gray-200">Pros</th>
-                            <th className="py-1.5 px-2.5 sm:py-2 sm:px-4 text-xs sm:text-sm font-bold text-rose-600 uppercase tracking-wide w-1/2">Cons</th>
+                          <tr className="bg-pc-paper border-b-2 border-dashed border-pc-line">
+                            <th className="py-1.5 px-2.5 sm:py-2 sm:px-4 text-xs sm:text-sm font-bold text-pc-teal uppercase tracking-wide w-1/2 border-r-2 border-dashed border-pc-line">Pros</th>
+                            <th className="py-1.5 px-2.5 sm:py-2 sm:px-4 text-xs sm:text-sm font-bold text-pc-rust uppercase tracking-wide w-1/2">Cons</th>
                           </tr>
                         </thead>
                         <tbody>
                           {Array.from({ length: maxRows }).map((_, index) => (
-                            <tr key={index} className="border-b border-gray-100 last:border-0">
-                              <td className="py-[5px] px-2.5 sm:py-[7px] sm:px-4 align-top border-r border-gray-200">
+                            <tr key={index} className="border-b border-pc-line last:border-0">
+                              <td className="py-[5px] px-2.5 sm:py-[7px] sm:px-4 align-top border-r-2 border-dashed border-pc-line">
                                 {pros[index] && (
-                                  <span className="block text-gray-700 text-sm sm:text-base leading-normal sm:text-justify">{pros[index]}</span>
+                                  <span className="block text-pc-ink-2 text-sm sm:text-base leading-normal sm:text-justify">{pros[index]}</span>
                                 )}
                               </td>
                               <td className="py-[5px] px-2.5 sm:py-[7px] sm:px-4 align-top">
                                 {cons[index] && (
-                                  <span className="block text-gray-700 text-sm sm:text-base leading-normal sm:text-justify">{cons[index]}</span>
+                                  <span className="block text-pc-ink-2 text-sm sm:text-base leading-normal sm:text-justify">{cons[index]}</span>
                                 )}
                               </td>
                             </tr>
@@ -386,21 +387,21 @@ export default async function BlogPostPage(props: PageProps<'/[slug]'>) {
 
                 {/* Alternative Apps Bölümü */}
                 {post.alternativeAppsContent && (
-                  <div className="bg-white p-4 sm:p-6 rounded-md border border-gray-200 shadow-sm">
-                    <h3 className="text-lg sm:text-2xl font-bold text-gray-900 mb-4 sm:mb-6">Alternative Applications</h3>
+                  <div className="pc-card-static p-4 sm:p-6">
+                    <h3 className="pc-display text-lg sm:text-2xl text-pc-ink mb-4 sm:mb-6">Alternative Applications</h3>
                     <div
-                      className="text-sm sm:text-base text-gray-700 leading-relaxed break-words
+                      className="text-sm sm:text-base text-pc-ink-2 leading-relaxed break-words
                       [&>p]:mb-3 sm:[&>p]:mb-4 [&>p:empty]:min-h-[1.5rem]
-                      [&>h1]:text-lg sm:[&>h1]:text-2xl [&>h1]:font-bold [&>h1]:mb-3 sm:[&>h1]:mb-4
-                      [&>h2]:text-base sm:[&>h2]:text-xl [&>h2]:font-bold [&>h2]:mb-2 sm:[&>h2]:mb-3
-                      [&>h3]:text-sm sm:[&>h3]:text-lg [&>h3]:font-bold [&>h3]:mb-2
+                      [&>h1]:pc-display [&>h1]:text-lg sm:[&>h1]:text-2xl [&>h1]:text-pc-ink [&>h1]:mb-3 sm:[&>h1]:mb-4
+                      [&>h2]:pc-display [&>h2]:text-base sm:[&>h2]:text-xl [&>h2]:text-pc-ink [&>h2]:mb-2 sm:[&>h2]:mb-3
+                      [&>h3]:pc-display [&>h3]:text-sm sm:[&>h3]:text-lg [&>h3]:text-pc-ink [&>h3]:mb-2
                       [&>ul]:list-disc [&>ul]:pl-6 [&>ul]:mb-3 sm:[&>ul]:mb-4
                       [&>ol]:list-decimal [&>ol]:pl-6 [&>ol]:mb-3 sm:[&>ol]:mb-4
-                      [&>strong]:font-bold [&>em]:italic
-                      [&_a]:text-blue-600 [&_a]:underline [&_a]:font-bold
-                      [&_table]:w-full [&_table]:border-collapse [&_table]:border [&_table]:border-gray-200 [&_table]:mb-6
-                      [&_th]:border [&_th]:border-gray-200 [&_th]:bg-gray-50 [&_th]:p-3 [&_th]:font-bold [&_th]:text-left
-                      [&_td]:border [&_td]:border-gray-200 [&_td]:p-3
+                      [&>strong]:font-bold [&>strong]:text-pc-ink [&>em]:italic
+                      [&_a]:text-pc-rust [&_a]:underline [&_a]:font-bold
+                      [&_table]:w-full [&_table]:border-collapse [&_table]:border [&_table]:border-pc-line [&_table]:mb-6
+                      [&_th]:border [&_th]:border-pc-line [&_th]:bg-pc-paper [&_th]:text-pc-ink [&_th]:p-3 [&_th]:font-bold [&_th]:text-left
+                      [&_td]:border [&_td]:border-pc-line [&_td]:p-3
                       [&_.ql-align-center]:text-center [&_.ql-align-right]:text-right [&_.ql-align-justify]:text-justify"
                       dangerouslySetInnerHTML={{ __html: sanitizePostHtml(post.alternativeAppsContent) }}
                     />
@@ -409,24 +410,24 @@ export default async function BlogPostPage(props: PageProps<'/[slug]'>) {
 
                 {/* SSS (FAQs) BÖLÜMÜ — anasayfadaki FAQ ile aynı görsel dil */}
                 {post.faqs && post.faqs.length > 0 && (
-                  <div className="bg-white p-4 sm:p-6 rounded-md border border-gray-200 shadow-sm">
-                    <h3 className="text-lg sm:text-2xl font-bold text-gray-900 mb-4 sm:mb-6">Frequently Asked Questions</h3>
+                  <div className="pc-card-static p-4 sm:p-6">
+                    <h3 className="pc-display text-lg sm:text-2xl text-pc-ink mb-4 sm:mb-6">Frequently Asked Questions</h3>
 
-                    <div className="space-y-3 sm:space-y-4">
+                    <div className="space-y-3">
                       {post.faqs.map((faq: PostFaq, index: number) => (
                         <details
                           key={index}
-                          className="group bg-white rounded-md shadow-sm hover:shadow-md transition-all duration-300 [&_summary::-webkit-details-marker]:hidden border border-gray-200"
+                          className="group pc-card-static [&_summary::-webkit-details-marker]:hidden"
                         >
                           <summary className="flex cursor-pointer items-center justify-between px-4 sm:px-6 py-3 sm:py-4 focus:outline-none">
-                            <span className="font-bold text-gray-800 text-sm sm:text-base pr-4">{faq.question}</span>
-                            <span className="shrink-0 w-7 h-7 sm:w-8 sm:h-8 rounded-full bg-indigo-50 text-indigo-600 flex items-center justify-center transition-transform duration-300 group-open:-rotate-180">
+                            <span className="font-bold text-pc-ink text-sm sm:text-base pr-4">{faq.question}</span>
+                            <span className="pc-stamp shrink-0 w-7 h-7 sm:w-8 sm:h-8 text-pc-rust flex items-center justify-center transition-transform duration-300 group-open:rotate-45">
                               <svg fill="none" height="16" stroke="currentColor" strokeLinecap="round" strokeLinejoin="round" strokeWidth="2.5" viewBox="0 0 24 24" width="16">
-                                <path d="M6 9l6 6 6-6"></path>
+                                <path d="M12 5v14M5 12h14"></path>
                               </svg>
                             </span>
                           </summary>
-                          <div className="px-4 sm:px-6 pb-4 sm:pb-5 pt-0 text-gray-600 text-xs sm:text-sm leading-relaxed border-t border-gray-100">
+                          <div className="px-4 sm:px-6 pb-4 sm:pb-5 pt-0 text-pc-ink-2 text-xs sm:text-sm leading-relaxed border-t-2 border-dashed border-pc-line">
                             {faq.answer}
                           </div>
                         </details>

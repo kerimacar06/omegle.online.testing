@@ -152,21 +152,21 @@ export default function Reviews() {
       {/* Bölüm Başlığı */}
       <div className="flex flex-col items-center justify-center mb-10 gap-2">
         <div className="text-center">
-          <h2 className="text-2xl sm:text-3xl md:text-4xl font-bold md:font-extrabold text-gray-900 mb-2 leading-none">
+          <h2 className="pc-display text-2xl sm:text-3xl md:text-4xl text-pc-ink mb-2 leading-none">
             Omegle User Reviews
           </h2>
-          <p className="text-gray-500 text-xs sm:text-lg font-medium leading-none">Don&apos;t just take our word for it.</p>
+          <p className="text-pc-ink-2 text-xs sm:text-lg leading-none">Don&apos;t just take our word for it.</p>
         </div>
       </div>
 
       {/* Carousel Wrapper */}
       <div className="relative w-full flex items-center group">
-        
+
         {/* Sol Tuş */}
         <button
           type="button"
           onClick={scrollLeftBtn}
-          className="absolute left-1 md:left-0 z-10 md:-ml-12 w-8 h-8 md:w-12 md:h-12 rounded-full bg-white shadow-md border border-gray-200 flex items-center justify-center text-gray-600 hover:bg-gray-50 hover:text-gray-900 transition-colors touch-manipulation"
+          className="pc-stamp absolute left-1 md:left-0 z-10 md:-ml-12 w-8 h-8 md:w-12 md:h-12 bg-pc-card flex items-center justify-center text-pc-ink-2 hover:text-pc-rust transition-colors touch-manipulation"
           aria-label="Previous review"
         >
           <svg className="w-4 h-4 md:w-6 md:h-6" fill="none" stroke="currentColor" strokeWidth={2.5} viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" d="M15 19l-7-7 7-7" /></svg>
@@ -183,34 +183,36 @@ export default function Reviews() {
                 key={index}
                 className="snap-center shrink-0 w-full md:w-1/3 px-12 md:px-3"
               >
-                <div className="w-full bg-gray-50/80 rounded-md p-6 md:p-8 flex flex-col border border-gray-100 hover:bg-gray-100/80 transition-colors mx-auto h-full shadow-sm">
-                  {/* Üst Kısım: Avatar, İsim ve @Username */}
-                  <div className="flex items-center justify-between mb-4">
-                    <div className="flex items-center gap-4">
-                      <div className="w-14 h-14 md:w-16 md:h-16 rounded-full overflow-hidden shrink-0 border border-gray-200">
-                        <img src={review.avatar} alt={review.name} className="w-full h-full object-cover" />
-                      </div>
-                      <div className="flex flex-col">
-                        <span className="text-gray-900 font-bold text-[16px] md:text-[18px] leading-tight">
-                          {review.name}
-                        </span>
-                        <span className="text-gray-500 text-[14px] md:text-[15px]">
-                          {review.username}
-                        </span>
-                      </div>
+                {/* Her yorum küçük bir kartpostal olarak gösteriliyor */}
+                <div className="pc-card-static relative w-full p-5 md:p-7 flex flex-col mx-auto h-full">
+
+                  {/* Puan damgası — sağ üst köşe */}
+                  <div className="pc-stamp absolute -top-3 -right-3 w-11 h-11 bg-pc-card flex items-center justify-center text-pc-mustard rotate-6 text-xs font-bold">
+                    {review.rating}.0
+                  </div>
+
+                  <div className="flex items-center gap-3 mb-3">
+                    <div className="w-12 h-12 md:w-14 md:h-14 rounded-full overflow-hidden shrink-0 border-2 border-pc-line">
+                      <img src={review.avatar} alt={review.name} className="w-full h-full object-cover sepia-[0.2]" />
+                    </div>
+                    <div className="flex flex-col min-w-0">
+                      <span className="text-pc-ink font-bold text-sm md:text-base leading-tight truncate">
+                        {review.name}
+                      </span>
+                      <span className="text-pc-ink-3 text-xs md:text-sm">
+                        {review.username}
+                      </span>
                     </div>
                   </div>
 
-                  {/* Yorum İçeriği */}
-                  <p className="text-gray-800 text-xs md:text-[16px] leading-relaxed mt-2 font-medium md:text-justify line-clamp-5 min-h-[76px] md:min-h-[130px]">
-                    &quot;{review.text}&quot;
+                  <p className="pc-display text-pc-ink-2 text-xs md:text-sm leading-relaxed mt-1 md:text-justify line-clamp-5 min-h-[80px] md:min-h-[130px]">
+                    &ldquo;{review.text}&rdquo;
                   </p>
 
-                  {/* Alt Kısım: Yıldızlar */}
-                  <div className="mt-0 md:mt-3 flex items-center justify-start border-t border-gray-200/60 pt-0.5 md:pt-3">
+                  <div className="mt-3 flex items-center justify-start border-t-2 border-dashed border-pc-line pt-3">
                     <div className="flex items-center gap-1">
                       {[...Array(review.rating)].map((_, i) => (
-                        <svg key={i} className="w-5 h-5 text-amber-400" fill="currentColor" viewBox="0 0 20 20">
+                        <svg key={i} className="w-4 h-4 text-pc-mustard" fill="currentColor" viewBox="0 0 20 20">
                           <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z" />
                         </svg>
                       ))}
@@ -226,7 +228,7 @@ export default function Reviews() {
         <button
           type="button"
           onClick={scrollRightBtn}
-          className="absolute right-1 md:right-0 z-10 md:-mr-12 w-8 h-8 md:w-12 md:h-12 rounded-full bg-white shadow-md border border-gray-200 flex items-center justify-center text-gray-600 hover:bg-gray-50 hover:text-gray-900 transition-colors touch-manipulation"
+          className="pc-stamp absolute right-1 md:right-0 z-10 md:-mr-12 w-8 h-8 md:w-12 md:h-12 bg-pc-card flex items-center justify-center text-pc-ink-2 hover:text-pc-rust transition-colors touch-manipulation"
           aria-label="Next review"
         >
           <svg className="w-4 h-4 md:w-6 md:h-6" fill="none" stroke="currentColor" strokeWidth={2.5} viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" d="M9 5l7 7-7 7" /></svg>

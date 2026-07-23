@@ -2,82 +2,57 @@ import Link from 'next/link';
 
 const reasonsData = [
   {
-    icon: (
-      // 3 Maymun İkonu (Complete Anonymity)
-      <div className="flex items-center justify-center p-1 md:p-3">
-        <span className="text-xl sm:text-3xl md:text-5xl" role="img" aria-label="3 monkeys">
-          🙉🙈🙊
-        </span>
-      </div>
-    ),
+    icon: '🙉🙈🙊',
+    label: '3 monkeys',
     title: 'Complete Anonymity',
     description: 'We prioritize your privacy. No registration or personal details are required.',
+    tilt: '-rotate-1',
   },
   {
-    icon: (
-      // Alev Almış Roket İkonu (Instant Connection)
-      <div className="flex items-center justify-center p-1 md:p-3">
-        <span className="text-xl sm:text-3xl md:text-5xl" role="img" aria-label="rocket speed">
-          🚀🔥
-        </span>
-      </div>
-    ),
+    icon: '🚀🔥',
+    label: 'rocket speed',
     title: 'Instant Connection',
     description: 'Our advanced matchmaking connects you with strangers worldwide in milliseconds.',
+    tilt: '',
   },
   {
-    icon: (
-      // Sohbet Balonu İkonu (Classic Chat Experience)
-      <div className="flex items-center justify-center p-1 md:p-3">
-        <span className="text-xl sm:text-3xl md:text-5xl" role="img" aria-label="chat bubbles">
-          💬✨
-        </span>
-      </div>
-    ),
+    icon: '💬✨',
+    label: 'chat bubbles',
     title: 'Classic Chat Experience',
     description: 'Enjoy the same randomized chat vibe you love, with enhanced stability and speed.',
+    tilt: 'rotate-1',
   },
 ];
 
 export default function WhyChoose() {
   return (
-    <div className="w-full py-8 sm:py-16 border-t border-gray-100">
+    <div className="w-full py-8 sm:py-16">
       <div className="w-full max-w-5xl mx-auto px-4 text-center md:text-center">
 
-        {/* Bölüm Başlığı */}
-        <h2 className="text-2xl sm:text-3xl md:text-4xl font-bold md:font-extrabold text-gray-900 mb-8 md:mb-12">
+        <h2 className="pc-display text-2xl sm:text-3xl md:text-4xl text-pc-ink mb-8 md:mb-12">
           Why Choose Omegletest Online?
         </h2>
 
-        {/* Mobilde 3'lü Grid Dizilimi (Kompakt), Masaüstünde Orijinal Boyut */}
-        <div className="grid grid-cols-3 gap-2 sm:gap-4 md:gap-6 mb-8 md:mb-12">
+        <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 sm:gap-6 mb-8 md:mb-12">
           {reasonsData.map((reason, index) => (
             <div
               key={index}
-              className="bg-white p-2 sm:p-4 md:p-6 rounded-md shadow border border-gray-100 flex flex-col items-center justify-start hover:-translate-y-1 transition-transform duration-300 gap-1 sm:gap-2 md:gap-0 h-full"
+              className={`pc-card p-4 sm:p-6 flex flex-col items-center justify-start h-full text-center ${reason.tilt}`}
             >
-              {/* İkon Konteyneri */}
-              <div className="shrink-0 flex justify-center mb-1 md:mb-6">
-                {reason.icon}
-              </div>
-
-              {/* Metin İçeriği (Her Ekranda Ortalanmış) */}
-              <div className="flex flex-col text-center w-full">
-                <h3 className="text-xs sm:text-sm md:text-lg font-bold text-gray-800 mb-1 md:mb-3 leading-tight">
-                  {reason.title}
-                </h3>
-                <p className="text-xs sm:text-xs md:text-sm text-gray-500 leading-tight md:leading-relaxed md:max-w-xs md:mx-auto text-center md:text-justify">
-                  {reason.description}
-                </p>
-              </div>
+              <span className="text-3xl sm:text-5xl mb-3 sm:mb-5" role="img" aria-label={reason.label}>{reason.icon}</span>
+              <h3 className="pc-display text-sm sm:text-lg text-pc-ink mb-1 sm:mb-3 leading-tight">
+                {reason.title}
+              </h3>
+              <p className="text-xs sm:text-sm text-pc-ink-2 leading-relaxed sm:max-w-xs sm:mx-auto sm:text-justify">
+                {reason.description}
+              </p>
             </div>
           ))}
         </div>
 
-        {/* Ortadaki Yönlendirme Butonu */}
         <div className="flex justify-center mt-4 px-2">
-          <Link href="/live-video" className="w-auto bg-red-500 hover:bg-red-600 text-white font-bold py-2 md:py-4 px-6 md:px-12 rounded-full text-sm md:text-xl shadow-lg hover:shadow-xl transition-all flex items-center justify-center gap-2 md:gap-3 animate-soft-bounce">
-            <svg className="w-4 h-4 md:w-6 md:h-6 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 10l4.553-2.276A1 1 0 0121 8.618v6.764a1 1 0 01-1.447.894L15 14M5 18h8a2 2 0 002-2V8a2 2 0 00-2-2H5a2 2 0 00-2 2v8a2 2 0 002 2z" /></svg>
+          <Link href="/live-video" className="pc-btn w-auto font-bold py-2.5 md:py-4 px-6 md:px-12 text-sm md:text-lg flex items-center justify-center gap-2 md:gap-3 animate-soft-bounce">
+            <svg className="w-4 h-4 md:w-5 md:h-5 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 10l4.553-2.276A1 1 0 0121 8.618v6.764a1 1 0 01-1.447.894L15 14M5 18h8a2 2 0 002-2V8a2 2 0 00-2-2H5a2 2 0 00-2 2v8a2 2 0 002 2z" /></svg>
             <span className="truncate">Start Video Chat Now</span>
           </Link>
         </div>

@@ -1,8 +1,24 @@
+@import url('https://fonts.googleapis.com/css2?family=Special+Elite&family=Inter:wght@400;500;600;700&display=swap');
 @import "tailwindcss";
 
 :root {
   --background: #ffffff;
   --foreground: #171717;
+
+  /* "Postcard" teması (design-v7) — sitenin kendi vaadinden (dünyanın her
+     yerinden yabancılarla tanış) ilham alan vintage seyahat/pul estetiği:
+     eskitilmiş kağıt zemin, pullu (perforated) kenarlar, pasaport damgası
+     rozetleri, daktilo başlık fontu. v2-v6'daki hiçbir sistemle (neon, cam,
+     brütalist, bubble, bant) örtüşmeyen, tamamen kendine has bir doku. */
+  --pc-paper: #f3e9d2;
+  --pc-card: #fbf5e6;
+  --pc-ink: #2b2118;
+  --pc-ink-2: #6b5c47;
+  --pc-ink-3: #a4927a;
+  --pc-mustard: #d9a441;
+  --pc-rust: #c1502e;
+  --pc-teal: #1f6f6b;
+  --pc-line: rgba(43, 33, 24, 0.22);
 }
 
 @theme inline {
@@ -10,6 +26,16 @@
   --color-foreground: var(--foreground);
   --font-sans: var(--font-geist-sans);
   --font-mono: var(--font-geist-mono);
+
+  --color-pc-paper: var(--pc-paper);
+  --color-pc-card: var(--pc-card);
+  --color-pc-ink: var(--pc-ink);
+  --color-pc-ink-2: var(--pc-ink-2);
+  --color-pc-ink-3: var(--pc-ink-3);
+  --color-pc-mustard: var(--pc-mustard);
+  --color-pc-rust: var(--pc-rust);
+  --color-pc-teal: var(--pc-teal);
+  --color-pc-line: var(--pc-line);
 }
 
 @media (prefers-color-scheme: dark) {
@@ -47,4 +73,113 @@ body {
 
 .animate-soft-bounce {
   animation: soft-bounce 1.5s infinite;
+}
+
+/* ===================== "Postcard" tema ortak parçaları ===================== */
+
+.pc-page {
+  background-color: var(--pc-paper);
+  background-image:
+    radial-gradient(rgba(43, 33, 24, 0.05) 1px, transparent 1px);
+  background-size: 14px 14px;
+  color: var(--pc-ink);
+  font-family: 'Inter', system-ui, sans-serif;
+}
+
+.pc-display {
+  font-family: 'Special Elite', 'Courier New', monospace;
+  letter-spacing: -0.01em;
+}
+
+/* Kartpostal kartı: pullu (perforated) kesikli kenar + hafif eğim */
+.pc-card {
+  position: relative;
+  background: var(--pc-card);
+  border: 2px dashed var(--pc-line);
+  border-radius: 0.5rem;
+  box-shadow: 3px 3px 0 rgba(43, 33, 24, 0.08);
+  transition: transform 0.25s ease, box-shadow 0.25s ease;
+}
+
+.pc-card:hover {
+  transform: translateY(-4px) rotate(-0.3deg);
+  box-shadow: 6px 8px 0 rgba(43, 33, 24, 0.12);
+}
+
+.pc-card-static {
+  position: relative;
+  background: var(--pc-card);
+  border: 2px dashed var(--pc-line);
+  border-radius: 0.5rem;
+  box-shadow: 3px 3px 0 rgba(43, 33, 24, 0.08);
+}
+
+/* Pasaport damgası / posta damgası rozeti — dairesel, noktalı iç çerçeve */
+.pc-stamp {
+  border: 2px solid currentColor;
+  border-radius: 9999px;
+  position: relative;
+}
+
+.pc-stamp::before {
+  content: '';
+  position: absolute;
+  inset: 3px;
+  border: 1px dotted currentColor;
+  border-radius: 9999px;
+}
+
+/* Bilet/pul tarzı buton — kesikli kenar, hover'da hafif kalkış */
+.pc-btn {
+  background: var(--pc-rust);
+  color: var(--pc-card);
+  border: 2px dashed rgba(251, 245, 230, 0.5);
+  border-radius: 0.5rem;
+  transition: transform 0.2s ease, opacity 0.2s ease;
+}
+
+.pc-btn:hover {
+  transform: translateY(-2px);
+  opacity: 0.92;
+}
+
+.pc-btn-outline {
+  background: transparent;
+  color: var(--pc-ink);
+  border: 2px dashed var(--pc-line);
+  border-radius: 0.5rem;
+  transition: transform 0.2s ease, border-color 0.2s ease;
+}
+
+.pc-btn-outline:hover {
+  transform: translateY(-2px);
+  border-color: var(--pc-rust);
+}
+
+/* Uçuş rotası noktalı çizgi — hero arkaplanında dekoratif */
+.flight-path {
+  stroke: var(--pc-ink-3);
+  stroke-width: 2;
+  stroke-dasharray: 6 8;
+  fill: none;
+}
+
+/* Klasik "airmail" zarf şeridi — kırmızı/lacivert diyagonal çizgiler, bölüm ayracı olarak */
+.airmail-stripe {
+  height: 10px;
+  background: repeating-linear-gradient(
+    -45deg,
+    var(--pc-rust) 0 14px,
+    var(--pc-card) 14px 28px,
+    var(--pc-teal) 28px 42px,
+    var(--pc-card) 42px 56px
+  );
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .pc-card,
+  .pc-btn,
+  .pc-btn-outline {
+    transition: none;
+  }
 }

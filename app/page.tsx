@@ -82,27 +82,33 @@ export default async function Home() {
         />
       )}
       <ScrollToHash />
-      <main className="relative min-h-screen flex flex-col ">
+      <main className="relative min-h-screen flex flex-col pc-page">
         {/* Navbar (Sadece bu sayfada sticky) */}
         <Navbar isSticky={true} />
 
-        {/* HERO BÖLÜMÜ: yükseklik ortadaki sohbet kutusunun kendi içeriğine göre belirlenir;
-            görseller "absolute" konumlandığı için satırın yüksekliğine katkı yapmaz, bu sayede
-            kutunun yüksekliği neyse görseller de (object-contain ile) tam o yüksekliğe oturur. */}
-        <div className="flex flex-row items-stretch justify-center px-[clamp(6px,2vw,32px)] pt-6 sm:pt-10 pb-3 sm:pb-10 min-h-[clamp(240px,62vw,380px)] xl:min-h-0">
+        {/* HERO BÖLÜMÜ: arkaplanda dekoratif uçuş rotası noktalı çizgileri */}
+        <div className="relative flex flex-row items-stretch justify-center px-[clamp(6px,2vw,32px)] pt-8 sm:pt-12 pb-6 sm:pb-14 min-h-[clamp(240px,62vw,380px)] xl:min-h-0 overflow-hidden">
+
+          {/* Dekoratif uçuş rotası — dünyanın her yerinden bağlantı fikrini görselleştiriyor */}
+          <svg className="absolute inset-0 w-full h-full pointer-events-none opacity-60 hidden sm:block" viewBox="0 0 800 300" preserveAspectRatio="none" aria-hidden="true">
+            <path className="flight-path" d="M60,220 Q300,40 400,150 Q500,260 740,60" />
+            <circle cx="60" cy="220" r="4" fill="var(--pc-rust)" />
+            <circle cx="400" cy="150" r="4" fill="var(--pc-teal)" />
+            <circle cx="740" cy="60" r="4" fill="var(--pc-rust)" />
+          </svg>
 
           {/* === SOLDAKİ ERKEK GÖRSELİ === */}
           <div className="relative flex-1 min-w-0">
             <img
               src="/boy-Photoroom.png"
               alt="Boy"
-              className="absolute bottom-0 left-1/2 -translate-x-1/2 h-full w-auto max-w-full object-contain"
+              className="absolute bottom-0 left-1/2 -translate-x-1/2 h-full w-auto max-w-full object-contain sepia-[0.35] contrast-105"
             />
           </div>
           {/* === SOLDAKİ ERKEK GÖRSELİ BİTİŞİ === */}
 
           {/* === ORTADAKİ SOHBET KUTUSU === */}
-          <div className="w-[clamp(180px,38vw,640px)] shrink-0 flex justify-center self-center">
+          <div className="w-[clamp(180px,38vw,640px)] shrink-0 flex justify-center self-center relative z-10">
             <ChatStarter />
           </div>
           {/* === ORTADAKİ SOHBET KUTUSU BİTİŞİ === */}
@@ -112,7 +118,7 @@ export default async function Home() {
             <img
               src="/girl-Photoroom.png"
               alt="Girl"
-              className="absolute bottom-0 left-1/2 -translate-x-1/2 h-full w-auto max-w-full object-contain"
+              className="absolute bottom-0 left-1/2 -translate-x-1/2 h-full w-auto max-w-full object-contain sepia-[0.35] contrast-105"
             />
           </div>
           {/* === SAĞDAKİ KIZ GÖRSELİ BİTİŞİ === */}
@@ -120,10 +126,13 @@ export default async function Home() {
         </div>
         {/* HERO BÖLÜMÜ BİTİŞİ */}
 
+        {/* Klasik airmail zarf şeridi — bölüm ayracı */}
+        <div className="airmail-stripe w-full" aria-hidden="true"></div>
+
         <InfoSection />
 
         {/* 2. BÖLÜM: Orta Kısım */}
-        <section className="w-full border-t border-gray-100">
+        <section className="w-full border-t-2 border-dashed border-pc-line">
           {/* Alternatif Uygulamalar Bölümü */}
           <Alternatives />
 
@@ -131,8 +140,10 @@ export default async function Home() {
           <WhyChoose />
         </section>
 
+        <div className="airmail-stripe w-full" aria-hidden="true"></div>
+
         {/* 3. BÖLÜM: Alt Kısım */}
-        <section className="w-full bg-slate-100 border-t border-gray-100">
+        <section className="w-full">
           {/* Kullanıcı Yorumları Bölümü */}
           <Reviews />
 
